@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:simple_search_bar/simple_search_bar.dart';
-import 'package:manga_reader/bibliotheque.dart';
-import 'package:manga_reader/services.dart';
+import 'package:manga_reader/manga_dao.dart';
 import 'catalogues.dart';
+import 'package:manga_reader/manga_details.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:manga_reader/donwload.dart';
+
+
 class Home extends StatefulWidget{
   @override
 
@@ -12,43 +16,59 @@ class Home extends StatefulWidget{
 class _HomeState extends State<Home>{
 
   List<Widget> result= [];
+  FruitDao fruitDao = new FruitDao();
+
   buildPopularManga(data){
-    //List<Widget> result = [];
+
+    List<Widget> result = [];
+    //data = LinkedHashSet<Manga>.from(data).toList();
+    uniqifyList(data);
     for(var i =0;i<data.length;i++){
       result.add(
-        Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(
-                  data[i].thumbnailUrl
-              ),
-                  fit: BoxFit.cover
-              ),
-            ),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Padding(
-                padding: EdgeInsets.only(left: 3.0),
-                child: Text(
-                  data[i].title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.0,
+          InkWell(
+            child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [
+                        Colors.black.withOpacity(0.2),
+                        Colors.black.withOpacity(0.2)
+                      ]
+                  ),
+                  image: DecorationImage(
+                      image: CachedNetworkImageProvider(
+                          data[i].thumbnailUrl
+                      ),
+                      fit: BoxFit.cover
                   ),
                 ),
-              )
-            )
-          ),
-
+                child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width/120),
+                      child: Text(
+                        data[i].title,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: MediaQuery.of(context).size.width/30,
+                        ),
+                      ),
+                    )
+                )
+            ),
+            onTap: (){
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder:  (c) => MangaDetails(data[i].catalog,data[i])
+              ));
+            },
+          )
       );
     }
     return result;
   }
   Future<Null> getRefresh() async{
-    await Future.delayed (Duration(seconds:3));
+    await Future.delayed (Duration(seconds:1));
     setState(() {
-      fetchPopularManga("readmangtoday","1");
     });
   }
 
@@ -141,6 +161,14 @@ class _HomeState extends State<Home>{
                         fontSize: 17.0,
                         color: Colors.white),),
                   leading: Icon(Icons.more,color: Colors.grey),
+                    onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(
+                        new MaterialPageRoute(
+                        builder: (c) => Downloads()
+                    )
+                    );
+                  }
                 ),
                 ListTile(
                   title: Text("Paramètres",
@@ -154,7 +182,7 @@ class _HomeState extends State<Home>{
         )
       ),
       body:FutureBuilder(
-        future: fetchPopularManga("readmangatoday","1"),
+        future: fruitDao.getAllSortedByName(),
         builder: (context,snapshot){
           if(snapshot.connectionState== ConnectionState.waiting){
             return Container(
@@ -174,7 +202,7 @@ class _HomeState extends State<Home>{
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                     crossAxisCount: 2,
-                    children: buildPopularManga(snapshot.data)
+                    children: buildPopularManga(snapshot.data),
                   )
               ),
             );
@@ -183,5 +211,18 @@ class _HomeState extends State<Home>{
       )
     );
   }
+}
 
+void uniqifyList(list) {
+  for (int i = 0; i < list.length; i++) {
+    var o = list[i];
+    int index;
+    // Remove duplicates
+    do {
+      index = list.indexOf(o, i+1);
+      if (index != -1) {
+        list.removeRange(index, 1);
+      }
+    } while (index != -1);
+  }
 }

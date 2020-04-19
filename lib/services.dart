@@ -5,8 +5,10 @@ import 'package:manga_reader/Manga.dart';
 import 'package:manga_reader/Catalog.dart';
 import 'package:dio/dio.dart';
 import 'package:manga_reader/Chapter.dart';
+import 'dart:io';
+import 'package:manga_reader/custom_exception.dart';
 
-String apiUrl = "https://ff95ea76.ngrok.io";
+final String apiUrl = "https://ebd48dde.ngrok.io";
 
 Future<List<Manga>> fetchPopularManga(String catalog,String page) async {
 
@@ -30,15 +32,21 @@ Future<List<Manga>> fetchPopularManga(String catalog,String page) async {
   }
 }
 
-Future<List<Catalog>> getCatalogues() async {
+Future<dynamic> getCatalogues() async {
 
   final JsonDecoder _decoder = new JsonDecoder();
+  http.Response response;
+  try{
+     response = await http.get(
+      Uri.encodeFull(apiUrl+"/manga/catalogs"),headers: {
+      "Content-Type":"application/json"
+    },);
+    print("Respone ${response.statusCode.toString()}");
 
-  http.Response response = await http.get(
-    Uri.encodeFull(apiUrl+"/manga/catalogs"),headers: {
-    "Content-Type":"application/json"
-  },);
-  print("Respone ${response.statusCode.toString()}");
+  } on SocketException{
+    print('hey');
+    throw FetchDataException('Verifiez votre connexion Internet');
+  }
   if(response.statusCode == 200) {
     dynamic body = _decoder.convert(response.body);
     final items = body['catalogs'].cast<Map<String, dynamic>>();
@@ -46,11 +54,11 @@ Future<List<Catalog>> getCatalogues() async {
       return Catalog.fromJson(json);
     }).toList();
     return listOfCatalog;
-  } else{
-    print('hey');
-    throw Exception('Please verify your Internet connection');
+  }else{
+    throw FetchDataException();
   }
 }
+
 
 Future<Manga> getMangaDetails(String catalog,Manga manga) async {
 
@@ -86,7 +94,7 @@ Future<Manga> getMangaDetails(String catalog,Manga manga) async {
       url: response.data["manga"]["url"],
       inLibrary: response.data["manga"]["inLibrary"],
       detailsFetched: response.data["manga"]["detailsFetched"],
-      description: response.data["manga"]["descripion"],
+      description: response.data["manga"]["description"],
       genre: response.data["manga"]["genre"],
       author: response.data["manga"]["author"],
       artist: response.data["manga"]["artist"],
@@ -202,5 +210,40 @@ Future getImageUrl(String catalog,String page) async{
   } else {
     print('hey');
     throw Exception('Please verify your Internet connection');
+  }
+}
+
+Future<dynamic> search(String source,String manga) async {
+
+  Dio dio = new Dio();
+  Response response;
+  try{
+    response = await dio.post(apiUrl + "/manga/search",
+        options: Options(
+            headers: {
+              "content-type": "application/json"
+            }
+        ),
+        data: {
+          "source": source,
+          "manga": manga
+        }
+    );
+  } on SocketException{
+    throw FetchDataException('Verifiez votre connexion Internet');
+  }
+
+  print("Respone ${response.statusCode.toString()}");
+  if (response.statusCode == 200) {
+    final items = response.data["data"]["mangas"];
+    List<Manga> listOfMangas = items.map<Manga>((json) {
+      return Manga.fromJson(json);
+    }).toList();
+    print(listOfMangas.toString());
+    return listOfMangas;
+
+  } else {
+    print('hey');
+    throw Exception('Verifiez votre connexion Internet');
   }
 }

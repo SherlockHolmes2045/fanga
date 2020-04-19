@@ -46,4 +46,19 @@ class Manga {
       status: json['status']
     );
   }
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'catalog': catalog,
+      'inLibrary': inLibrary,
+      "detailsFetched": detailsFetched,
+      "url": url,
+      "thumbnailUrl": thumbnailUrl,
+      "author": author,
+      "artist": artist,
+      "genre" : genre,
+      "description": description,
+      "status": status
+    };
+  }
 }
