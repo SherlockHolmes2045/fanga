@@ -137,7 +137,7 @@ class _HomeState extends State<Home>{
                           color: Colors.white
                       ),
                     ),
-                    leading: Icon(Icons.phone,color: Colors.grey),
+                    leading: Icon(Icons.book,color: Colors.grey),
                   ),
                 ),
 
@@ -146,7 +146,7 @@ class _HomeState extends State<Home>{
                     style: TextStyle(
                         fontSize: 17.0,
                         color: Colors.white),),
-                  leading: Icon(Icons.photo,color: Colors.grey,),
+                  leading: Icon(Icons.explore,color: Colors.grey,),
                   onTap: (){
                     Navigator.of(context).pop();
                     Navigator.of(context).push(new MaterialPageRoute(
@@ -160,7 +160,7 @@ class _HomeState extends State<Home>{
                     style: TextStyle(
                         fontSize: 17.0,
                         color: Colors.white),),
-                  leading: Icon(Icons.more,color: Colors.grey),
+                  leading: Icon(Icons.file_download,color: Colors.grey),
                     onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(

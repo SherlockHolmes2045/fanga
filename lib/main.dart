@@ -14,6 +14,7 @@ void main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   await FlutterDownloader.initialize();
+
   createDb();
 
   runApp(

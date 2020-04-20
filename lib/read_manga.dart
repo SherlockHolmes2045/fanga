@@ -38,7 +38,10 @@ class _ReadMangaState extends State<ReadManga> {
           paths.add(int.parse(temp2[0]));
         });
         paths.sort();
-        downloaded = true;
+        setState(() {
+          downloaded = true;
+        });
+
         print(paths.toString());
       }
     });

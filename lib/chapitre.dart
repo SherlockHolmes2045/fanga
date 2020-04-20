@@ -7,7 +7,6 @@ import 'package:manga_reader/read_manga.dart';
 import 'package:manga_reader/Chapter.dart';
 import 'package:manga_reader/task_info.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:manga_reader/Manga.dart';
 import 'package:manga_reader/services.dart';
@@ -106,7 +105,106 @@ class _ChapitreState extends State<Chapitre> {
               builder:  (c) => ReadManga(widget.catalog,widget.chapter,widget.manga)
           ));
         },
-        child: Container(
+        child: Padding(
+          padding: EdgeInsets.only(left:MediaQuery.of(context).size.width/51.43,right: MediaQuery.of(context).size.width/51.3),
+    child:
+    Card(
+    elevation: 0.75,
+    color: Color.fromRGBO(32, 32, 32, 1),
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(10.0)
+    ),
+    child: ListTile(
+    title: Text(
+    widget.chapter.title,
+    style: TextStyle(
+    color: Colors.white,
+    fontSize: MediaQuery.of(context).size.width/30
+    ),
+    ),
+    trailing: Row(
+    children: <Widget>[
+    InkWell(
+
+    onTap: ()async {
+
+    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
+
+    if (permission != PermissionStatus.granted) {
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    }
+
+    if(permission == PermissionStatus.granted){
+    final myDir = new Directory(
+    "/storage/emulated/0"+'/Sunbae/' + widget.catalog +"/" + widget.manga.title + "/" +
+    widget.chapter.title
+    );
+
+    myDir.exists().then((isThere) {
+    if (isThere) {
+    List<TaskInfo> tasks = [];
+    getPages(widget.catalog, widget.chapter).then((onValue) async {
+    for (var i = 0; i < onValue.length; i++) {
+    getImageUrl(
+    widget.catalog, onValue[i]).then((url) async {
+    final taskId = await FlutterDownloader.enqueue(
+    url: url,
+    savedDir: myDir.path,
+    showNotification: true,
+    // show download progress in status bar (for Android)
+    openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+    );
+    tasks.add(new TaskInfo(taskId: taskId));
+    });
+    }
+    Provider.of<Downloads>(context,listen: false).addTask(tasks, widget.manga.title, widget.chapter.title,tasks.length);
+    print(Provider.of<Downloads>(context,listen: false).getDownloads().toString());
+    });
+    } else {
+    new Directory(
+    "/storage/emulated/0"+'/Sunbae/' + widget.catalog +"/" + widget.manga.title + "/" +
+    widget.chapter.title).create(recursive: true).then((Directory directory) {
+    getPages(widget.catalog, widget.chapter).then((onValue) async {
+
+    Dio dio = new Dio();
+    List<TaskInfo> tasks = [];
+    for (var i = 0; i < onValue.length; i++) {
+    getImageUrl(
+    widget.catalog, onValue[i]).then((url) async {
+    /*tasks.add(
+                                              dio.download(url,directory.path+"/"+(i+1).toString()+".png",onReceiveProgress: (int sent, int total) {
+                                                if(sent==total){
+                                                  setState(() {
+                                                    percentage += ((sent/total)*100)/onValue.length;
+                                                    print(percentage);
+                                                  });
+                                                }
+                                              },)
+                                            );*/
+    final taskId = await FlutterDownloader.enqueue(
+    url: url,
+    savedDir: directory.path,
+    showNotification: true,
+    // show download progress in status bar (for Android)
+    openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+    );
+    tasks.add(new TaskInfo(taskId: taskId));
+    });
+    }
+    Provider.of<Downloads>(context,listen: false).addTask(tasks, widget.manga.title, widget.chapter.title,tasks.length);
+    print(Provider.of<Downloads>(context,listen: false).getDownloads().toString());
+    });
+    });
+    }
+    });
+    }
+
+    },
+    child: !isDownloading ? Icon(Icons.get_app,color: Colors.grey) : Icon(Icons.pause, color: Colors.grey)
+    ),
+    ],
+    ),
+    )Container(
             height: 50.0,
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.only(left: 17.0,right: 8.0),
@@ -128,49 +226,53 @@ class _ChapitreState extends State<Chapitre> {
                         ),
                       ),
                       InkWell(
+
                           onTap: ()async {
 
-                            Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+                            PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
 
-                            Directory tempDir = await getExternalStorageDirectory();
+                            if (permission != PermissionStatus.granted) {
+                              Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+                            }
 
-                            final myDir = new Directory(
-                                "/storage/emulated/0"+'/Sunbae/' + widget.catalog +"/" + widget.manga.title + "/" +
-                                    widget.chapter.title
-                            );
+                            if(permission == PermissionStatus.granted){
+                              final myDir = new Directory(
+                                  "/storage/emulated/0"+'/Sunbae/' + widget.catalog +"/" + widget.manga.title + "/" +
+                                      widget.chapter.title
+                              );
 
-                            myDir.exists().then((isThere) {
-                              if (isThere) {
-                                List<TaskInfo> tasks = [];
-                                getPages(widget.catalog, widget.chapter).then((onValue) async {
-                                  for (var i = 0; i < onValue.length; i++) {
-                                    getImageUrl(
-                                        widget.catalog, onValue[i]).then((url) async {
-                                      final taskId = await FlutterDownloader.enqueue(
-                                        url: url,
-                                        savedDir: myDir.path,
-                                        showNotification: true,
-                                        // show download progress in status bar (for Android)
-                                        openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-                                      );
-                                      tasks.add(new TaskInfo(taskId: taskId));
-                                    });
-                                  }
-                                  Provider.of<Downloads>(context,listen: false).addTask(tasks, widget.manga.title, widget.chapter.title);
-                                  print(Provider.of<Downloads>(context,listen: false).getDownloads().toString());
-                                });
-                              } else {
-                                new Directory(
-                                    "/storage/emulated/0"+'/Sunbae/' + widget.catalog +"/" + widget.manga.title + "/" +
-                                        widget.chapter.title).create(recursive: true).then((Directory directory) {
+                              myDir.exists().then((isThere) {
+                                if (isThere) {
+                                  List<TaskInfo> tasks = [];
                                   getPages(widget.catalog, widget.chapter).then((onValue) async {
-
-                                    Dio dio = new Dio();
-                                    List<TaskInfo> tasks = [];
                                     for (var i = 0; i < onValue.length; i++) {
                                       getImageUrl(
                                           widget.catalog, onValue[i]).then((url) async {
-                                            /*tasks.add(
+                                        final taskId = await FlutterDownloader.enqueue(
+                                          url: url,
+                                          savedDir: myDir.path,
+                                          showNotification: true,
+                                          // show download progress in status bar (for Android)
+                                          openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+                                        );
+                                        tasks.add(new TaskInfo(taskId: taskId));
+                                      });
+                                    }
+                                    Provider.of<Downloads>(context,listen: false).addTask(tasks, widget.manga.title, widget.chapter.title,tasks.length);
+                                    print(Provider.of<Downloads>(context,listen: false).getDownloads().toString());
+                                  });
+                                } else {
+                                  new Directory(
+                                      "/storage/emulated/0"+'/Sunbae/' + widget.catalog +"/" + widget.manga.title + "/" +
+                                          widget.chapter.title).create(recursive: true).then((Directory directory) {
+                                    getPages(widget.catalog, widget.chapter).then((onValue) async {
+
+                                      Dio dio = new Dio();
+                                      List<TaskInfo> tasks = [];
+                                      for (var i = 0; i < onValue.length; i++) {
+                                        getImageUrl(
+                                            widget.catalog, onValue[i]).then((url) async {
+                                          /*tasks.add(
                                               dio.download(url,directory.path+"/"+(i+1).toString()+".png",onReceiveProgress: (int sent, int total) {
                                                 if(sent==total){
                                                   setState(() {
@@ -180,22 +282,24 @@ class _ChapitreState extends State<Chapitre> {
                                                 }
                                               },)
                                             );*/
-                                        final taskId = await FlutterDownloader.enqueue(
-                                          url: url,
-                                          savedDir: directory.path,
-                                          showNotification: true,
-                                          // show download progress in status bar (for Android)
-                                          openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-                                        );
-                                        tasks.add(new TaskInfo(taskId: taskId));
-                                      });
-                                    }
-                                    Provider.of<Downloads>(context,listen: false).addTask(tasks, widget.manga.title, widget.chapter.title);
-                                    print(Provider.of<Downloads>(context,listen: false).getDownloads().toString());
+                                          final taskId = await FlutterDownloader.enqueue(
+                                            url: url,
+                                            savedDir: directory.path,
+                                            showNotification: true,
+                                            // show download progress in status bar (for Android)
+                                            openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+                                          );
+                                          tasks.add(new TaskInfo(taskId: taskId));
+                                        });
+                                      }
+                                      Provider.of<Downloads>(context,listen: false).addTask(tasks, widget.manga.title, widget.chapter.title,tasks.length);
+                                      print(Provider.of<Downloads>(context,listen: false).getDownloads().toString());
+                                    });
                                   });
-                                });
-                              }
-                            });
+                                }
+                              });
+                            }
+
                           },
                           child: !isDownloading ? Icon(Icons.get_app,color: Colors.grey) : Icon(Icons.pause, color: Colors.grey)
                       ),
