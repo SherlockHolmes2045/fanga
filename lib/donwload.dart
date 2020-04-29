@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:simple_search_bar/simple_search_bar.dart';
 import 'package:manga_reader/globals.dart';
 import 'package:manga_reader/Home.dart';
 import 'package:manga_reader/catalogues.dart';
+import 'package:manga_reader/downloads.dart';
 
-
-class Downloads extends StatefulWidget {
+class Download extends StatefulWidget {
   @override
-  _DownloadsState createState() => _DownloadsState();
+  _DownloadState createState() => _DownloadState();
 }
 
-class _DownloadsState extends State<Downloads> {
+class _DownloadState extends State<Download> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -89,18 +90,21 @@ class _DownloadsState extends State<Downloads> {
       ),
       body: Container(
         color: Color.fromRGBO(20, 20, 20, 1),
-        child: ListView.builder(
-            itemCount: downloads.length,
-            itemBuilder: (context,int index){
-              return Text(
-                downloads[index]["tasks"].toString(),
-                style: TextStyle(
-                    color: Colors.white
-                ),
-              );
-            }
-        ),
+        child: Consumer<Downloads>(
+          builder:(context,download,child) =>
+              ListView.builder(
+                  itemCount: download.getDownloads().length,
+                  itemBuilder: (context,int index){
+                    return Text(
+                      download.getDownloads()[index]["count"].toString()+" "+download.getDownloads()[index]["percentage"].toString(),
+                      style: TextStyle(
+                          color: Colors.white
+                      ),
+                    );
+                  }
+                  ),
+        )
       )
-      );
+    );
   }
 }

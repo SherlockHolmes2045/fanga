@@ -8,7 +8,7 @@ import 'package:manga_reader/Chapter.dart';
 import 'dart:io';
 import 'package:manga_reader/custom_exception.dart';
 
-final String apiUrl = "https://ebd48dde.ngrok.io";
+final String apiUrl = "https://manga-game-app.herokuapp.com";
 
 Future<List<Manga>> fetchPopularManga(String catalog,String page) async {
 
@@ -44,7 +44,6 @@ Future<dynamic> getCatalogues() async {
     print("Respone ${response.statusCode.toString()}");
 
   } on SocketException{
-    print('hey');
     throw FetchDataException('Verifiez votre connexion Internet');
   }
   if(response.statusCode == 200) {

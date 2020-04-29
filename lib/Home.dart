@@ -72,25 +72,12 @@ class _HomeState extends State<Home>{
     });
   }
 
-  final AppBarController appBarController = AppBarController();
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Scaffold(
-      appBar: SearchAppBar(
-        primary: Color.fromRGBO(32, 32, 32, 1),
-        appBarController: appBarController,
-        // You could load the bar with search already active
-        autoSelected: false,
-        searchHint: "Rechercher...",
-        mainTextColor: Colors.white,
-        onChange: (String value) {
-          //Your function to filter list. It should interact with
-          //the Stream that generate the final list
-        },
-        //Will show when SEARCH MODE wasn't active
-        mainAppBar: AppBar(
+      appBar:  AppBar(
           title: Text("Bibliothèque"),
           actions: <Widget>[
             InkWell(
@@ -98,14 +85,11 @@ class _HomeState extends State<Home>{
                 Icons.search,
               ),
               onTap: () {
-                //This is where You change to SEARCH MODE. To hide, just
-                //add FALSE as value on the stream
-                appBarController.stream.add(false);
+
               },
             ),
           ],
         ),
-      ),
       drawer: Drawer(
         child: Container(
           color: Color.fromRGBO(28, 28, 28, 1),
@@ -154,7 +138,7 @@ class _HomeState extends State<Home>{
                     ));
                   },
                 ),
-                ListTile(
+                /*ListTile(
 
                   title: Text("File de téléchargement",
                     style: TextStyle(
@@ -165,7 +149,7 @@ class _HomeState extends State<Home>{
                     Navigator.of(context).pop();
                     Navigator.of(context).push(
                         new MaterialPageRoute(
-                        builder: (c) => Downloads()
+                        builder: (c) => Download()
                     )
                     );
                   }
@@ -176,7 +160,7 @@ class _HomeState extends State<Home>{
                         fontSize: 17.0,
                         color: Colors.white),),
                   leading: Icon(Icons.settings,color: Colors.grey),
-        ),
+        ),*/
         ],
       )
         )
@@ -196,15 +180,38 @@ class _HomeState extends State<Home>{
               onRefresh: getRefresh,
               child: Container(
                   color: Color.fromRGBO(20, 20, 20, 1),
-                  child:GridView.count(
+                  child: snapshot.data.length != 0 ?
+                  GridView.count(
                     primary: false,
                     padding: const EdgeInsets.all(10),
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                     crossAxisCount: 2,
                     children: buildPopularManga(snapshot.data),
-                  )
-              ),
+                  ) : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+
+                          Padding(
+                            padding: EdgeInsets.all(40.0),
+                            child: Text(
+                              "Aucun manga pour le moment",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.0
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.refresh,
+                            color: Colors.grey,
+                            size: 80.0,
+                          )
+                        ],
+                      )
+              )
+            ),
             );
           }
         },

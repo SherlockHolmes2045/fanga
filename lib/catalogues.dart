@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:manga_reader/ctalogs_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_search_bar/simple_search_bar.dart';
 import 'package:manga_reader/services.dart';
 import 'package:manga_reader/Home.dart';
 import 'package:manga_reader/catalog_details.dart';
@@ -136,39 +135,13 @@ class _CataloguesState extends State<Catalogues> {
     });
   }
 
-  final AppBarController appBarController = AppBarController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SearchAppBar(
-        primary: Color.fromRGBO(32, 32, 32, 1),
-        appBarController: appBarController,
-        // You could load the bar with search already active
-        autoSelected: false,
-        searchHint: "Rechercher...",
-        mainTextColor: Colors.white,
-        onChange: (String value) {
-          //Your function to filter list. It should interact with
-          //the Stream that generate the final list
-        },
-        //Will show when SEARCH MODE wasn't active
-        mainAppBar: AppBar(
+      appBar:  AppBar(
           title: Text("Catalogues"),
-          actions: <Widget>[
-            InkWell(
-              child: Icon(
-                Icons.search,
-              ),
-              onTap: () {
-                //This is where You change to SEARCH MODE. To hide, just
-                //add FALSE as value on the stream
-                appBarController.stream.add(false);
-              },
-            ),
-          ],
         ),
-      ),
       drawer: Drawer(
           child: Container(
               color: Color.fromRGBO(28, 28, 28, 1),
@@ -205,13 +178,19 @@ class _CataloguesState extends State<Catalogues> {
                   ),
 
                   ListTile(
+                    onTap: (){
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(new MaterialPageRoute(
+                          builder:  (c) => Catalogues()
+                      ));
+                    },
                     title: Text("Catalogues",
                       style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width/21.2,
                           color: Colors.white),),
                     leading: Icon(Icons.explore,color: Colors.grey,),
                   ),
-                  ListTile(
+                  /*ListTile(
 
                     title: Text("File de téléchargement",
                       style: TextStyle(
@@ -225,7 +204,7 @@ class _CataloguesState extends State<Catalogues> {
                           fontSize: MediaQuery.of(context).size.width/21.2,
                           color: Colors.white),),
                     leading: Icon(Icons.settings,color: Colors.grey),
-                  ),
+                  ),*/
                 ],
               )
           )
@@ -260,8 +239,11 @@ class _CataloguesState extends State<Catalogues> {
                 onRefresh: getRefresh,
                 child: Container(
                     color: Color.fromRGBO(20, 20, 20, 1),
-                    child: ListView(
-                      children: buildCatalogsEn(snapshot.data,context),
+                    child: Padding(
+                      padding: EdgeInsets.only(top:10.0),
+                      child: ListView(
+                        children: buildCatalogsEn(snapshot.data,context),
+                      ),
                     )
                 ),
               );
@@ -274,9 +256,12 @@ class _CataloguesState extends State<Catalogues> {
         child: Consumer<CatalogsProvider>(
           builder: (context,catalogs,child) => Container(
             color: Color.fromRGBO(20, 20, 20, 1),
-            child: ListView(
-              children: buildCatalogsEn(catalogs.getCatalogs(),context),
-            )
+            child: Padding(
+                padding: EdgeInsets.only(top:10.0),
+                child: ListView(
+                  children: buildCatalogsEn(catalogs.getCatalogs(),context),
+                )
+            ),
         ),
       ),
     ),

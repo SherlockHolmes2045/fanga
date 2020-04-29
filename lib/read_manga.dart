@@ -1,10 +1,11 @@
 import 'dart:io';
-
+import 'package:manga_reader/error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:manga_reader/Chapter.dart';
 import 'package:manga_reader/services.dart';
 import 'package:manga_reader/page.dart';
+import 'package:path_provider/path_provider.dart';
 import 'Manga.dart';
 
 class ReadManga extends StatefulWidget {
@@ -48,61 +49,86 @@ class _ReadMangaState extends State<ReadManga> {
   }
   @override
   void initState(){
-    verifyDownload();
+    //verifyDownload();
     super.initState();
   }
 
-  buildImages(data,BuildContext context){
+  buildImages(data,BuildContext context) async {
     List<Widget> result = [];
-    if(downloaded){
-      print("downloaded");
-      for(var i=0;i<paths.length;i++){
-        result.add(
-            Page(widget.catalog,null,((i+1).toString()+"/"+data.length.toString()).toString(),"/storage/emulated/0"+'/Sunbae/' + widget.catalog +"/" + widget.manga.title + "/" +
-                widget.chapter.title+"/"+paths[i].toString()+"."+extension)
-        );
-      }
-    }else{
-      for(var i=0;i<data.length;i++){
-        result.add(
-            Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
-        );
-      }
-    }
+    List<Widget> finalResult = [];
+    Directory appDocDir = await getApplicationSupportDirectory();
+    String appDocPath = appDocDir.path;
+    final File map = File(appDocPath+"/"+widget.catalog +"/" + widget.manga.title + "/" + widget.chapter.title+"/map.txt");
 
-    return result;
+    finalResult = await map.exists().then((isTrue) async {
+      if(isTrue){
+        String contents = await map.readAsString();
+
+        var pages = contents.split(",");
+        pages.removeLast();
+        for(int i=0; i < pages.length;i++){
+          File file = new File("/storage/emulated/0"+'/Fanga/' + widget.catalog +"/" + widget.manga.title + "/" +
+              widget.chapter.title+"/"+pages[i]);
+          file.exists().then((isTrue){
+            if(isTrue){
+              result.add(
+                  Page(widget.catalog,null,((i+1).toString()+"/"+data.length.toString()).toString(),file.path)
+              );
+            }else{
+              result.add(
+                  Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
+              );
+            }
+          });
+        }
+        return result;
+      }else{
+        for(var i=0;i<data.length;i++){
+          result.add(
+              Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
+          );
+        }
+        return result;
+      }
+    });
+    return finalResult;
   }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
 
-    if(downloaded){
-      return PageView(
-        children: buildImages(pages, context)
-      );
-    }else{
       return Scaffold(
           body: FutureBuilder(
             future: getPages(widget.catalog, widget.chapter),
             builder: (context,snapshot){
               if(snapshot.connectionState== ConnectionState.waiting){
                 return Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
                 );
               }else{
-                pages = snapshot.data;
+                if(snapshot.data == null){
+                  return Container(
+                      child: Error(
+                          errorMessage: "Verifiez votre connexion Internet",
+                          onRetryPressed: (){
+                            print("retry");
+                            setState(() {
+                            });
+                          }
+                      )
+                  );
+                }else{
+                  pages = snapshot.data;
 
-                return PageView(
-                    children: buildImages(pages, context)
-                );
+                  return PageView(
+                      children: buildImages(pages, context).then((onValue){
+                        return onValue;
+                      })
+                  );
+                }
               }
             },
           )
       );
     }
-
-  }
 }
 

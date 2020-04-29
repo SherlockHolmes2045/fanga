@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manga_reader/Home.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:manga_reader/chapitre.dart';
 import 'package:manga_reader/ctalogs_provider.dart';
 import 'package:manga_reader/downloads.dart';
 import 'package:manga_reader/mangaDetailsprovider.dart';

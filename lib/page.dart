@@ -22,17 +22,19 @@ class _PageState extends State<Page> {
         Center(
           child: Column(
             children: <Widget>[
-              Image.file(
-                new File(widget.path),
-                fit: BoxFit.contain,
-              ),
+                  Image.file(
+                      new File(widget.path),
+                      fit: BoxFit.fitHeight
+                    ),
               Container(
+                color: Colors.white,
                 child: Center(
                   child: Text(
                     widget.index,
                     style:TextStyle(
                         color: Colors.grey,
-                        fontWeight: FontWeight.bold
+                        fontWeight: FontWeight.bold,
+                      fontSize: 10.0
                     ) ,
                   ),
                 ),
@@ -66,8 +68,7 @@ class _PageState extends State<Page> {
               return  Center(
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        child: CachedNetworkImage(
+                       CachedNetworkImage(
                           fit: BoxFit.cover,
                           imageUrl: snapshot.data,
                           placeholder: (context, url) => CircularProgressIndicator(),
@@ -79,7 +80,6 @@ class _PageState extends State<Page> {
                             },
                           ),
                         ),
-                      ),
                       Container(
                         child: Center(
                           child: Text(

@@ -72,7 +72,7 @@ class _MangaDetailsState extends State<MangaDetails> {
   }
   buildListChapters(data,BuildContext context){
     List<Widget> result = [];
-    for(var i=data.length-1;i>0;i--){
+    for(var i=0;i<data.length;i++){
       result.add(
           Chapitre(widget.catalog,data[i],widget.manga)
       );
@@ -385,8 +385,8 @@ class _MangaDetailsState extends State<MangaDetails> {
                                 )
                             ),
                             Positioned(
-                              top: 480.0,
-                              left: 20.0,
+                              top: MediaQuery.of(context).size.height/1.5,
+                              left: MediaQuery.of(context).size.width/18,
                               child: Container(
                                 child:Row(
                                     children: buildGenre(snapshot.data.genre)

@@ -1,4 +1,4 @@
-package com.example.manga_reader
+package com.sherlockholmes2045.manga_wave
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
