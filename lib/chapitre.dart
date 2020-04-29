@@ -60,11 +60,9 @@ class _ChapitreState extends State<Chapitre> {
       DownloadTaskStatus status = data[1];
       int progress = data[2];
 
-     /* final task = _tasks?.firstWhere((task) => task.taskId == id);
-      if (task != null) {*/
+
         setState(() {
-          /*task.status = status;
-          task.progress = progress;*/
+
           for(int i= 0; i < Provider.of<Downloads>(context,listen: false).getDownloads().length;i++){
             print(Provider.of<Downloads>(context,listen: false).getDownloads()[i]["count"]);
             for(int j = 0; j  < Provider.of<Downloads>(context,listen: false).getDownloads()[i]["tasks"].length;j++){
@@ -159,9 +157,7 @@ class _ChapitreState extends State<Chapitre> {
                               final myDir = new Directory("/storage/emulated/0"+'/Fanga/' + widget.catalog +"/" + widget.manga.title + "/" + widget.chapter.title);
                               myDir.exists().then((isThere) {
                                 if (isThere) {
-
                                   getPages(widget.catalog, widget.chapter).then((onValue) async {
-
                                     final File file = File('${myDir.path}/.nomedia');
                                     file.create();
                                     final File map = File(appDocPath+"/"+widget.catalog +"/" + widget.manga.title + "/" + widget.chapter.title+"/map.txt");
