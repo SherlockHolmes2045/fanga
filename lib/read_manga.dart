@@ -59,7 +59,7 @@ class _ReadMangaState extends State<ReadManga> {
     Directory appDocDir = await getApplicationSupportDirectory();
     String appDocPath = appDocDir.path;
     final File map = File(appDocPath+"/"+widget.catalog +"/" + widget.manga.title + "/" + widget.chapter.title+"/map.txt");
-
+    print('a');
     finalResult = await map.exists().then((isTrue) async {
       if(isTrue){
         String contents = await map.readAsString();
