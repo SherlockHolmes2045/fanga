@@ -55,13 +55,12 @@ class _ReadMangaState extends State<ReadManga> {
 
   buildImages(data,BuildContext context) async {
     List<Widget> result = [];
-    List<Widget> finalResult = [];
     Directory appDocDir = await getApplicationSupportDirectory();
     String appDocPath = appDocDir.path;
     final File map = File(appDocPath+"/"+widget.catalog +"/" + widget.manga.title + "/" + widget.chapter.title+"/map.txt");
-    print('a');
-    finalResult = await map.exists().then((isTrue) async {
-      if(isTrue){
+    var bool1 = await map.exists();
+
+      if(bool1){
         String contents = await map.readAsString();
 
         var pages = contents.split(",");
@@ -69,8 +68,8 @@ class _ReadMangaState extends State<ReadManga> {
         for(int i=0; i < pages.length;i++){
           File file = new File("/storage/emulated/0"+'/Fanga/' + widget.catalog +"/" + widget.manga.title + "/" +
               widget.chapter.title+"/"+pages[i]);
-          file.exists().then((isTrue){
-            if(isTrue){
+          var bool2 = await file.exists();
+            if(bool2){
               result.add(
                   Page(widget.catalog,null,((i+1).toString()+"/"+data.length.toString()).toString(),file.path)
               );
@@ -79,20 +78,17 @@ class _ReadMangaState extends State<ReadManga> {
                   Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
               );
             }
-          });
         }
-        return result;
       }else{
         for(var i=0;i<data.length;i++){
           result.add(
               Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
           );
         }
-        return result;
       }
-    });
-    return finalResult;
+    return result;
   }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -118,11 +114,21 @@ class _ReadMangaState extends State<ReadManga> {
                   );
                 }else{
                   pages = snapshot.data;
-
-                  return PageView(
-                      children: buildImages(pages, context).then((onValue){
-                        return onValue;
-                      })
+                  return FutureBuilder(
+                  future: buildImages(pages,context),
+                   builder: (context,snapshot){
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return Center(child: CircularProgressIndicator());
+                    }else{
+                      if(snapshot.data == null){
+                        return Center(child: Text('Nothing'));
+                      }else{
+                        return PageView(
+                          children: snapshot.data,
+                        );
+                      }
+                    }
+                   }
                   );
                 }
               }
