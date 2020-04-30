@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_search_bar/simple_search_bar.dart';
-import 'package:manga_reader/globals.dart';
 import 'package:manga_reader/Home.dart';
 import 'package:manga_reader/catalogues.dart';
 import 'package:manga_reader/downloads.dart';

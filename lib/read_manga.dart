@@ -59,27 +59,30 @@ class _ReadMangaState extends State<ReadManga> {
     String appDocPath = appDocDir.path;
     final File map = File(appDocPath+"/"+widget.catalog +"/" + widget.manga.title + "/" + widget.chapter.title+"/map.txt");
     var bool1 = await map.exists();
-
       if(bool1){
         String contents = await map.readAsString();
 
         var pages = contents.split(",");
         pages.removeLast();
+        print(pages.toString());
         for(int i=0; i < pages.length;i++){
           File file = new File("/storage/emulated/0"+'/Fanga/' + widget.catalog +"/" + widget.manga.title + "/" +
               widget.chapter.title+"/"+pages[i]);
           var bool2 = await file.exists();
             if(bool2){
+
               result.add(
                   Page(widget.catalog,null,((i+1).toString()+"/"+data.length.toString()).toString(),file.path)
               );
             }else{
+
               result.add(
                   Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
               );
             }
         }
       }else{
+        //print("ici");
         for(var i=0;i<data.length;i++){
           result.add(
               Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
@@ -99,6 +102,9 @@ class _ReadMangaState extends State<ReadManga> {
             builder: (context,snapshot){
               if(snapshot.connectionState== ConnectionState.waiting){
                 return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  )
                 );
               }else{
                 if(snapshot.data == null){
@@ -114,15 +120,19 @@ class _ReadMangaState extends State<ReadManga> {
                   );
                 }else{
                   pages = snapshot.data;
+                  print(snapshot.data.toString());
                   return FutureBuilder(
-                  future: buildImages(pages,context),
+                  future: buildImages(snapshot.data,context),
                    builder: (context,snapshot){
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return Center(child: CircularProgressIndicator());
                     }else{
                       if(snapshot.data == null){
-                        return Center(child: Text('Nothing'));
+                        return Center(child: Text('Nothing',style: TextStyle(
+                          color: Colors.black
+                        ),));
                       }else{
+                        print(snapshot.data.toString());
                         return PageView(
                           children: snapshot.data,
                         );

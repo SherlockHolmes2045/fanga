@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:simple_search_bar/simple_search_bar.dart';
 import 'package:manga_reader/manga_dao.dart';
 import 'catalogues.dart';
 import 'package:manga_reader/manga_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:manga_reader/donwload.dart';
+
 
 
 class Home extends StatefulWidget{

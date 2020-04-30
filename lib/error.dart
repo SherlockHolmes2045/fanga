@@ -48,7 +48,7 @@ class Error extends StatelessWidget {
 
           RaisedButton(
 
-            color: Colors.white,
+            color: Colors.grey,
 
             child: Text('Retry', style: TextStyle(color: Colors.black)),
 

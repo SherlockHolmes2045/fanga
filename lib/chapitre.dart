@@ -11,7 +11,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:manga_reader/Manga.dart';
 import 'package:manga_reader/services.dart';
-import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 
 class Chapitre extends StatefulWidget with WidgetsBindingObserver {
@@ -162,13 +161,11 @@ class _ChapitreState extends State<Chapitre> {
                                     file.create();
                                     final File map = File(appDocPath+"/"+widget.catalog +"/" + widget.manga.title + "/" + widget.chapter.title+"/map.txt");
                                     map.create(recursive: true);
-                                    File maptest = File(myDir.path+"/map.txt");
-                                    maptest.create();
+
                                     List<TaskInfo> tasks = [];
                                     Provider.of<Downloads>(context,listen: false).addTask(tasks, widget.manga.title, widget.chapter.title,onValue.length/100);
                                     for (var i = 0; i < onValue.length; i++) {
-                                      maptest.writeAsStringSync((i+1).toString()+".png,",mode: FileMode.APPEND);
-                                      map.writeAsStringSync((i+1).toString()+".png,",mode: FileMode.APPEND);
+                                      map.writeAsStringSync((i+1).toString()+".png,",mode: FileMode.append);
                                       getImageUrl(
                                           widget.catalog, onValue[i]).then((url) async {
 
@@ -193,8 +190,6 @@ class _ChapitreState extends State<Chapitre> {
                                   new Directory(
                                       "/storage/emulated/0"+'/Fanga/' + widget.catalog +"/" + widget.manga.title + "/" + widget.chapter.title).create(recursive: true).then((Directory directory) {
 
-                                    File maptest = File(myDir.path+"/map.txt");
-                                    maptest.create();
                                         getPages(widget.catalog, widget.chapter).then((onValue) async {
                                           final File file = File('${myDir.path}/.nomedia');
                                           file.create();
@@ -204,8 +199,7 @@ class _ChapitreState extends State<Chapitre> {
 
                                           Provider.of<Downloads>(context,listen: false).addTask(tasks, widget.manga.title, widget.chapter.title,onValue.length/100);
                                           for (var i = 0; i < onValue.length; i++) {
-                                            maptest.writeAsStringSync((i+1).toString()+".png,",mode: FileMode.APPEND);
-                                            map.writeAsStringSync((i+1).toString()+".png,",mode: FileMode.APPEND);
+                                            map.writeAsStringSync((i+1).toString()+".png,",mode: FileMode.append);
                                             getImageUrl(
                                                 widget.catalog, onValue[i]).then((url) async {
 

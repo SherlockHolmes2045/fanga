@@ -5,9 +5,8 @@ import 'package:manga_reader/error.dart';
 import 'package:manga_reader/popularMangaProvider.dart';
 import 'package:manga_reader/services.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_search_bar/simple_search_bar.dart';
 import 'package:manga_reader/manga_details.dart';
-import 'package:manga_reader/Manga.dart';
+
 
 class CatalogDetails extends StatefulWidget {
   final Catalog catalog;
@@ -73,7 +72,6 @@ class _CatalogDetailsState extends State<CatalogDetails> {
     });
   }
 
-  final AppBarController appBarController = AppBarController();
 
   @override
   Widget build(BuildContext context) {
