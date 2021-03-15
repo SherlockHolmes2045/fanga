@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:manga_reader/task_info.dart';
+import 'file:///H:/dev/Programmes/AndroidStudioProjects/manga_reader/lib/utils/task_info.dart';
 
 
 class Downloads extends ChangeNotifier{

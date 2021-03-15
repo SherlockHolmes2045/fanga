@@ -1,0 +1,4 @@
+enum LoadingState {
+  waiting,
+  loading
+}
