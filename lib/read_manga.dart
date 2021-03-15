@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:manga_reader/Chapter.dart';
 import 'package:manga_reader/services.dart';
-import 'package:manga_reader/page.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:manga_reader/page.dart' as PageReader;
 import 'Manga.dart';
 
 class ReadManga extends StatefulWidget {
@@ -72,12 +72,12 @@ class _ReadMangaState extends State<ReadManga> {
             if(bool2){
 
               result.add(
-                  Page(widget.catalog,null,((i+1).toString()+"/"+data.length.toString()).toString(),file.path)
+                  PageReader.Page(widget.catalog,null,((i+1).toString()+"/"+data.length.toString()).toString(),file.path)
               );
             }else{
 
               result.add(
-                  Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
+                  PageReader.Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
               );
             }
         }
@@ -85,7 +85,7 @@ class _ReadMangaState extends State<ReadManga> {
         //print("ici");
         for(var i=0;i<data.length;i++){
           result.add(
-              Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
+              PageReader.Page(widget.catalog,data[i],((i+1).toString()+"/"+data.length.toString()).toString(),null)
           );
         }
       }

@@ -56,6 +56,7 @@ class FruitDao {
       return fruit;
     }).toList();
   }
+
   Future<List<Manga>> findManga(String catalog,String manga) async {
 
     final finder = Finder(

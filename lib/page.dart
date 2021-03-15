@@ -4,10 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:io';
 
 class Page extends StatefulWidget {
-  String catalog;
-  String page;
-  String index;
-  String path;
+  final catalog;
+  final page;
+  final index;
+  final path;
   Page(this.catalog,this.page,this.index,this.path);
 
   @override
@@ -75,8 +75,7 @@ class _PageState extends State<Page> {
                           errorWidget: (context, url, error) => RaisedButton(
                             child: Text("Retry"),
                             onPressed: (){
-                              setState(() {
-                              });
+                              setState((){});
                             },
                           ),
                         ),
