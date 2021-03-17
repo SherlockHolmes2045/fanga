@@ -1,49 +1,34 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:manga_reader/models/Manga.dart';
+import 'package:manga_reader/utils/n_exception.dart';
 import '../../di.dart';
 import '../../service_locator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:manga_reader/utils/shared_preference_helper.dart';
 
 
-class UserService {
+class LelscanService {
 
-  Future<dynamic> registerUser(phone, phonewrite) async {
-    var data = {
-      "phone": phone == '' ? phonewrite : phone,
-      "type": "user",
-      "password": "12345678",
-    };
+  Future<List<Manga>> popularMangaList(String catalogName,int page) async {
+
     try {
+      final String uri = locator<Di>().apiUrl + "/manga/$catalogName/popularMangaList/$page";
       Response response =
-          await locator<Di>().dio.post(locator<Di>().apiUrl + "/signup",
-              options: Options(headers: {
-                'Content-Type': "application/json",
-              }),
-              data: data);
-
-      if (response.statusCode == 200) {
-        final test = "";
-        response.data["user"].forEach((key, val) {
-          if (key == "_id") {
-            Future<SharedPreferences> instance =
-                SharedPreferences.getInstance();
-            SharedPreferenceHelper(instance)
-                .storeData("user_info", val, "string");
-          }
-          if (key == "phone") {
-            Future<SharedPreferences> instance =
-                SharedPreferences.getInstance();
-            SharedPreferenceHelper(instance)
-                .storeData("user_phone", val, "string");
-          }
-        });
-        return response.data["message"];
-      } else {
-        return response;
-      }
-    } on SocketException {
-      return null;
+      await locator<Di>().dio.get(
+       uri,
+        options: Options(headers: {
+          'Content-Type': "application/json",
+        }),
+      );
+      final items = response.data["data"]["mangas"].cast<Map<String, dynamic>>();
+      List<Manga> mangas = items.map<Manga>((json) {
+        return Manga.fromJson(json);
+      }).toList();
+      return mangas;
+    }on DioError catch (e) {
+      print(e.message);
+      throw new NException(e);
     }
   }
 
@@ -107,4 +92,4 @@ class UserService {
   }
 }
 
-final UserService userService = UserService();
+final LelscanService lelscanService = LelscanService();
