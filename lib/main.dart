@@ -5,6 +5,8 @@ import 'package:manga_reader/localization/locale_constant.dart';
 import 'package:manga_reader/localization/localizations_delegate.dart';
 import 'package:manga_reader/routes.dart';
 import 'package:manga_reader/service_locator.dart';
+import 'package:manga_reader/state/chapter_provider.dart';
+import 'package:manga_reader/state/details_provider.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -19,6 +21,8 @@ void main() async {
       MultiProvider(
         providers: [
           ChangeNotifierProvider(create:(_) => LelscanProvider()),
+          ChangeNotifierProvider(create:(_) => DetailsProvider()),
+          ChangeNotifierProvider(create:(_) => ChapterProvider()),
         ],
         child: MyApp(),
       )

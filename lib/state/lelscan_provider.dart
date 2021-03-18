@@ -12,7 +12,6 @@ class LelscanProvider extends BaseProvider{
      this.toggleLoadingState();
      lelscanService.popularMangaList(catalogName, page).then((mangas){
        popularMangaList = Right(mangas);
-       print("it's okay");
        this.toggleLoadingState();
      }).catchError((error){
        popularMangaList = Left(error);
