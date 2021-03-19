@@ -27,6 +27,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   intl: ^0.16.1
   provider: ^4.3.3
+  font_awesome_flutter: ^8.12.0
   shared_preferences: ^0.5.12+4
   flutter_launcher_icons: ^0.7.2
   get_it: ^5.0.6

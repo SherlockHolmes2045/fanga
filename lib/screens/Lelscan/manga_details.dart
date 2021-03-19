@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/app_drawer.dart';
+import 'package:manga_reader/models/Chapter.dart';
 import 'package:manga_reader/models/Manga.dart';
 import 'package:manga_reader/state/LoadingState.dart';
+import 'package:manga_reader/state/chapter_provider.dart';
 import 'package:manga_reader/state/details_provider.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
@@ -19,15 +22,20 @@ class LelscanDetail extends StatefulWidget {
 }
 
 class _LelscanDetailState extends State<LelscanDetail> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<DetailsProvider>().getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+      context
+          .read<DetailsProvider>()
+          .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+      context
+          .read<ChapterProvider>()
+          .getChapters(Assets.lelscanCatalogName, widget.manga);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -37,7 +45,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
-              widget.manga.title,
+            widget.manga.title,
             style: TextStyle(color: Colors.white, fontSize: 22.0),
           ),
         ),
@@ -70,11 +78,193 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                     child: Text("Service unavailable"),
                                   ),
                                 )
-                              : Padding(
-                                padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
-                                child: _buildMangaDetails(mangaDetails),
-                              );
-                        })
+                              : Container(
+                                  //color: Colors.grey.withOpacity(0.2),
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical *
+                                                3),
+                                        child: _buildMangaDetails(mangaDetails),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            SizeConfig.blockSizeVertical * 2,
+                                      ),
+                                      _builButtons(),
+                                      SizedBox(
+                                        height: SizeConfig.blockSizeVertical,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    5),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "A propos",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Container(
+                                              height:
+                                                  SizeConfig.blockSizeVertical *
+                                                      4,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 5.0),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5)),
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(25)),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons
+                                                        .keyboard_arrow_down_rounded,
+                                                    color: Colors.white,
+                                                  ),
+                                                  Text(
+                                                    "Moins",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: SizeConfig.blockSizeVertical,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    5),
+                                        child: Text(
+                                          mangaDetails.description,
+                                          textAlign: TextAlign.justify,
+                                          style: TextStyle(
+                                              color: Colors.white, height: 1.3),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height:
+                                            SizeConfig.blockSizeVertical * 2,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                            SizeConfig.blockSizeHorizontal *
+                                                5),
+                                        child: Container(
+                                          child: Column(
+                                            children: [
+                                              context
+                                                          .watch<
+                                                              ChapterProvider>()
+                                                          .loadingState ==
+                                                      LoadingState.loading
+                                                  ? Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        valueColor:
+                                                            AlwaysStoppedAnimation(
+                                                                Colors.blue),
+                                                      ),
+                                                    )
+                                                  : context
+                                                      .select((ChapterProvider
+                                                              provider) =>
+                                                          provider)
+                                                      .mangaChapters
+                                                      .fold((NException error) {
+                                                      return Center(
+                                                        child: Text(
+                                                          error.message,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white),
+                                                        ),
+                                                      );
+                                                    }, (mangaChapters) {
+                                                      return mangaChapters.isEmpty
+                                                          ? Container(
+                                                              child: Center(
+                                                                child: Text(
+                                                                    "Service unavailable"),
+                                                              ),
+                                                            )
+                                                          : Container(
+                                                              child: Column(
+                                                                children: [
+                                                                  Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                        mangaChapters.length.toString() + " chapitres",
+                                                                        style: TextStyle(
+                                                                          color: Colors.white,
+                                                                          fontSize: 17
+                                                                        ),
+                                                                      ),
+                                                                      Container(
+                                                                        height:
+                                                                        SizeConfig.blockSizeVertical *
+                                                                            4,
+                                                                        padding: EdgeInsets.symmetric(
+                                                                            horizontal: 5.0),
+                                                                        decoration: BoxDecoration(
+                                                                          border: Border.all(
+                                                                              color: Colors.grey
+                                                                                  .withOpacity(0.5)),
+                                                                          borderRadius: BorderRadius.all(
+                                                                              Radius.circular(25)),
+                                                                        ),
+                                                                        child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                          children: [
+                                                                            Icon(
+                                                                              Icons.filter_list_sharp,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width:
+                                                                              SizeConfig.blockSizeHorizontal * 2,
+                                                                            ),
+                                                                            Text(
+                                                                              "Filtre",
+                                                                              style: TextStyle(
+                                                                                color: Colors.white,
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            );
+                                                    })
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                        }),
                 ],
               ),
             ),
@@ -85,7 +275,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
 
   Widget _buildMangaDetails(Manga manga) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal * 2.5),
+      padding: EdgeInsets.symmetric(
+          horizontal: SizeConfig.blockSizeHorizontal * 2.5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -94,19 +285,19 @@ class _LelscanDetailState extends State<LelscanDetail> {
             child: CachedNetworkImage(
               imageUrl: widget.manga.thumbnailUrl,
               width: double.infinity,
-              height: 300,
-              errorWidget: (context,text,data){
+              height: 250,
+              errorWidget: (context, text, data) {
                 return Image.asset(
                   Assets.errorImage,
                   width: double.infinity,
-                  height: 300,
+                  height: 250,
                 );
               },
-             fit: BoxFit.fill,
+              fit: BoxFit.fill,
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left:SizeConfig.blockSizeVertical),
+            padding: EdgeInsets.only(left: SizeConfig.blockSizeVertical),
             child: Container(
               width: SizeConfig.screenWidth / 2.2,
               child: Column(
@@ -118,10 +309,9 @@ class _LelscanDetailState extends State<LelscanDetail> {
                     overflow: TextOverflow.clip,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17.0
-                    ),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0),
                   ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
@@ -129,36 +319,38 @@ class _LelscanDetailState extends State<LelscanDetail> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: 'by ',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: manga.author,
-                          style: TextStyle(
-                            color: Colors.cyan,
-                          ),
-                        )
-                      ]
-                    ),
-                  ),
-                  RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                        text: 'by ',
+                        text: 'de ',
                         style: TextStyle(
                           color: Colors.white,
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                            text: manga.artist,
+                            text: manga.author,
                             style: TextStyle(
                               color: Colors.cyan,
                             ),
                           )
-                        ]
-                    ),
+                        ]),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: 'dessiné par ',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text:
+                                manga.artist.isEmpty ? "inconnu" : manga.artist,
+                            style: TextStyle(
+                              color: Colors.cyan,
+                            ),
+                          )
+                        ]),
                   ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
@@ -167,13 +359,44 @@ class _LelscanDetailState extends State<LelscanDetail> {
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
                   ),
-                  Text(
-                    manga.description,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: 'statut ',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: manga.status,
+                            style: TextStyle(
+                              color: Colors.cyan,
+                            ),
+                          )
+                        ]),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
+                  RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: 'source ',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: manga.catalog,
+                            style: TextStyle(
+                              color: Colors.cyan,
+                            ),
+                          )
+                        ]),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 2,
+                  ),
                 ],
               ),
             ),
@@ -182,30 +405,80 @@ class _LelscanDetailState extends State<LelscanDetail> {
       ),
     );
   }
-  Widget _buildGenres(String genres){
+
+  Widget _buildGenres(String genres) {
     final data = genres.split(",");
     return Row(
-      children:
-        List.generate(data.length, (index) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 5.0),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.cyan),
-                borderRadius: BorderRadius.all(Radius.circular(25)),
+        children: List.generate(data.length, (index) {
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 5.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.cyan),
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+        ),
+        child: Text(
+          data[index],
+          style: TextStyle(color: Colors.cyan),
+        ),
+      );
+    }));
+  }
+
+  Widget _builButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            IconButton(
+                icon: Icon(
+                  Icons.play_arrow_outlined,
+                  color: Colors.cyan,
+                  size: 35,
+                ),
+                onPressed: null),
+            Text(
+              "Resume",
+              style: TextStyle(color: Colors.white),
+            )
+          ],
+        ),
+        Container(
+          height: SizeConfig.blockSizeVertical * 4.5,
+          padding: EdgeInsets.symmetric(horizontal: 5.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.cyan),
+            borderRadius: BorderRadius.all(Radius.circular(25)),
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                  icon: Icon(
+                    Icons.favorite_border,
+                    color: Colors.cyan,
+                  ),
+                  onPressed: null),
+              Text(
+                "Ajouter à la bibliothèque",
+                style: TextStyle(color: Colors.white),
+              )
+            ],
+          ),
+        ),
+        IconButton(
+            icon: FaIcon(
+              FontAwesomeIcons.globe,
+              color: Colors.cyan,
             ),
-            child: Text(
-              data[index],
-              style: TextStyle(
-                color: Colors.cyan
-              ),
-            ),
-          );
-        })
+            onPressed: null)
+      ],
     );
   }
 
   Future _refreshData() async {
     await Future.delayed(Duration(seconds: 1));
-    context.read<DetailsProvider>().getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+    context
+        .read<DetailsProvider>()
+        .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
   }
 }

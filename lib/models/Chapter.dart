@@ -3,7 +3,7 @@ class Chapter {
   String title;
   String url;
   String publishedAt;
-  double number;
+  String number;
 
   Chapter({
     this.id,

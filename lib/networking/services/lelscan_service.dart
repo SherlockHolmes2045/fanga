@@ -38,8 +38,6 @@ class LelscanService {
               'Content-Type': "application/json",
             }),
           );
-      print(response.data["manga"]);
-      //final items = response.data["manga"].cast<Map<String, dynamic>>();
       Manga result = Manga.fromJson(response.data["manga"]);
       return result;
     } on DioError catch (e) {
@@ -53,15 +51,17 @@ class LelscanService {
       final String uri = locator<Di>().apiUrl + "/manga/chapters";
       Response response = await locator<Di>().dio.post(
         uri,
-        data: {'manga': manga, 'catalog': catalogName},
+        data: {'manga': manga.toMap(), 'catalog': catalogName},
         options: Options(headers: {
           'Content-Type': "application/json",
         }),
       );
-      final items = response.data["data"]["chapters"].cast<Map<String, dynamic>>();
+      print(response.data);
+      final items = response.data["chapters"].cast<Map<String, dynamic>>();
       List<Chapter> result = items.map<Chapter>((json) {
         return Chapter.fromJson(json);
       }).toList();
+      return result;
     }on DioError catch (e) {
       print(e.message);
       throw new NException(e);

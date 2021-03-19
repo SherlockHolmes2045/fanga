@@ -6,7 +6,7 @@ import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 
 class ChapterProvider extends BaseProvider {
-  Either<NException,List<Chapter>> mangaChapters= Right([]);
+  Either<NException,List<Chapter>> mangaChapters = Right([]);
 
   getChapters(String catalogName,Manga manga){
     this.toggleLoadingState();
@@ -14,6 +14,7 @@ class ChapterProvider extends BaseProvider {
       mangaChapters = Right(value);
       this.toggleLoadingState();
     }).catchError((error){
+      print(error);
       mangaChapters = Left(error);
       this.toggleLoadingState();
     });
