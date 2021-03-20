@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/app_drawer.dart';
@@ -13,6 +14,7 @@ import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_moment/simple_moment.dart';
 
 class LelscanDetail extends StatefulWidget {
   final Manga manga;
@@ -247,11 +249,51 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                               style: TextStyle(
                                                                                 color: Colors.white,
                                                                               ),
-                                                                            )
+                                                                            ),
                                                                           ],
                                                                         ),
                                                                       ),
                                                                     ],
+                                                                  ),
+                                                                  SizedBox(
+                                                                    height: SizeConfig.blockSizeVertical,
+                                                                  ),
+                                                                  ListView.builder(
+                                                                      shrinkWrap: true,
+                                                                      physics: NeverScrollableScrollPhysics(),
+                                                                      itemCount: mangaChapters.length,
+                                                                      itemBuilder: (context,int index){
+                                                                        return Container(
+                                                                          color: Colors.black54,
+                                                                          child: ListTile(
+                                                                            contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                                                                            title: Padding(
+                                                                              padding:EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 5),
+                                                                              child: Text(
+                                                                                  'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
+                                                                                overflow: TextOverflow.clip,
+                                                                                style: TextStyle(
+                                                                                  color: Colors.white,
+                                                                                  fontSize: 13.0
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            subtitle: Padding(
+                                                                              padding:EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 5),
+                                                                              child: Text(
+                                                                                  mangaChapters[index].publishedAt.split("T")[0],
+                                                                                style: TextStyle(
+                                                                                  color: Colors.white
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            trailing: Icon(
+                                                                              Icons.more_vert,
+                                                                              color: Colors.white,
+                                                                            ),
+                                                                          ),
+                                                                        );
+                                                                      }
                                                                   )
                                                                 ],
                                                               ),
@@ -394,9 +436,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                           )
                         ]),
                   ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 2,
-                  ),
+                  _buildRating(manga.rating)
                 ],
               ),
             ),
@@ -405,7 +445,55 @@ class _LelscanDetailState extends State<LelscanDetail> {
       ),
     );
   }
-
+  Widget _buildRating(String rate){
+    if(rate != null){
+      var data = rate.split(" ");
+      var mark = data[0].split("/");
+      return Container(
+        width: SizeConfig.screenWidth / 1.5,
+        child: RatingBar.builder(
+          initialRating: double.parse(mark[0]),
+          tapOnlyMode: true,
+          minRating: 0,
+          updateOnDrag: false,
+          unratedColor: Colors.amber.withOpacity(0.5),
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: int.parse(mark[1]),
+          itemBuilder: (context, _) => Container(
+            width: SizeConfig.blockSizeHorizontal * 4,
+            child: Icon(
+              Icons.star,
+              size: 8,
+              color: Colors.amber,
+            ),
+          ),
+        ),
+      );
+    }else{
+      return Container(
+        width: SizeConfig.screenWidth / 1.5,
+        child: RatingBar.builder(
+          initialRating: 0,
+          tapOnlyMode: true,
+          updateOnDrag: false,
+          unratedColor: Colors.amber.withOpacity(0.5),
+          minRating: 0,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemBuilder: (context, _) => Container(
+            width: SizeConfig.blockSizeHorizontal * 4,
+            child: Icon(
+              Icons.star,
+              size: 8,
+              color: Colors.amber,
+            ),
+          ),
+        ),
+      );
+    }
+  }
   Widget _buildGenres(String genres) {
     final data = genres.split(",");
     return Row(

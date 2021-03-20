@@ -12,6 +12,7 @@ class Manga {
   String genre;
   String description;
   String status;
+  String rating;
 
   Manga({
     this.id,
@@ -26,7 +27,8 @@ class Manga {
     this.artist,
     this.genre,
     this.description,
-    this.status
+    this.status,
+    this.rating
   });
 
   factory Manga.fromJson(Map<String, dynamic> json) {
@@ -43,7 +45,8 @@ class Manga {
       artist: json['artist'],
       genre: json['genre'],
       description: json['description'],
-      status: json['status']
+      status: json['status'],
+      rating: json['rating']
     );
   }
   Map<String, dynamic> toMap() {
@@ -58,7 +61,8 @@ class Manga {
       "artist": artist,
       "genre" : genre,
       "description": description,
-      "status": status
+      "status": status,
+      "rating": rating
     };
   }
 }

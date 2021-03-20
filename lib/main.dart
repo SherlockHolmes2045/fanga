@@ -11,11 +11,13 @@ import 'package:manga_reader/state/lelscan_provider.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_moment/simple_moment.dart';
 
 void main() async {
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
   createDb();
+  Moment.setLocaleGlobally(new LocaleFr());
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(
       MultiProvider(
