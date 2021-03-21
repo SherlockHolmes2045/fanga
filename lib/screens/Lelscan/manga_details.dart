@@ -4,17 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/app_drawer.dart';
-import 'package:manga_reader/models/Chapter.dart';
 import 'package:manga_reader/models/Manga.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/chapter_provider.dart';
 import 'package:manga_reader/state/details_provider.dart';
-import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_moment/simple_moment.dart';
 
 class LelscanDetail extends StatefulWidget {
   final Manga manga;
@@ -325,7 +321,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
           Container(
             width: SizeConfig.screenWidth / 2.2,
             child: CachedNetworkImage(
-              imageUrl: widget.manga.thumbnailUrl,
+              imageUrl: widget.manga.thumbnailUrl.startsWith("//") ?"https:"+widget.manga.thumbnailUrl:widget.manga.thumbnailUrl.replaceAll("http", "https"),
               width: double.infinity,
               height: 250,
               errorWidget: (context, text, data) {
@@ -349,7 +345,6 @@ class _LelscanDetailState extends State<LelscanDetail> {
                   Text(
                     manga.title,
                     overflow: TextOverflow.clip,
-                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

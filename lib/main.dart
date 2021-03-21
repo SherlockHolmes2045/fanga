@@ -8,6 +8,7 @@ import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/chapter_provider.dart';
 import 'package:manga_reader/state/details_provider.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
+import 'package:manga_reader/state/search_provider.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ void main() async {
           ChangeNotifierProvider(create:(_) => LelscanProvider()),
           ChangeNotifierProvider(create:(_) => DetailsProvider()),
           ChangeNotifierProvider(create:(_) => ChapterProvider()),
+          ChangeNotifierProvider(create: (_)=> SearchProvider()),
         ],
         child: MyApp(),
       )

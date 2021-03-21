@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/app_drawer.dart';
+import 'package:manga_reader/custom/widgets/search_delegate.dart';
 import 'package:manga_reader/screens/Lelscan/manga_list.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:simple_search_bar/simple_search_bar.dart';
 
 class LelScan extends StatefulWidget {
   @override
@@ -9,6 +11,8 @@ class LelScan extends StatefulWidget {
 }
 
 class _LelScanState extends State<LelScan> {
+  final AppBarController appBarController = AppBarController();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,9 +51,12 @@ class _LelScanState extends State<LelScan> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Icon(
-                    Icons.search,
+                  IconButton(
+                    icon: Icon(Icons.search),
                     color: Colors.white,
+                    onPressed: () {
+                      showSearch(context: context, delegate: SearchManga(Assets.lelscanCatalogName));
+                    },
                   ),
                 ],
               ),
