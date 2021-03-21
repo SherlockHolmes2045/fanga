@@ -7,35 +7,43 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          _createHeader(),
-          _createDrawerItem(
-            icon: Icons.contacts,
-            text: 'Contacts',
-          ),
-          _createDrawerItem(
-            icon: Icons.event,
-            text: 'Events',
-          ),
-          _createDrawerItem(
-            icon: Icons.note,
-            text: 'Notes',
-          ),
-          Divider(),
-          _createDrawerItem(icon: Icons.collections_bookmark, text: 'Steps'),
-          _createDrawerItem(icon: Icons.face, text: 'Authors'),
-          _createDrawerItem(
-              icon: Icons.account_box, text: 'Flutter Documentation'),
-          _createDrawerItem(icon: Icons.stars, text: 'Useful Links'),
-          Divider(),
-          _createDrawerItem(icon: Icons.bug_report, text: 'Report an issue'),
-          ListTile(
-            title: Text('0.0.1'),
-            onTap: () {},
-          ),
-        ],
+      child: Container(
+        color: Colors.black,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            _createHeader(),
+            _createDrawerItem(
+              icon: Icons.contacts,
+              text: 'LelScan',
+            ),
+            _createDrawerItem(
+              icon: Icons.event,
+              text: 'MangaKawaii',
+            ),
+            _createDrawerItem(
+              icon: Icons.note,
+              text: 'MangaHere',
+            ),
+            _createDrawerItem(
+              icon: Icons.note,
+              text: 'Light Novels',
+            ),
+            Divider(
+              color: Colors.white,
+            ),
+            _createDrawerItem(icon: Icons.collections_bookmark, text: 'Bibliothèque'),
+            _createDrawerItem(icon: Icons.download_rounded, text: 'Téléchargements'),
+            Divider(
+              color: Colors.white,
+            ),
+            _createDrawerItem(
+                icon: Icons.settings, text: 'Paramètres'),
+            _createDrawerItem(icon: Icons.info_outline, text: 'A propos'),
+            Divider(),
+            _createDrawerItem(icon: Icons.bug_report, text: 'Signaler un bug'),
+          ],
+        ),
       ),
     );
   }
@@ -54,7 +62,7 @@ class AppDrawer extends StatelessWidget {
                 Positioned(
                     bottom: 12.0,
                     left: 16.0,
-                    child: Text("Flutter Step-by-Step",
+                    child: Text("Fanga",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
@@ -68,10 +76,12 @@ class AppDrawer extends StatelessWidget {
     return ListTile(
       title: Row(
         children: <Widget>[
-          Icon(icon),
+          Icon(icon,color: Colors.white,),
           Padding(
             padding: EdgeInsets.only(left: 8.0),
-            child: Text(text),
+            child: Text(text,style: TextStyle(
+              color: Colors.white
+            ),),
           )
         ],
       ),
