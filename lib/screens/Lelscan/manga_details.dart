@@ -386,6 +386,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                 }else{
                                                                                   context.read<ActionProvider>().selectItems(mangaChapters[index]);
                                                                                 }
+                                                                              }else{
+                                                                                context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName,mangaDetails.title);
                                                                               }
                                                                                 },
                                                                           ),

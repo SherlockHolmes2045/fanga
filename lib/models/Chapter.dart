@@ -22,7 +22,15 @@ class Chapter {
       number: json['number'],
     );
   }
-
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'id': id,
+      'url': url,
+      "publishedAt": publishedAt,
+      "number": number,
+    };
+  }
   @override
   int get hashCode => number.hashCode;
 

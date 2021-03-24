@@ -5,4 +5,5 @@ class Assets {
   static const String lelscanCatalogName = "lelscan";
   static const String mangahereCatalogName = "mangahere";
   static const String errorImage = "assets/error.png";
+  static const String appName = "Fanga";
 }

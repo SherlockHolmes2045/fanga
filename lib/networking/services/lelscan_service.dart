@@ -67,6 +67,25 @@ class LelscanService {
       throw new NException(e);
     }
   }
+
+  Future<String> downloadChapter(Chapter chapter, String catalogName) async{
+    try {
+      final String uri = locator<Di>().apiUrl + "/manga/chapterArchive";
+      Response response = await locator<Di>().dio.post(
+        uri,
+        data: {'chapter': chapter.toMap(), 'catalog': catalogName},
+        options: Options(headers: {
+          'Content-Type': "application/json",
+        }),
+      );
+      print(response.data);
+      final String items = response.data["file"];
+     return items;
+    }on DioError catch (e) {
+      print(e.message);
+      throw new NException(e);
+    }
+  }
 }
 
 final LelscanService lelscanService = LelscanService();

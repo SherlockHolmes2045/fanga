@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
+import 'package:manga_reader/routes.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -33,7 +34,7 @@ class AppDrawer extends StatelessWidget {
               color: Colors.white,
             ),
             _createDrawerItem(icon: Icons.collections_bookmark, text: 'Bibliothèque'),
-            _createDrawerItem(icon: Icons.download_rounded, text: 'Téléchargements'),
+            _createDrawerItem(icon: Icons.download_rounded, text: 'Téléchargements',onTap: () => Navigator.pushNamed(context, Routes.downloads)),
             Divider(
               color: Colors.white,
             ),

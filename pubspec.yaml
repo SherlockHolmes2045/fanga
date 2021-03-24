@@ -45,6 +45,9 @@ dependencies:
   flutter_rating_bar: ^3.2.0+1
   simple_moment: ^1.0.7
   quiver:
+  flutter_archive: ^2.0.2
+  bot_toast: ^3.0.5
+
 
 dev_dependencies:
   flutter_test:

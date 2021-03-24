@@ -1,6 +1,9 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/localization/locale_constant.dart';
 import 'package:manga_reader/localization/localizations_delegate.dart';
 import 'package:manga_reader/routes.dart';
@@ -12,6 +15,7 @@ import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/state/search_provider.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_moment/simple_moment.dart';
 
@@ -19,6 +23,10 @@ void main() async {
   setupLocator();
   WidgetsFlutterBinding.ensureInitialized();
   createDb();
+  await createFolders(Assets.appName);
+  await FlutterDownloader.initialize(
+      debug: true // optional: set false to disable printing logs to console
+  );
   Moment.setLocaleGlobally(new LocaleFr());
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(
@@ -70,6 +78,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Fanga',
       routes: Routes.routes,
+      builder: BotToastInit(), //1. call BotToastInit
+      navigatorObservers: [BotToastNavigatorObserver()], //2. registered route observer
       initialRoute: Routes.lelscan,
       debugShowCheckedModeBanner: false,
       locale: _locale,
@@ -96,6 +106,28 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+Future<void> createFolders(String folderName) async {
+  if(Platform.isAndroid) {
+    final path = Directory("storage/emulated/0/$folderName");
+    final lelscanPath = Directory(
+        "storage/emulated/0/$folderName/${Assets.lelscanCatalogName}");
+    final mangaHerePath = Directory(
+        "storage/emulated/0/$folderName/${Assets.lelscanCatalogName}");
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+    if ((await path.exists())) {} else {
+      path.create();
+    }
+    if ((await lelscanPath.exists())) {} else {
+      lelscanPath.create();
+    }
+    if ((await mangaHerePath.exists())) {} else {
+      mangaHerePath.create();
+    }
+  }
+}
 
 createDb() async {
   Directory tempDir = await getApplicationDocumentsDirectory();
