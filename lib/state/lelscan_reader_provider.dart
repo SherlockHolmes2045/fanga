@@ -13,9 +13,8 @@ class LelscanReaderProvider extends BaseProvider {
     lelscanService.chapterPages(catalogName, chapter).then((value) {
       print(value);
       this.pages = value;
-      precacheImage(NetworkImage(pages[0]), context).then((value){
-        Navigator.push(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages)));
-      });
+      precacheImage(NetworkImage(pages[0]), context);
+      Navigator.push(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages)));
     }).catchError((onError){
       print(onError);
     });

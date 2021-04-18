@@ -63,7 +63,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                   height: 65.0,
                   child: Card(
                     elevation: 5.0,
-                    color: Colors.black,
+                    color: Color.fromRGBO(28, 28, 28, 1),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: SizeConfig.blockSizeHorizontal * 7),

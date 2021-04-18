@@ -48,6 +48,7 @@ dependencies:
   flutter_archive: ^2.0.2
   bot_toast: ^3.0.5
   carousel_slider: ^3.0.0
+  flutter_xlider: ^3.4.0
 
 
 dev_dependencies:
