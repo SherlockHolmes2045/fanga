@@ -33,3 +33,4 @@ class SizeConfig {
     blockSizeVertical = screenHeight / 100;
   }
 }
+T cast<T>(x) => x is T ? x : null;

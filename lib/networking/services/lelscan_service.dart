@@ -1,9 +1,11 @@
+
 import 'package:dio/dio.dart';
+import 'package:manga_reader/di.dart';
 import 'package:manga_reader/models/Chapter.dart';
 import 'package:manga_reader/models/Manga.dart';
+import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/utils/n_exception.dart';
-import '../../di.dart';
-import '../../service_locator.dart';
+import 'package:manga_reader/utils/size_config.dart';
 
 class LelscanService {
   Future<List<Manga>> popularMangaList(String catalogName, int page) async {
@@ -68,12 +70,34 @@ class LelscanService {
     }
   }
 
-  Future<String> downloadChapter(Chapter chapter, String catalogName) async{
+  Future<List<String>> chapterPages(String catalogName, Chapter chapter) async{
     try {
-      final String uri = locator<Di>().apiUrl + "/manga/chapterArchive";
+      final String uri = locator<Di>().apiUrl + "/manga/pages";
       Response response = await locator<Di>().dio.post(
         uri,
         data: {'chapter': chapter.toMap(), 'catalog': catalogName},
+        options: Options(headers: {
+          'Content-Type': "application/json",
+        }),
+      );
+      List<String> result = [];
+      for(int i = 0; i< response.data["images"].length;i++){
+        result.add(response.data["images"][i]);
+      }
+      return result;
+    }on DioError catch (e) {
+      print(e.message);
+      throw new NException(e);
+    }
+  }
+
+  Future<String> downloadChapter(Chapter chapter, String catalogName, String mangaName) async{
+    try {
+      print("on entre ici");
+      final String uri = locator<Di>().apiUrl + "/manga/chapterArchive";
+      Response response = await locator<Di>().dio.post(
+        uri,
+        data: {'chapter': chapter.toMap(), 'catalog': catalogName,'manga': mangaName},
         options: Options(headers: {
           'Content-Type': "application/json",
         }),
@@ -82,7 +106,9 @@ class LelscanService {
       final String items = response.data["file"];
      return items;
     }on DioError catch (e) {
+      print("erreur api");
       print(e.message);
+      print(e.response);
       throw new NException(e);
     }
   }
