@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -9,7 +11,7 @@ import 'package:manga_reader/networking/services/lelscan_service.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
-import 'package:path_provider/path_provider.dart';
+
 
 class ActionProvider extends BaseProvider{
   List<Chapter>  selectedItems = List<Chapter>();
@@ -20,6 +22,24 @@ class ActionProvider extends BaseProvider{
     downloadTasks = tasks;
     notifyListeners();
   }
+
+  /*void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    print("ici");
+    final SendPort send =
+    IsolateNameServer.lookupPortByName('MyAppPrgrss' + id);
+    send.send([id, status, progress]);
+    if(status == DownloadTaskStatus.complete){
+      print("le callback");
+      final File zipFile = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}.zip");
+      final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/");
+      try {
+        ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir);
+      } catch (e) {
+        print(e);
+      }
+    }
+  }*/
 
   downloadChapter(Chapter chapter,String catalogName,String title){
     final lelscanPath = Directory(
@@ -34,8 +54,17 @@ class ActionProvider extends BaseProvider{
         showNotification: true, // show download progress in status bar (for Android)
         openFileFromNotification: true, // click on notification to open downloaded file (for Android)
         requiresStorageNotLow: false
-      ).then((value) {
+      );
+      print("finished download");
+      FlutterDownloader.registerCallback((
+          String id, DownloadTaskStatus status, int progress) {
+        print("ici");
+        final SendPort send =
+        IsolateNameServer.lookupPortByName('MyAppPrgrss' + id);
+        send.send([id, status, progress]);
         print("le callback");
+        if(status == DownloadTaskStatus.complete){
+          print("le callback yes");
           final File zipFile = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}.zip");
           final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/");
           try {
@@ -43,8 +72,7 @@ class ActionProvider extends BaseProvider{
           } catch (e) {
             print(e);
           }
-      });
-      print("finished download");
+        }});
     }).catchError((error){
       print("erreur du provider");
       print(error.message);
