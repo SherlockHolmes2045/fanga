@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/di.dart';
@@ -33,7 +34,16 @@ class ActionProvider extends BaseProvider{
         showNotification: true, // show download progress in status bar (for Android)
         openFileFromNotification: true, // click on notification to open downloaded file (for Android)
         requiresStorageNotLow: false
-      );
+      ).then((value) {
+        print("le callback");
+          final File zipFile = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}.zip");
+          final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/");
+          try {
+            ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir);
+          } catch (e) {
+            print(e);
+          }
+      });
       print("finished download");
     }).catchError((error){
       print("erreur du provider");

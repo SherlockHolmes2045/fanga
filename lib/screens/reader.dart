@@ -1,12 +1,11 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/custom/widgets/sliding_appbar.dart';
+import 'package:manga_reader/utils/reading_direction.dart';
 import 'package:manga_reader/utils/size_config.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class Reader extends StatefulWidget {
   final List<String> pages;
@@ -21,7 +20,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
   bool enabledAppBar = false;
   AnimationController _appbarController;
   double currentPage = 1;
-
+  ReadingDirectionModel  readingDirection = directions[0];
   @override
   void didChangeDependencies() {
     widget.pages.forEach((imageUrl) {
@@ -65,8 +64,140 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
               ],
             ),
           actions: [
-            IconButton(icon: Icon(Icons.bookmark_border,color: Colors.white,), onPressed: null),
-            IconButton(icon: Icon(Icons.settings_outlined,color: Colors.white,), onPressed: null),
+            Padding(
+              padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 5),
+              child: IconButton(icon: Icon(Icons.bookmark_border,color: Colors.white,), onPressed: (){
+              }),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right:SizeConfig.blockSizeHorizontal * 3),
+              child: IconButton(icon: Icon(Icons.settings_outlined,color: Colors.white,), onPressed:(){
+                showBarModalBottomSheet(
+                  context: context,
+                  builder: (context) => StatefulBuilder(
+                      builder: (context, StateSetter setState) {
+                        return SingleChildScrollView(
+                          controller: ModalScrollController.of(context),
+                          child: Container(
+                            height: SizeConfig.screenHeight / 2.5,
+                            color: Colors.black,
+                            child: Padding(
+                              padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 5,right: SizeConfig.blockSizeHorizontal * 5,top: SizeConfig.blockSizeVertical * 4),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Mode de lecture",
+                                        style: TextStyle(
+                                            color: Colors.white.withOpacity(0.7),
+                                            fontSize: SizeConfig.blockSizeVertical * 1.7
+                                        ),
+                                      ),
+                                      DropdownButton<ReadingDirectionModel>(
+                                        hint:  Text("Select item"),
+                                        dropdownColor: Colors.black,
+                                        underline: SizedBox(),
+                                        value: readingDirection,
+                                        onChanged: (ReadingDirectionModel value) {
+                                          print(value.readingDirection);
+                                          setState(() {
+                                            readingDirection = value;
+                                          });
+                                        },
+                                        items: directions.map((ReadingDirectionModel readingDirectionModel) {
+                                          print(readingDirectionModel.text);
+                                          return DropdownMenuItem<ReadingDirectionModel>(
+                                            value: readingDirectionModel,
+                                            child:
+                                            Text(
+                                              readingDirectionModel.text,
+                                              style:  TextStyle(color: Colors.grey),
+                                            ),
+                                          );
+                                        }).toList(),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Afficher le numéro des pages",
+                                        style: TextStyle(
+                                            color: Colors.white.withOpacity(0.7),
+                                            fontSize: SizeConfig.blockSizeVertical * 1.7
+                                        ),
+                                      ),
+                                      Switch(
+                                          inactiveTrackColor: Colors.grey,
+                                          value: true,
+                                          onChanged: (bool value){
+                                          })
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Plein écran",
+                                        style: TextStyle(
+                                            color: Colors.white.withOpacity(0.7),
+                                            fontSize: SizeConfig.blockSizeVertical * 1.7
+                                        ),
+                                      ),
+                                      Switch(
+                                          inactiveTrackColor: Colors.grey,
+                                          value: true,
+                                          onChanged: (bool value){
+                                          })
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Garder l'écran allumé",
+                                        style: TextStyle(
+                                            color: Colors.white.withOpacity(0.7),
+                                            fontSize: SizeConfig.blockSizeVertical * 1.7
+                                        ),
+                                      ),
+                                      Switch(
+                                          inactiveTrackColor: Colors.grey,
+                                          value: true,
+                                          onChanged: (bool value){
+                                          })
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Menu contextuel (appui prolongé)",
+                                        style: TextStyle(
+                                            color: Colors.white.withOpacity(0.7),
+                                            fontSize: SizeConfig.blockSizeVertical * 1.7
+                                        ),
+                                      ),
+                                      Switch(
+                                          inactiveTrackColor: Colors.grey,
+                                          value: true,
+                                          onChanged: (bool value){
+                                          })
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                  ),
+                );
+              }),
+            ),
           ],
         )
         ,
@@ -74,6 +205,8 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
       body: Builder(
         builder: (context) {
           return InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onTap: (){
               setState(() {
                 enabledAppBar = !enabledAppBar;
@@ -96,6 +229,14 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
                       child: CarouselSlider(
                         carouselController: _controller,
                         options: CarouselOptions(
+                          scrollDirection: readingDirection.readingDirection == ReadingDirection.HORIZONTAL? Axis.horizontal : Axis.vertical,
+                          //reverse: true,
+                          onPageChanged: (int nextPage, CarouselPageChangedReason carouselPageChangedReason){
+                            print(nextPage);
+                            setState(() {
+                              currentPage = (nextPage+1).toDouble();
+                            });
+                          },
                           height: height,
                           viewportFraction: 1.0,
                           enlargeCenterPage: false,
@@ -130,6 +271,14 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
                                             style: TextStyle(
                                               color: Colors.white
                                             ),
+                                          ),
+                                          RaisedButton(
+                                            onPressed: (){
+                                            precacheImage(NetworkImage(item), context);
+                                            setState(() {
+                                            });
+                                          },
+                                            child: Text("Recharger"),
                                           )
                                         ],
                                       ),
@@ -145,6 +294,20 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
                     ),
                   ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 5),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      "${currentPage.toInt().toString()}/${widget.pages.length.toString()}",
+                      style: TextStyle(
+                        color: Colors.grey,
+                          fontSize: SizeConfig.blockSizeHorizontal * 4,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: enabledAppBar ? Container(
@@ -152,16 +315,22 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
                     height: SizeConfig.blockSizeVertical * 7,
                     color: Color.fromRGBO(28, 28, 28, 1),
                     child: Padding(
-                      padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 6 ,right: SizeConfig.blockSizeHorizontal * 6),
+                      padding: EdgeInsets.only(left:SizeConfig.blockSizeHorizontal * 2 ,right: SizeConfig.blockSizeHorizontal * 2),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Icon(
-                            FontAwesomeIcons.fastBackward,
-                            color: Colors.white,
+                          IconButton(
+                            icon: Icon(
+                              FontAwesomeIcons.fastBackward,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                            onPressed: (){
+                              _controller.previousPage();
+                            },
                           ),
                           Container(
-                            width: SizeConfig.blockSizeHorizontal * 75 ,
+                            width: SizeConfig.blockSizeHorizontal * 70,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -176,14 +345,15 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
                                   activeColor: Colors.blue,
                                   inactiveColor: Colors.grey,
                                   onChanged: (newValue){
+                                    print(newValue);
                                     setState(() {
                                       currentPage = newValue;
                                     });
                                   },
                                   value: currentPage,
                                   min: 1,
-                                  max: 6,
-                                  divisions: 5,
+                                  max: widget.pages.length.toDouble(),
+                                  divisions: widget.pages.length,
                                 ),
                                 Text(
                                   widget.pages.length.toString(),
@@ -195,10 +365,16 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin{
                               ],
                             )
                           ),
-                          Icon(
-                            FontAwesomeIcons.fastForward,
-                            color: Colors.white,
-                          )
+                          IconButton(
+                            icon: Icon(
+                              FontAwesomeIcons.fastForward,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                            onPressed: (){
+                              _controller.nextPage();
+                            },
+                          ),
                         ],
                       ),
                     ),
