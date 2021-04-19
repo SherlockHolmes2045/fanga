@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
@@ -55,24 +56,25 @@ class ActionProvider extends BaseProvider{
         openFileFromNotification: true, // click on notification to open downloaded file (for Android)
         requiresStorageNotLow: false
       );
-      print("finished download");
-      FlutterDownloader.registerCallback((
-          String id, DownloadTaskStatus status, int progress) {
-        print("ici");
-        final SendPort send =
-        IsolateNameServer.lookupPortByName('MyAppPrgrss' + id);
-        send.send([id, status, progress]);
-        print("le callback");
-        if(status == DownloadTaskStatus.complete){
-          print("le callback yes");
+      Timer.periodic(Duration(seconds: 1),(timer) async {
+        final tasks = await FlutterDownloader.loadTasks();
+        print(tasks);
+        final task = tasks.where((element) => element.taskId == taskId).first;
+        print(task);
+        if(task.status == DownloadTaskStatus.complete){
           final File zipFile = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}.zip");
-          final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/");
+          final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}");
           try {
-            ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir);
+            ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir).then((value) async{
+              final zip = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}.zip");
+              await zip.delete();
+            });
           } catch (e) {
             print(e);
           }
-        }});
+          timer.cancel();
+        }
+      });
     }).catchError((error){
       print("erreur du provider");
       print(error.message);
@@ -87,7 +89,6 @@ class ActionProvider extends BaseProvider{
     }
     this.selectedItems.forEach((element) {
       lelscanService.downloadChapter(element, catalogName,mangaTitle).then((value) async{
-        print("sucess $value");
         final taskId = await FlutterDownloader.enqueue(
             url: locator<Di>().apiUrl + value,
             savedDir: lelscanPath.path,
@@ -95,7 +96,23 @@ class ActionProvider extends BaseProvider{
             openFileFromNotification: true, // click on notification to open downloaded file (for Android)
             requiresStorageNotLow: false
         );
-        print("finished download");
+        Timer.periodic(Duration(seconds: 1),(timer) async {
+          final tasks = await FlutterDownloader.loadTasks();
+          final task = tasks.where((element) => element.taskId == taskId).first;
+          if(task.status == DownloadTaskStatus.complete){
+            final File zipFile = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle/${element.title}.zip");
+            final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle/${element.title}");
+            try {
+              ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir).then((value) async{
+                final zip = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle/${element.title}.zip");
+                await zip.delete();
+              });
+            } catch (e) {
+              print(e);
+            }
+            timer.cancel();
+          }
+        });
       }).catchError((error){
         print(error);
         NException exception = NException(error);

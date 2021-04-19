@@ -369,7 +369,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                         itemBuilder: (context, int index) {
                                                                           return Container(
                                                                             color: context.watch<ActionProvider>().selectedItems.contains(mangaChapters[index]) ?
-                                                                            Colors.grey[400] :
+                                                                            Color.fromRGBO(28, 28, 28, 1) :
                                                                             Colors.black54,
                                                                             child:
                                                                                 ListTile(
