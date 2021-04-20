@@ -49,6 +49,8 @@ dependencies:
   bot_toast: ^3.0.5
   carousel_slider: ^3.0.0
   modal_bottom_sheet: ^1.0.0+1
+  expandable: ^4.1.4
+  url_launcher: ^5.7.10
 
 
 dev_dependencies:

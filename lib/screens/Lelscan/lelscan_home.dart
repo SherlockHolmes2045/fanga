@@ -46,26 +46,21 @@ class _LelScanState extends State<LelScan> {
             style: TextStyle(color: Colors.white, fontSize: 22.0),
           ),
           actions: [
-            Padding(
-              padding: EdgeInsets.only(left: 50.0),
-              child: IconButton(
-                icon: Icon(Icons.search),
-                color: Colors.white,
-                onPressed: () {
-                  showSearch(
-                      context: context,
-                      delegate: SearchManga(Assets.lelscanCatalogName));
-                },
-              ),
+            IconButton(
+              icon: Icon(Icons.search),
+              color: Colors.white,
+              onPressed: () {
+                showSearch(
+                    context: context,
+                    delegate: SearchManga(Assets.lelscanCatalogName));
+              },
             ),
-            Padding(
-                padding: EdgeInsets.only(left: 50.0),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.sort,
-                    color: Colors.white,
-                  )
-                )),
+            IconButton(
+              icon: Icon(
+                Icons.sort,
+                color: Colors.white,
+              )
+            ),
           ],
         ),
         drawer: AppDrawer(),

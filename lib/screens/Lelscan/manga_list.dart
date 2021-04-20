@@ -60,9 +60,21 @@ class _MangaListState extends State<MangaList> {
               }, (mangaList) {
                 return mangaList.isEmpty
                     ? Center(
-                        child: Text(
-                          "service is unavailable for now",
-                          style: TextStyle(color: Colors.white),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Une erreur est survenue.",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            RaisedButton(onPressed: (){
+                              context.read<LelscanProvider>().getPopularMangaList(Assets.lelscanCatalogName, 1);
+                            },
+                              child: Text(
+                                "Réessayer"
+                              ),
+                            )
+                          ],
                         ),
                       )
                     : GridView.count(

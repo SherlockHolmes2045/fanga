@@ -7,8 +7,10 @@ import 'package:manga_reader/utils/n_exception.dart';
 
 class ChapterProvider extends BaseProvider {
   Either<NException,List<Chapter>> mangaChapters = Right([]);
+  Manga currentManga = Manga();
 
   getChapters(String catalogName,Manga manga){
+    this.currentManga = manga;
     this.toggleLoadingState();
     lelscanService.mangaChapters(manga, catalogName).then((value){
       mangaChapters = Right(value);
