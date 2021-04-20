@@ -11,6 +11,8 @@ import 'package:manga_reader/utils/n_exception.dart';
 class LibraryProvider extends BaseProvider{
 
   Either<NException,List<Manga>> library = Right([]);
+  List<Manga> libraryList = List<Manga>();
+
   bool fetched = false;
   MangaDao mangaDao = MangaDao();
 
@@ -21,6 +23,7 @@ class LibraryProvider extends BaseProvider{
       fetched = true;
       toggleLoadingState();
       library = Right(value);
+      libraryList = value;
       notifyListeners();
     }).catchError((error){
       toggleLoadingState();
@@ -29,11 +32,12 @@ class LibraryProvider extends BaseProvider{
   }
 
   addToLibrary(Manga manga, Size size){
-    mangaDao.findManga(manga.catalog, manga.title).then((value){
+    mangaDao.findManga(manga.url).then((value){
       if(value.isEmpty){
         mangaDao.insert(manga).then((value){
           loadLibrary();
           BotToast.showSimpleNotification(
+            align: Alignment.bottomRight,
             duration: Duration(seconds: 4),
             wrapToastAnimation: (controller, cancel, child) =>
                 CustomOffsetAnimation(
@@ -50,10 +54,11 @@ class LibraryProvider extends BaseProvider{
           );
         });
       } else {
-        mangaDao.delete(manga.catalog, manga.title).then((value) {
+        mangaDao.delete(manga.url).then((value) {
           loadLibrary();
           BotToast.showSimpleNotification(
-            duration: Duration(seconds: 4),
+            align: Alignment.bottomRight,
+            duration: Duration(seconds: 3),
             wrapToastAnimation: (controller, cancel, child) =>
                 CustomOffsetAnimation(
                     reverse: true,

@@ -30,6 +30,9 @@ void main() async {
       debug: true // optional: set false to disable printing logs to console
   );
   Moment.setLocaleGlobally(new LocaleFr());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.black
+  ));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(
       MultiProvider(

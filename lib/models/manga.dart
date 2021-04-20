@@ -31,6 +31,11 @@ class Manga {
     this.rating
   });
 
+  bool operator == (o) => o is Manga && url == o.url ;
+
+  @override
+  int get hashCode => url.hashCode;
+
   factory Manga.fromJson(Map<String, dynamic> json) {
     return Manga(
         id: json['id'],

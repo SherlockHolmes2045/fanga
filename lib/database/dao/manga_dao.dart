@@ -28,10 +28,9 @@ class MangaDao {
     );
   }
 
-  Future delete(String catalog,String manga) async {
+  Future delete(String url) async {
     final finder = Finder(filter: Filter.and([
-      Filter.equals("catalog",catalog),
-      Filter.equals("title", manga)
+      Filter.equals("url",url),
     ])
     );
     await _mangaStore.delete(
@@ -58,12 +57,11 @@ class MangaDao {
     }).toList();
   }
 
-  Future<List<Manga>> findManga(String catalog,String manga) async {
+  Future<List<Manga>> findManga(String url) async {
 
     final finder = Finder(
         filter: Filter.and([
-          Filter.equals("catalog",catalog),
-          Filter.equals("title", manga)
+          Filter.equals("url",url),
         ])
     );
     final recordSnapshots = await _mangaStore.find(

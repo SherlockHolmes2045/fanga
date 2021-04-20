@@ -12,7 +12,7 @@ class Chapter {
     this.publishedAt,
     this.number,
   });
-  bool operator == (o) => o is Chapter && number == o.number ;
+  bool operator == (o) => o is Chapter && url == o.url ;
   factory Chapter.fromJson(Map<String, dynamic> json) {
     return Chapter(
       id: json['id'],
@@ -32,6 +32,6 @@ class Chapter {
     };
   }
   @override
-  int get hashCode => number.hashCode;
+  int get hashCode => url.hashCode;
 
 }
