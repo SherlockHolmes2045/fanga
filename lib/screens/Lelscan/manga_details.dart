@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/models/Manga.dart';
+import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/action_provider.dart';
 import 'package:manga_reader/state/chapter_provider.dart';
@@ -41,8 +41,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
   @override
   void dispose() {
     // TODO: implement dispose
-    context.read<ActionProvider>().emptyItems();
     super.dispose();
+    context.read<ActionProvider>().emptyItems();
   }
 
   @override

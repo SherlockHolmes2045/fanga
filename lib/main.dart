@@ -13,6 +13,7 @@ import 'package:manga_reader/state/chapter_provider.dart';
 import 'package:manga_reader/state/details_provider.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/state/lelscan_reader_provider.dart';
+import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/state/search_provider.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -39,6 +40,7 @@ void main() async {
           ChangeNotifierProvider(create: (_)=> SearchProvider()),
           ChangeNotifierProvider(create: (_)=> ActionProvider()),
           ChangeNotifierProvider(create: (_)=> LelscanReaderProvider()),
+          ChangeNotifierProvider(create: (_)=> LibraryProvider()),
         ],
         child: MyApp(),
       )
@@ -82,7 +84,7 @@ class _MyAppState extends State<MyApp> {
       routes: Routes.routes,
       builder: BotToastInit(), //1. call BotToastInit
       navigatorObservers: [BotToastNavigatorObserver()], //2. registered route observer
-      initialRoute: Routes.lelscan,
+      initialRoute: Routes.splash,
       //home: CarouselDemo(),
       debugShowCheckedModeBanner: false,
       locale: _locale,

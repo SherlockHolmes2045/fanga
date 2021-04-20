@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/AppIconWidget.dart';
 import 'package:manga_reader/routes.dart';
+import 'package:manga_reader/state/lelscan_provider.dart';
+import 'package:manga_reader/state/library_provider.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -21,58 +24,38 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         Tween<double>(begin: 2, end: 4).animate(iconAnimationController);
     iconAnimationController.repeat(reverse: true);
 
-    Future.delayed(Duration(seconds: 5),(){
-      Navigator.pushReplacementNamed(context, Routes.lelscan);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<LibraryProvider>().loadLibrary();
+      context.read<LelscanProvider>().getPopularMangaList(Assets.lelscanCatalogName, 1);
+      Future.delayed(Duration(seconds: 5),(){
+        iconAnimationController.stop();
+        Navigator.pushReplacementNamed(context, Routes.lelscan);
+      });
     });
+
     //navigate(iconAnimationController);
   }
-
+  @override
+  void dispose() {
+    // TODO: implement dispose
+      iconAnimationController.dispose(); // you need this
+      super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Center(
-          child: AnimatedBuilder(
-        animation: iconAnimationController,
-        builder: (BuildContext context, Widget child) {
-          return AppIconWidget(
-              scale: iconAnimationController.value, image: Assets.appLogo);
-        },
-      )),
+      child: Container(
+        color: Colors.black,
+        child: Center(
+            child: AnimatedBuilder(
+              animation: iconAnimationController,
+              builder: (BuildContext context, Widget child) {
+                return AppIconWidget(
+                    scale: iconAnimationController.value, image: Assets.appLogo);
+              },
+            )),
+      )
     );
   }
 
-  navigate(AnimationController iconanimationController) async {
-   /* Future<SharedPreferences> preferences = SharedPreferences.getInstance();
-    SharedPreferenceHelper sharedPreferenceHelper= new SharedPreferenceHelper(preferences);
-    bool firstUsage = await sharedPreferenceHelper.firstUsage;
-    bool isLoggedIn = await sharedPreferenceHelper.isLoggedIn;
-    if(firstUsage){
-      iconanimationController.dispose();
-      Navigator.of(context).pushReplacementNamed(Routes.onboarding);
-    }
-    else if (isLoggedIn == true) {
-
-      String refreshToken = await sharedPreferenceHelper.refreshToken;
-
-      refreshtoken(refreshToken).then((value) async {
-
-        await sharedPreferenceHelper.saveAuthToken(value["token"]);
-        await sharedPreferenceHelper.saveRefreshToken(value["refreshToken"]);
-        iconanimationController.dispose();
-        Navigator.of(context).pushReplacementNamed(Routes.home);
-      }).catchError((onError){
-        switch(onError.response.statusCode){
-          case 403:{
-            iconanimationController.dispose();
-            Navigator.pushReplacementNamed(context,Routes.login);
-          }
-          break;
-        }
-      });
-
-    } else {
-      iconanimationController.dispose();
-      Navigator.of(context).pushReplacementNamed(Routes.login);
-    }*/
-  }
 }

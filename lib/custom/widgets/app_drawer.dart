@@ -17,6 +17,9 @@ class AppDrawer extends StatelessWidget {
             _createDrawerItem(
               icon: Icons.contacts,
               text: 'LelScan',
+              onTap: (){
+                Navigator.pushReplacementNamed(context, Routes.lelscan);
+              }
             ),
             _createDrawerItem(
               icon: Icons.event,
@@ -33,7 +36,7 @@ class AppDrawer extends StatelessWidget {
             Divider(
               color: Colors.white,
             ),
-            _createDrawerItem(icon: Icons.collections_bookmark, text: 'Bibliothèque'),
+            _createDrawerItem(icon: Icons.collections_bookmark, text: 'Bibliothèque', onTap: () => Navigator.pushReplacementNamed(context, Routes.library)),
             _createDrawerItem(icon: Icons.download_rounded, text: 'Téléchargements',onTap: () => Navigator.pushNamed(context, Routes.downloads)),
             Divider(
               color: Colors.white,

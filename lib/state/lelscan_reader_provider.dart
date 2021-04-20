@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/models/Chapter.dart';
+import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/networking/services/lelscan_service.dart';
 import 'package:manga_reader/screens/reader.dart';
 import 'package:manga_reader/state/base_provider.dart';

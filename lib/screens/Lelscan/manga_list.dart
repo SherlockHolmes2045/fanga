@@ -5,6 +5,7 @@ import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/screens/Lelscan/manga_details.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
+import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +21,15 @@ class _MangaListState extends State<MangaList> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context
+      context.read<LelscanProvider>().popularMangaList.fold((l) => null, (r)
+      {
+        if(r.isEmpty){
+          context.read<LelscanProvider>().getPopularMangaList(Assets.lelscanCatalogName, 1);
+        }
+      });
+      /*context
           .read<LelscanProvider>()
-          .getPopularMangaList(Assets.lelscanCatalogName, 1);
+          .getPopularMangaList(Assets.lelscanCatalogName, 1);*/
     });
   }
 
@@ -71,9 +78,13 @@ class _MangaListState extends State<MangaList> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Flexible(
-                                child: GestureDetector(
+                                child: InkWell(
                                   onTap: (){
                                     Navigator.push(context, ScaleRoute(page: LelscanDetail(manga: mangaList[index],)));
+                                  },
+                                  onLongPress: (){
+                                    print("dans le onlongpress");
+                                    context.read<LibraryProvider>().addToLibrary(mangaList[index],MediaQuery.of(context).size);
                                   },
                                   child: CachedNetworkImage(
                                    imageUrl: mangaList[index]

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:manga_reader/models/Manga.dart';
+import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/networking/services/search_service.dart';
 import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';

@@ -21,7 +21,7 @@ class _LelScanState extends State<LelScan> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Color.fromRGBO(28, 28, 28, 1),
           bottom: TabBar(
             onTap: (index) {
               // Tab index when user select it, it start from zero
@@ -47,24 +47,25 @@ class _LelScanState extends State<LelScan> {
           ),
           actions: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    color: Colors.white,
-                    onPressed: () {
-                      showSearch(context: context, delegate: SearchManga(Assets.lelscanCatalogName));
-                    },
-                  ),
-                ],
+              padding: EdgeInsets.only(left: 50.0),
+              child: IconButton(
+                icon: Icon(Icons.search),
+                color: Colors.white,
+                onPressed: () {
+                  showSearch(
+                      context: context,
+                      delegate: SearchManga(Assets.lelscanCatalogName));
+                },
               ),
             ),
-            Icon(
-              Icons.sort,
-              color: Colors.white,
-            )
+            Padding(
+                padding: EdgeInsets.only(left: 50.0),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.sort,
+                    color: Colors.white,
+                  )
+                )),
           ],
         ),
         drawer: AppDrawer(),

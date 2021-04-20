@@ -1,8 +1,8 @@
 
 import 'package:dio/dio.dart';
 import 'package:manga_reader/di.dart';
-import 'package:manga_reader/models/Chapter.dart';
-import 'package:manga_reader/models/Manga.dart';
+import 'package:manga_reader/models/chapter.dart';
+import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';

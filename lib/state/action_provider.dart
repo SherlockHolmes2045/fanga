@@ -7,7 +7,7 @@ import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/di.dart';
-import 'package:manga_reader/models/Chapter.dart';
+import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/networking/services/lelscan_service.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/base_provider.dart';
@@ -23,24 +23,6 @@ class ActionProvider extends BaseProvider{
     downloadTasks = tasks;
     notifyListeners();
   }
-
-  /*void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
-    print("ici");
-    final SendPort send =
-    IsolateNameServer.lookupPortByName('MyAppPrgrss' + id);
-    send.send([id, status, progress]);
-    if(status == DownloadTaskStatus.complete){
-      print("le callback");
-      final File zipFile = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}.zip");
-      final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/");
-      try {
-        ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir);
-      } catch (e) {
-        print(e);
-      }
-    }
-  }*/
 
   downloadChapter(Chapter chapter,String catalogName,String title){
     final lelscanPath = Directory(
