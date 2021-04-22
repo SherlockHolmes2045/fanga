@@ -40,7 +40,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
         }
       });
       context.read<ChapterProvider>().mangaChapters.fold((l) => null, (r){
-        print(r.first.url);
+        print(widget.manga.url);
+        print(context.read<ChapterProvider>().currentManga.url);
         if(r.isEmpty || widget.manga != context.read<ChapterProvider>().currentManga){
           context
               .read<ChapterProvider>()
@@ -93,7 +94,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                     .read<ActionProvider>()
                                     .downloadMultipleChapters(
                                         Assets.lelscanCatalogName,
-                                        widget.manga.title);
+                                        widget.manga.title,MediaQuery.of(context).size);
                               }),
                           IconButton(
                               icon: Icon(
@@ -186,9 +187,28 @@ class _LelscanDetailState extends State<LelscanDetail> {
                             .mangaDetails
                             .fold((NException error) {
                             return Center(
-                              child: Text(
-                                error.message,
-                                style: TextStyle(color: Colors.white),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    error.message,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  SizedBox(
+                                    height: SizeConfig.blockSizeVertical,
+                                  ),
+                                  RaisedButton(
+                                    onPressed: (){
+                                      context
+                                          .read<DetailsProvider>()
+                                          .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+                                      context
+                                          .read<ChapterProvider>()
+                                          .getChapters(Assets.lelscanCatalogName, widget.manga);
+
+                                    },
+                                    child: Text("Réessayer"),
+                                  )
+                                ],
                               ),
                             );
                           }, (mangaDetails) {
@@ -306,11 +326,26 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                         .fold(
                                                             (NException error) {
                                                         return Center(
-                                                          child: Text(
-                                                            error.message,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white),
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                error.message,
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white),
+                                                              ),
+                                                              SizedBox(
+                                                                height: SizeConfig.blockSizeVertical,
+                                                              ),
+                                                              RaisedButton(
+                                                                onPressed: (){
+                                                                  context
+                                                                      .read<ChapterProvider>()
+                                                                      .getChapters(Assets.lelscanCatalogName, widget.manga);
+                                                                },
+                                                                child: Text("Réessayer"),
+                                                              )
+                                                            ],
                                                           ),
                                                         );
                                                       }, (mangaChapters) {
@@ -725,5 +760,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
     context
         .read<DetailsProvider>()
         .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+    context
+        .read<ChapterProvider>()
+        .getChapters(Assets.lelscanCatalogName, widget.manga);
   }
 }

@@ -9,6 +9,7 @@ class ChapterProvider extends BaseProvider {
   Either<NException,List<Chapter>> mangaChapters = Right([]);
   Manga currentManga = Manga();
 
+
   getChapters(String catalogName,Manga manga){
     this.currentManga = manga;
     this.toggleLoadingState();
@@ -16,9 +17,10 @@ class ChapterProvider extends BaseProvider {
       mangaChapters = Right(value);
       this.toggleLoadingState();
     }).catchError((error){
+      this.toggleLoadingState();
       print(error);
       mangaChapters = Left(error);
-      this.toggleLoadingState();
+
     });
   }
 }

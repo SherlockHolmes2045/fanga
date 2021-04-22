@@ -1,11 +1,9 @@
-
 import 'package:dio/dio.dart';
 import 'package:manga_reader/di.dart';
 import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/utils/n_exception.dart';
-import 'package:manga_reader/utils/size_config.dart';
 
 class LelscanService {
   Future<List<Manga>> popularMangaList(String catalogName, int page) async {
@@ -23,9 +21,10 @@ class LelscanService {
       List<Manga> mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
+      print(mangas);
       return mangas;
     } on DioError catch (e) {
-      print(e.message);
+      print(e);
       throw new NException(e);
     }
   }
@@ -58,13 +57,13 @@ class LelscanService {
           'Content-Type': "application/json",
         }),
       );
-      print(response.data);
       final items = response.data["chapters"].cast<Map<String, dynamic>>();
       List<Chapter> result = items.map<Chapter>((json) {
         return Chapter.fromJson(json);
       }).toList();
       return result;
     }on DioError catch (e) {
+      print("catch de dio");
       print(e.message);
       throw new NException(e);
     }

@@ -30,9 +30,6 @@ class _MangaListState extends State<MangaList> {
               .getPopularMangaList(Assets.lelscanCatalogName, 1);
         }
       });
-      /*context
-          .read<LelscanProvider>()
-          .getPopularMangaList(Assets.lelscanCatalogName, 1);*/
     });
   }
 
@@ -52,9 +49,25 @@ class _MangaListState extends State<MangaList> {
                 .popularMangaList
                 .fold((NException error) {
                 return Center(
-                  child: Text(
-                    error.message,
-                    style: TextStyle(color: Colors.white),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        error.message,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical,
+                      ),
+                      RaisedButton(
+                        onPressed: (){
+                          context
+                              .read<LelscanProvider>()
+                              .getPopularMangaList(Assets.lelscanCatalogName, 1);
+                        },
+                        child: Text("Réessayer"),
+                      )
+                    ],
                   ),
                 );
               }, (mangaList) {

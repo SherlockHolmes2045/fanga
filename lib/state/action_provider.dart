@@ -3,9 +3,12 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:manga_reader/constants/assets.dart';
+import 'package:manga_reader/custom/widgets/custom_notification_animation.dart';
 import 'package:manga_reader/di.dart';
 import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/networking/services/lelscan_service.dart';
@@ -24,7 +27,7 @@ class ActionProvider extends BaseProvider{
     notifyListeners();
   }
 
-  downloadChapter(Chapter chapter,String catalogName,String title){
+  downloadChapter(Chapter chapter,String catalogName,String title,Size size){
     final lelscanPath = Directory(
         "storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title");
     if(!lelscanPath.existsSync()){
@@ -37,6 +40,22 @@ class ActionProvider extends BaseProvider{
         showNotification: true, // show download progress in status bar (for Android)
         openFileFromNotification: true, // click on notification to open downloaded file (for Android)
         requiresStorageNotLow: false
+      );
+      BotToast.showSimpleNotification(
+        align: Alignment.bottomRight,
+        duration: Duration(seconds: 4),
+        wrapToastAnimation: (controller, cancel, child) =>
+            CustomOffsetAnimation(
+                reverse: true,
+                controller: controller,
+                child: Container(
+                  width: size.width * 0.85,
+                  height: size.height / 10,
+                  child: child,
+                )),
+        title:   "Le téléchargement de ${chapter.title}",
+        crossPage: true,
+        subTitle: "vient de commencer",
       );
       Timer.periodic(Duration(seconds: 1),(timer) async {
         final tasks = await FlutterDownloader.loadTasks();
@@ -63,7 +82,7 @@ class ActionProvider extends BaseProvider{
       NException exception = NException(error);
     });
   }
-  downloadMultipleChapters(String catalogName, String mangaTitle){
+  downloadMultipleChapters(String catalogName, String mangaTitle,Size size){
     final lelscanPath = Directory(
         "storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle");
     if(!lelscanPath.existsSync()){
@@ -77,6 +96,22 @@ class ActionProvider extends BaseProvider{
             showNotification: true, // show download progress in status bar (for Android)
             openFileFromNotification: true, // click on notification to open downloaded file (for Android)
             requiresStorageNotLow: false
+        );
+        BotToast.showSimpleNotification(
+          align: Alignment.bottomRight,
+          duration: Duration(seconds: 4),
+          wrapToastAnimation: (controller, cancel, child) =>
+              CustomOffsetAnimation(
+                  reverse: true,
+                  controller: controller,
+                  child: Container(
+                    width: size.width * 0.85,
+                    height: size.height / 10,
+                    child: child,
+                  )),
+          title:   "Le téléchargement de ${element.title}",
+          crossPage: true,
+          subTitle: "vient de commencer.",
         );
         Timer.periodic(Duration(seconds: 1),(timer) async {
           final tasks = await FlutterDownloader.loadTasks();

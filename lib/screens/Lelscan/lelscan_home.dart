@@ -17,7 +17,7 @@ class _LelScanState extends State<LelScan> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: DefaultTabController(
-      length: 4,
+      length: 3,
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -28,13 +28,10 @@ class _LelScanState extends State<LelScan> {
             },
             tabs: [
               Tab(
+                text: "Dernières Mises à Jour",
+              ),
+              Tab(
                 text: "Liste Des Mangas",
-              ),
-              Tab(
-                text: "Favoris",
-              ),
-              Tab(
-                text: "Manga Populaires",
               ),
               Tab(
                 text: "Top Mangas",
@@ -75,11 +72,6 @@ class _LelScanState extends State<LelScan> {
             Center(
                 child: Text(
               "2",
-              style: TextStyle(fontSize: 40),
-            )),
-            Center(
-                child: Text(
-              "3",
               style: TextStyle(fontSize: 40),
             )),
           ],

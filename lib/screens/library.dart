@@ -135,7 +135,8 @@ class _LibraryState extends State<Library> {
                                               )));
                                         },
                                         child: CachedNetworkImage(
-                                          imageUrl: mangaList[index]
+                                          imageUrl: !mangaList[index].thumbnailUrl.startsWith("http") ? "https:"+mangaList[index]
+                                              .thumbnailUrl:mangaList[index]
                                               .thumbnailUrl
                                               .replaceAll('http', "https"),
                                           width: double.infinity,

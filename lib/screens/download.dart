@@ -63,6 +63,7 @@ class Download extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 20,top: SizeConfig.blockSizeVertical),
                         child: LinearProgressIndicator(
+                          backgroundColor: Colors.grey,
                           value: context.watch<ActionProvider>().downloadTasks[index].progress / 100,
                           valueColor: AlwaysStoppedAnimation<Color>(Colors.cyan,),
                         ),

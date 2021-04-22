@@ -10,13 +10,18 @@ class DetailsProvider extends BaseProvider{
 
   getMangaDetails(String catalogName,Manga manga){
     this.toggleLoadingState();
-    lelscanService.mangaDetails(manga, catalogName).then((value){
-      mangaDetails = Right(value);
+    if(manga.detailsFetched == true){
+      mangaDetails = Right(manga);
       this.toggleLoadingState();
-    }).catchError((error){
-      print(error);
-      mangaDetails = Left(error);
-      this.toggleLoadingState();
-    });
+    }else{
+      lelscanService.mangaDetails(manga, catalogName).then((value){
+        mangaDetails = Right(value);
+        this.toggleLoadingState();
+      }).catchError((error){
+        print(error);
+        mangaDetails = Left(error);
+        this.toggleLoadingState();
+      });
+    }
   }
 }
