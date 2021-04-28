@@ -11,6 +11,7 @@ import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/action_provider.dart';
 import 'package:manga_reader/state/chapter_provider.dart';
 import 'package:manga_reader/state/details_provider.dart';
+import 'package:manga_reader/state/lelscan_manga_list_provider.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/state/lelscan_reader_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
@@ -31,7 +32,8 @@ void main() async {
   );
   Moment.setLocaleGlobally(new LocaleFr());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.black
+      systemNavigationBarColor: Colors.black,
+    statusBarColor: Colors.grey,
   ));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(
@@ -43,6 +45,7 @@ void main() async {
           ChangeNotifierProvider(create: (_)=> SearchProvider()),
           ChangeNotifierProvider(create: (_)=> ActionProvider()),
           ChangeNotifierProvider(create: (_)=> LelscanReaderProvider()),
+          ChangeNotifierProvider(create: (_)=> LelscanMangaListProvider()),
           ChangeNotifierProvider(create: (_)=> LibraryProvider()),
         ],
         child: MyApp(),

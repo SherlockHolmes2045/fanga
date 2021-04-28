@@ -28,6 +28,22 @@ class LelscanService {
       throw new NException(e);
     }
   }
+  Future<Response> mangaList(String catalogName, int page) async {
+    try {
+      final String uri =
+          locator<Di>().apiUrl + "/manga/$catalogName/mangalist/$page";
+      Response response = await locator<Di>().dio.get(
+        uri,
+        options: Options(headers: {
+          'Content-Type': "application/json",
+        }),
+      );
+      return response;
+    } on DioError catch (e) {
+      print(e);
+      throw new NException(e);
+    }
+  }
 
   Future<Manga> mangaDetails(Manga manga, String catalogName) async {
     try {
