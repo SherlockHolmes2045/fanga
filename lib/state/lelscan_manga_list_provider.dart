@@ -10,6 +10,15 @@ class LelscanMangaListProvider extends BaseProvider{
   int currentPage = 1;
   int nextPage = 1;
   bool hasNext = false;
+
+  clearList(){
+    mangaList.fold((l) => null, (r){
+      r.clear();
+      currentPage = 1;
+      nextPage = 1;
+      notifyListeners();
+    });
+  }
   getMangaList(String catalogName,int page){
     if(page == 1)
     this.toggleLoadingState();

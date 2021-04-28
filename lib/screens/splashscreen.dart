@@ -4,6 +4,7 @@ import 'package:manga_reader/custom/widgets/AppIconWidget.dart';
 import 'package:manga_reader/routes.dart';
 import 'package:manga_reader/state/lelscan_manga_list_provider.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
+import 'package:manga_reader/state/lelscan_updates_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<LibraryProvider>().loadLibrary();
       context.read<LelscanProvider>().getPopularMangaList(Assets.lelscanCatalogName, 1);
+      context.read<LelscanUpdatesProvider>().getUpdatedMangaList(Assets.lelscanCatalogName, 1);
       context.read<LelscanMangaListProvider>().getMangaList(Assets.lelscanCatalogName,context.read<LelscanMangaListProvider>().currentPage);
       Future.delayed(Duration(seconds: 5),(){
         iconAnimationController.stop();

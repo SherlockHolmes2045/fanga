@@ -14,6 +14,7 @@ import 'package:manga_reader/state/details_provider.dart';
 import 'package:manga_reader/state/lelscan_manga_list_provider.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/state/lelscan_reader_provider.dart';
+import 'package:manga_reader/state/lelscan_updates_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/state/search_provider.dart';
 import 'dart:io';
@@ -47,6 +48,7 @@ void main() async {
           ChangeNotifierProvider(create: (_)=> LelscanReaderProvider()),
           ChangeNotifierProvider(create: (_)=> LelscanMangaListProvider()),
           ChangeNotifierProvider(create: (_)=> LibraryProvider()),
+          ChangeNotifierProvider(create: (_)=> LelscanUpdatesProvider()),
         ],
         child: MyApp(),
       )

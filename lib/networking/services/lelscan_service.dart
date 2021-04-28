@@ -44,6 +44,28 @@ class LelscanService {
       throw new NException(e);
     }
   }
+  Future<List<Manga>> updatedMangaList(String catalogName, int page) async {
+    try {
+      final String uri =
+          locator<Di>().apiUrl + "/manga/$catalogName/latest/$page";
+      Response response = await locator<Di>().dio.get(
+        uri,
+        options: Options(headers: {
+          'Content-Type': "application/json",
+        }),
+      );
+      final items =
+      response.data["mangas"]["mangas"].cast<Map<String, dynamic>>();
+      List<Manga> mangas = items.map<Manga>((json) {
+        return Manga.fromJson(json);
+      }).toList();
+      print(mangas);
+      return mangas;
+    } on DioError catch (e) {
+      print(e);
+      throw new NException(e);
+    }
+  }
 
   Future<Manga> mangaDetails(Manga manga, String catalogName) async {
     try {

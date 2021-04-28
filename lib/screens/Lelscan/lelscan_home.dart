@@ -3,6 +3,7 @@ import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/app_drawer.dart';
 import 'package:manga_reader/custom/widgets/search_delegate.dart';
 import 'package:manga_reader/screens/Lelscan/all_manga.dart';
+import 'package:manga_reader/screens/Lelscan/latest_update.dart';
 import 'package:manga_reader/screens/Lelscan/manga_list.dart';
 import 'package:simple_search_bar/simple_search_bar.dart';
 
@@ -69,11 +70,7 @@ class _LelScanState extends State<LelScan> {
         body: TabBarView(
           children: [
             MangaList(),
-            Center(
-                child: Text(
-              "1",
-              style: TextStyle(fontSize: 40),
-            )),
+            LatestUpdates(),
             AllManga(),
             Center(
                 child: Text(
