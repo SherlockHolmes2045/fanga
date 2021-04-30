@@ -5,6 +5,7 @@ import 'package:manga_reader/custom/widgets/search_delegate.dart';
 import 'package:manga_reader/screens/Lelscan/all_manga.dart';
 import 'package:manga_reader/screens/Lelscan/latest_update.dart';
 import 'package:manga_reader/screens/Lelscan/manga_list.dart';
+import 'package:manga_reader/screens/Lelscan/top_manga.dart';
 import 'package:simple_search_bar/simple_search_bar.dart';
 
 class LelScan extends StatefulWidget {
@@ -72,11 +73,7 @@ class _LelScanState extends State<LelScan> {
             MangaList(),
             LatestUpdates(),
             AllManga(),
-            Center(
-                child: Text(
-              "2",
-              style: TextStyle(fontSize: 40),
-            )),
+            TopManga(),
           ],
         ),
       ),

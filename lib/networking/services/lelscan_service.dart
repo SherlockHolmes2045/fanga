@@ -6,6 +6,7 @@ import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 
 class LelscanService {
+
   Future<List<Manga>> popularMangaList(String catalogName, int page) async {
     try {
       final String uri =
@@ -21,13 +22,35 @@ class LelscanService {
       List<Manga> mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
-      print(mangas);
       return mangas;
     } on DioError catch (e) {
       print(e);
       throw new NException(e);
     }
   }
+
+  Future<List<Manga>> topMangaList(String catalogName, int page) async {
+    try {
+      final String uri =
+          locator<Di>().apiUrl + "/manga/$catalogName/top/$page";
+      Response response = await locator<Di>().dio.get(
+        uri,
+        options: Options(headers: {
+          'Content-Type': "application/json",
+        }),
+      );
+      final items =
+      response.data["data"]["mangas"].cast<Map<String, dynamic>>();
+      List<Manga> mangas = items.map<Manga>((json) {
+        return Manga.fromJson(json);
+      }).toList();
+      return mangas;
+    } on DioError catch (e) {
+      print(e);
+      throw new NException(e);
+    }
+  }
+
   Future<Response> mangaList(String catalogName, int page) async {
     try {
       final String uri =
@@ -59,7 +82,6 @@ class LelscanService {
       List<Manga> mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
-      print(mangas);
       return mangas;
     } on DioError catch (e) {
       print(e);
