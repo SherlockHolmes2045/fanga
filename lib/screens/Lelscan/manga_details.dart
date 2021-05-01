@@ -438,9 +438,19 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                   style: TextStyle(color: Colors.white),
                                                                                 ),
                                                                               ),
-                                                                              trailing: Icon(
-                                                                                Icons.more_vert,
-                                                                                color: Colors.white,
+                                                                              trailing: PopupMenuButton(
+                                                                                color: Color.fromRGBO(28, 28, 28, 1),
+                                                                                child: Icon(
+                                                                                  Icons.more_vert,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                                itemBuilder: (context) {
+                                                                                  return List.generate(5, (index) {
+                                                                                    return PopupMenuItem(
+                                                                                      child: Text('button no $index'),
+                                                                                    );
+                                                                                  });
+                                                                                },
                                                                               ),
                                                                               onLongPress: () {
                                                                                 context.read<ActionProvider>().selectItems(mangaChapters[index]);
