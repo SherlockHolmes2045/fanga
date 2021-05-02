@@ -65,6 +65,7 @@ class ActionProvider extends BaseProvider{
         if(task.status == DownloadTaskStatus.complete){
           final File zipFile = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}.zip");
           final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}");
+          File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}/.nomedia").create(recursive: true);
           try {
             ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir).then((value) async{
               final zip = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title/${chapter.title}.zip");
@@ -78,7 +79,22 @@ class ActionProvider extends BaseProvider{
       });
     }).catchError((error){
       print("erreur du provider");
-      print(error.message);
+      BotToast.showSimpleNotification(
+        align: Alignment.bottomRight,
+        duration: Duration(seconds: 4),
+        wrapToastAnimation: (controller, cancel, child) =>
+            CustomOffsetAnimation(
+                reverse: true,
+                controller: controller,
+                child: Container(
+                  width: size.width * 0.85,
+                  height: size.height / 10,
+                  child: child,
+                )),
+        title:   "Erreur lors du lancement du téléchargement",
+        crossPage: true,
+        subTitle: error.message,
+      );
       NException exception = NException(error);
     });
   }
@@ -119,6 +135,7 @@ class ActionProvider extends BaseProvider{
           if(task.status == DownloadTaskStatus.complete){
             final File zipFile = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle/${element.title}.zip");
             final destinationDir = Directory("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle/${element.title}");
+            File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle/${element.title}/.nomedia").create(recursive: true);
             try {
               ZipFile.extractToDirectory(zipFile: zipFile, destinationDir: destinationDir).then((value) async{
                 final zip = File("storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle/${element.title}.zip");

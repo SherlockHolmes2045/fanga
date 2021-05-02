@@ -166,8 +166,6 @@ class LelscanService {
      return items;
     }on DioError catch (e) {
       print("erreur api");
-      print(e.message);
-      print(e.response);
       throw new NException(e);
     }
   }

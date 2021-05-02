@@ -53,6 +53,7 @@ class LibraryProvider extends BaseProvider{
             subTitle: "a été ajouté à votre bibliothèque",
           );
         });
+        loadLibrary();
       } else {
         mangaDao.delete(manga.url).then((value) {
           loadLibrary();
