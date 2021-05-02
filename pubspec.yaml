@@ -51,7 +51,7 @@ dependencies:
   modal_bottom_sheet: ^1.0.0+1
   expandable: ^4.1.4
   url_launcher: ^5.7.10
-
+  wakelock: ^0.2.1+1
 
 dev_dependencies:
   flutter_test:

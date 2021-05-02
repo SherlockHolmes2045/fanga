@@ -7,7 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/constants/assets.dart';
+import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/models/manga.dart';
+import 'package:manga_reader/screens/reader_loader.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/action_provider.dart';
 import 'package:manga_reader/state/chapter_provider.dart';
@@ -47,7 +49,6 @@ class _LelscanDetailState extends State<LelscanDetail> {
         }
       });
       context.read<ChapterProvider>().mangaChapters.fold((l) => null, (r){
-        print(widget.manga.url);
         print(context.read<ChapterProvider>().currentManga.url);
         if(r.isEmpty || widget.manga != context.read<ChapterProvider>().currentManga){
           context
@@ -485,7 +486,13 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                     context.read<ActionProvider>().selectItems(mangaChapters[index]);
                                                                                   }
                                                                                 } else {
-                                                                                  context.read<LelscanReaderProvider>().getPages(Assets.lelscanCatalogName, mangaChapters[index], context);
+                                                                                  Navigator.push(context, ScaleRoute(
+                                                                                    page: ReaderLoader(
+                                                                                      manga: widget.manga,
+                                                                                      catalog: Assets.lelscanCatalogName,
+                                                                                      chapter: mangaChapters[index],
+                                                                                    )
+                                                                                  ));
                                                                                 }
                                                                               },
                                                                             ),
