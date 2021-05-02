@@ -27,6 +27,13 @@ class LelscanDetail extends StatefulWidget {
 }
 
 class _LelscanDetailState extends State<LelscanDetail> {
+
+  List<String> menu = [
+    "Télécharger",
+    "Marquer ce chapitre",
+    "Marquer comme lu",
+    "Télécharger et marquer comme lu"
+  ];
   @override
   void initState() {
     // TODO: implement initState
@@ -248,7 +255,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                             data: ExpandableThemeData(
                                               iconColor: Colors.white,
                                               hasIcon: true,
-                                              tapHeaderToExpand: false,
+                                              tapHeaderToExpand: true,
                                             ),
                                             child: ExpandablePanel(
                                               header: Text(
@@ -438,19 +445,34 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                   style: TextStyle(color: Colors.white),
                                                                                 ),
                                                                               ),
-                                                                              trailing: PopupMenuButton(
+                                                                              trailing: context.watch<ActionProvider>().selectedItems.isEmpty ?
+                                                                              PopupMenuButton(
+                                                                                onSelected: (dynamic result) {
+                                                                                  if(result == 0){
+                                                                                    context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga.title, MediaQuery.of(context).size);
+                                                                                  }
+                                                                                },
                                                                                 color: Color.fromRGBO(28, 28, 28, 1),
                                                                                 child: Icon(
                                                                                   Icons.more_vert,
                                                                                   color: Colors.white,
                                                                                 ),
                                                                                 itemBuilder: (context) {
-                                                                                  return List.generate(5, (index) {
+                                                                                  return List.generate(menu.length, (index) {
                                                                                     return PopupMenuItem(
-                                                                                      child: Text('button no $index'),
+                                                                                      value: index,
+                                                                                      child: Text(menu[index],
+                                                                                      style: TextStyle(
+                                                                                        color: Colors.white
+                                                                                      ),
+                                                                                      ),
+
                                                                                     );
                                                                                   });
                                                                                 },
+                                                                              ) : Icon(
+                                                                                Icons.more_vert,
+                                                                                color: Colors.white,
                                                                               ),
                                                                               onLongPress: () {
                                                                                 context.read<ActionProvider>().selectItems(mangaChapters[index]);
@@ -463,7 +485,6 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                     context.read<ActionProvider>().selectItems(mangaChapters[index]);
                                                                                   }
                                                                                 } else {
-                                                                                  //context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName,mangaDetails.title);
                                                                                   context.read<LelscanReaderProvider>().getPages(Assets.lelscanCatalogName, mangaChapters[index], context);
                                                                                 }
                                                                               },
