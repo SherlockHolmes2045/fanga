@@ -9,6 +9,7 @@ import 'package:manga_reader/localization/localizations_delegate.dart';
 import 'package:manga_reader/routes.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/action_provider.dart';
+import 'package:manga_reader/state/bookmark_provider.dart';
 import 'package:manga_reader/state/chapter_provider.dart';
 import 'package:manga_reader/state/details_provider.dart';
 import 'package:manga_reader/state/lelscan_manga_list_provider.dart';
@@ -51,6 +52,7 @@ void main() async {
           ChangeNotifierProvider(create: (_)=> LibraryProvider()),
           ChangeNotifierProvider(create: (_)=> LelscanUpdatesProvider()),
           ChangeNotifierProvider(create: (_)=> LelscanTopMangaProvider()),
+          ChangeNotifierProvider(create: (_)=> BookmarkProvider()),
         ],
         child: MyApp(),
       )

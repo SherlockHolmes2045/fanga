@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/AppIconWidget.dart';
 import 'package:manga_reader/routes.dart';
+import 'package:manga_reader/state/bookmark_provider.dart';
 import 'package:manga_reader/state/lelscan_manga_list_provider.dart';
 import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/state/lelscan_top_manga_provider.dart';
@@ -29,6 +30,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<LibraryProvider>().loadLibrary();
+      context.read<BookmarkProvider>().loadBookmarked();
       context.read<LelscanProvider>().getPopularMangaList(Assets.lelscanCatalogName, 1);
       context.read<LelscanTopMangaProvider>().getTopMangaList(Assets.lelscanCatalogName, 1);
       context.read<LelscanUpdatesProvider>().getUpdatedMangaList(Assets.lelscanCatalogName, 1);

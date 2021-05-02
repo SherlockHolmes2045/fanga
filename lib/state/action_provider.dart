@@ -28,12 +28,13 @@ class ActionProvider extends BaseProvider{
   }
 
   downloadChapter(Chapter chapter,String catalogName,String title,Size size){
-    final lelscanPath = Directory(
-        "storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title");
-    if(!lelscanPath.existsSync()){
-      lelscanPath.create(recursive: true);
-    }
+
     lelscanService.downloadChapter(chapter, catalogName,title).then((value) async{
+      final lelscanPath = Directory(
+          "storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$title");
+      if(!lelscanPath.existsSync()){
+        lelscanPath.create(recursive: true);
+      }
       final taskId = await FlutterDownloader.enqueue(
         url: locator<Di>().apiUrl + value,
         savedDir: lelscanPath.path,
@@ -99,12 +100,13 @@ class ActionProvider extends BaseProvider{
     });
   }
   downloadMultipleChapters(String catalogName, String mangaTitle,Size size){
-    final lelscanPath = Directory(
-        "storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle");
-    if(!lelscanPath.existsSync()){
-      lelscanPath.create(recursive: true);
-    }
+
     this.selectedItems.forEach((element) {
+      final lelscanPath = Directory(
+          "storage/emulated/0/${Assets.appName}/${Assets.lelscanCatalogName}/$mangaTitle");
+      if(!lelscanPath.existsSync()){
+        lelscanPath.create(recursive: true);
+      }
       lelscanService.downloadChapter(element, catalogName,mangaTitle).then((value) async{
         final taskId = await FlutterDownloader.enqueue(
             url: locator<Di>().apiUrl + value,

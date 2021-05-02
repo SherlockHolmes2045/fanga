@@ -47,7 +47,6 @@ class MangaDao {
 
     final recordSnapshots = await _mangaStore.find(
       await _db,
-      finder: finder,
     );
 
     // Making a List<Fruit> out of List<RecordSnapshot>

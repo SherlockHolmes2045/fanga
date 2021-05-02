@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +34,10 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     widget.pages.forEach((imageUrl) {
-      precacheImage(NetworkImage(imageUrl), context);
+      print(imageUrl);
+      if(Uri.parse(imageUrl).isAbsolute){
+        precacheImage(NetworkImage(imageUrl), context);
+      }
     });
     super.didChangeDependencies();
   }
@@ -321,7 +326,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                           .map((item) => Container(
                                 child: Center(
                                     child: InteractiveViewer(
-                                  child: Image.network(
+                                  child: Uri.parse(item).isAbsolute ? Image.network(
                                     item,
                                     height: height,
                                     fit: BoxFit.cover,
@@ -370,6 +375,10 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                         ),
                                       );
                                     },
+                                  ) : Image.file(
+                                    File(item),
+                                    height: height,
+                                    fit: BoxFit.cover,
                                   ),
                                   minScale: 0.2,
                                   maxScale: 100.2,

@@ -2,28 +2,26 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_reader/custom/widgets/custom_notification_animation.dart';
-import 'package:manga_reader/database/dao/manga_dao.dart';
-import 'package:manga_reader/models/manga.dart';
+import 'package:manga_reader/database/dao/chapter_bookmark_dao.dart';
+import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 
 
-class LibraryProvider extends BaseProvider{
+class BookmarkProvider extends BaseProvider{
 
-  Either<NException,List<Manga>> library = Right([]);
-  List<Manga> libraryList = List<Manga>();
+  List<Chapter> bookmarked = List<Chapter>();
 
   bool fetched = false;
-  MangaDao mangaDao = MangaDao();
+  ChapterBookmarkDao chapterBookmarkDao = ChapterBookmarkDao();
 
-  loadLibrary(){
+  loadBookmarked(){
     toggleLoadingState();
     fetched = true;
-    mangaDao.getAllSortedByName().then((value){
+    chapterBookmarkDao.loadAllBookMarked().then((value){
       fetched = true;
       toggleLoadingState();
-      library = Right(value);
-      libraryList = value;
+      bookmarked = value;
       notifyListeners();
     }).catchError((error){
       toggleLoadingState();
@@ -31,11 +29,15 @@ class LibraryProvider extends BaseProvider{
     });
   }
 
-  addToLibrary(Manga manga, Size size){
-    mangaDao.findManga(manga.url).then((value){
-      if(value.isEmpty){
-        mangaDao.insert(manga).then((value){
-          loadLibrary();
+  checkBookmark(Chapter chapter) async {
+    return await chapterBookmarkDao.findChapter(chapter.url);
+  }
+
+  bookmark(Chapter chapter, Size size){
+    chapterBookmarkDao.findChapter(chapter.url).then((value){
+      if(value == null){
+        chapterBookmarkDao.insert(chapter).then((value){
+          loadBookmarked();
           BotToast.showSimpleNotification(
             align: Alignment.bottomRight,
             duration: Duration(seconds: 4),
@@ -48,15 +50,15 @@ class LibraryProvider extends BaseProvider{
                       height: size.height / 10,
                       child: child,
                     )),
-            title:  manga.title,
+            title:  chapter.title,
             crossPage: true,
-            subTitle: "a été ajouté à votre bibliothèque",
+            subTitle: "a été ajouté à votre marque page",
           );
         });
-        loadLibrary();
+        loadBookmarked();
       } else {
-        mangaDao.delete(manga.url).then((value) {
-          loadLibrary();
+        chapterBookmarkDao.delete(chapter.url).then((value) {
+          loadBookmarked();
           BotToast.showSimpleNotification(
             align: Alignment.bottomRight,
             duration: Duration(seconds: 3),
@@ -69,9 +71,9 @@ class LibraryProvider extends BaseProvider{
                       height: size.height / 10,
                       child: child,
                     )),
-            title:  manga.title,
+            title:  chapter.title,
             crossPage: true,
-            subTitle: "a été retiré de votre bibliothèque",
+            subTitle: "a été retiré de votre marque page",
           );
         });
       }

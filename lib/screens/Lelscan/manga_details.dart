@@ -12,6 +12,7 @@ import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/screens/reader_loader.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/action_provider.dart';
+import 'package:manga_reader/state/bookmark_provider.dart';
 import 'package:manga_reader/state/chapter_provider.dart';
 import 'package:manga_reader/state/details_provider.dart';
 import 'package:manga_reader/state/lelscan_reader_provider.dart';
@@ -212,7 +213,6 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                       context
                                           .read<ChapterProvider>()
                                           .getChapters(Assets.lelscanCatalogName, widget.manga);
-
                                     },
                                     child: Text("Réessayer"),
                                   )
@@ -431,26 +431,36 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                             child:
                                                                                 ListTile(
                                                                               contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                                                                              leading: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? null: Icon(
+                                                                                Icons.bookmark,
+                                                                                color: Colors.cyan,
+                                                                              ),
                                                                               title: Padding(
                                                                                 padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
                                                                                 child: Text(
                                                                                   'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
                                                                                   overflow: TextOverflow.clip,
-                                                                                  style: TextStyle(color: Colors.white, fontSize: 13.0),
+                                                                                  style: TextStyle(
+                                                                                      color: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan,
+                                                                                      fontSize: 13.0
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                               subtitle: Padding(
                                                                                 padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
                                                                                 child: Text(
                                                                                   mangaChapters[index].publishedAt,
-                                                                                  style: TextStyle(color: Colors.white),
+                                                                                  style: TextStyle(color: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan,),
                                                                                 ),
                                                                               ),
                                                                               trailing: context.watch<ActionProvider>().selectedItems.isEmpty ?
                                                                               PopupMenuButton(
                                                                                 onSelected: (dynamic result) {
+                                                                                  print(result);
                                                                                   if(result == 0){
                                                                                     context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga.title, MediaQuery.of(context).size);
+                                                                                  }else if(result == 1){
+                                                                                    context.read<BookmarkProvider>().bookmark(mangaChapters[index],MediaQuery.of(context).size);
                                                                                   }
                                                                                 },
                                                                                 color: Color.fromRGBO(28, 28, 28, 1),
