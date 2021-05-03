@@ -1,15 +1,22 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:ext_storage/ext_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/custom/widgets/sliding_appbar.dart';
 import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/models/manga.dart';
+import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/utils/reading_direction.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:wakelock/wakelock.dart';
 
 class Reader extends StatefulWidget {
@@ -279,6 +286,55 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
           return InkWell(
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
+            onLongPress: (){
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => Container(
+                  height: SizeConfig.screenHeight / 6,
+                  color: Colors.black,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: Icon(Icons.share,color: Colors.white.withOpacity(0.8),),
+                          title: Text("Partager",style: TextStyle(color: Colors.white),),
+                          onTap: () async {
+                            if(Uri.parse(widget.pages[currentPage.floor() - 1]).isAbsolute){
+                              var request = await HttpClient().getUrl(Uri.parse(widget.pages[currentPage.floor() - 1]));
+                              var response = await request.close();
+                              Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+                              await Share.file('fanga', 'fanga.jpg', bytes, 'image/jpg',text: "${widget.manga.title} \n ${widget.chapter.title} \n page ${currentPage.floor()-1}");
+                            }else{
+                              final ByteData bytes = await rootBundle.load(widget.pages[currentPage.floor() - 1]);
+                              await Share.file('fanga', 'fanga.png', bytes.buffer.asUint8List(), 'image/png', text: 'My optional text.');
+                            }
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(Icons.download_outlined,color: Colors.white.withOpacity(0.8),),
+                          title: Text("Télécharger la Page",style: TextStyle(color: Colors.white),),
+                          onTap: () async {
+                            if(Uri.parse(widget.pages[currentPage.floor() - 1]).isAbsolute){
+                              String path = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
+                              print(path);
+                              /*final taskId = await FlutterDownloader.enqueue(
+                                  url: widget.pages[currentPage.floor() - 1],
+                                  savedDir: "test",
+                                  showNotification: true, // show download progress in status bar (for Android)
+                                  openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+                                  requiresStorageNotLow: false
+                              );*/
+                            }
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+
+              );
+            },
             onTap: () {
               setState(() {
                 if (fullScreen) {

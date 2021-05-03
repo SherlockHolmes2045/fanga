@@ -52,6 +52,8 @@ dependencies:
   expandable: ^4.1.4
   url_launcher: ^5.7.10
   wakelock: ^0.2.1+1
+  esys_flutter_share: ^1.0.2
+  ext_storage: ^1.0.3
 
 dev_dependencies:
   flutter_test:
