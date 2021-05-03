@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-import 'package:ext_storage/ext_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,11 +12,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/custom/widgets/sliding_appbar.dart';
 import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/service_locator.dart';
+import 'package:provider/provider.dart';
+import 'package:manga_reader/state/bookmark_provider.dart';
 import 'package:manga_reader/utils/reading_direction.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:wakelock/wakelock.dart';
 
 class Reader extends StatefulWidget {
@@ -97,10 +97,12 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                   EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
               child: IconButton(
                   icon: Icon(
-                    Icons.bookmark_border,
-                    color: Colors.white,
+                    !context.read<BookmarkProvider>().bookmarked.contains(widget.chapter) ? Icons.bookmark_border : Icons.bookmark,
+                    color: !context.read<BookmarkProvider>().bookmarked.contains(widget.chapter) ? Colors.white : Colors.cyan,
                   ),
-                  onPressed: () {}),
+                  onPressed: () {
+                    context.read<BookmarkProvider>().bookmark(widget.chapter,MediaQuery.of(context).size);
+                  }),
             ),
             Padding(
               padding:
@@ -306,8 +308,8 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                               Uint8List bytes = await consolidateHttpClientResponseBytes(response);
                               await Share.file('fanga', 'fanga.jpg', bytes, 'image/jpg',text: "${widget.manga.title} \n ${widget.chapter.title} \n page ${currentPage.floor()-1}");
                             }else{
-                              final ByteData bytes = await rootBundle.load(widget.pages[currentPage.floor() - 1]);
-                              await Share.file('fanga', 'fanga.png', bytes.buffer.asUint8List(), 'image/png', text: 'My optional text.');
+                              final ByteData bytes =  File(widget.pages[currentPage.floor() - 1]).readAsBytesSync().buffer.asByteData();
+                              await Share.file('fanga', 'fanga.png', bytes.buffer.asUint8List(), 'image/png', text: "${widget.manga.title} \n ${widget.chapter.title} \n page ${currentPage.floor()-1}");
                             }
                           },
                         ),
@@ -316,15 +318,17 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                           title: Text("Télécharger la Page",style: TextStyle(color: Colors.white),),
                           onTap: () async {
                             if(Uri.parse(widget.pages[currentPage.floor() - 1]).isAbsolute){
-                              String path = await ExtStorage.getExternalStoragePublicDirectory(ExtStorage.DIRECTORY_DOWNLOADS);
-                              print(path);
-                              /*final taskId = await FlutterDownloader.enqueue(
+                              if(Platform.isAndroid){
+                                final taskId = await FlutterDownloader.enqueue(
                                   url: widget.pages[currentPage.floor() - 1],
-                                  savedDir: "test",
+                                  savedDir: "storage/emulated/0/Download",
                                   showNotification: true, // show download progress in status bar (for Android)
                                   openFileFromNotification: true, // click on notification to open downloaded file (for Android)
                                   requiresStorageNotLow: false
-                              );*/
+                              );
+                              }
+                            }else{
+                              BotToast.showText(text: "Le fichier existe déjà sur votre appareil");
                             }
                           },
                         )
@@ -500,7 +504,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                     4),
                                       ),
                                       Slider(
-                                        activeColor: Colors.blue,
+                                        activeColor: Colors.cyan,
                                         inactiveColor: Colors.grey,
                                         onChanged: (newValue) {
                                           print(newValue.floor());
