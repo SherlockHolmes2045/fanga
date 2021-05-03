@@ -1,5 +1,4 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_reader/custom/widgets/custom_notification_animation.dart';
 import 'package:manga_reader/database/dao/chapter_bookmark_dao.dart';
