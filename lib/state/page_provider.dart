@@ -20,26 +20,19 @@ class PageProvider extends BaseProvider {
     });
   }
 
-  Model.Page findChapter(Chapter chapter) {
-    Model.Page page = Model.Page(finished: false);
-   pageDao.findPage(chapter.url).then((value) {
-     if(value != null){
-       page = value;
-     }
-   });
-   return page;
+  Future<Model.Page> findChapter(Chapter chapter) async {
+    return await pageDao.findPage(chapter.url);
   }
 
-  updatePage(Chapter chapter,int page,bool finished){
+  updatePage(Chapter chapter, int page, bool finished) {
     pageDao.findPage(chapter.url).then((value) async {
-      if(value == null){
-        await pageDao
-            .insert(Model.Page(
-            chapter: chapter, finished: finished, page: page));
+      if (value == null) {
+        await pageDao.insert(
+            Model.Page(chapter: chapter, finished: finished, page: page));
         loadAllPages();
-      }else{
-        await pageDao.update(Model.Page(
-            chapter: chapter, finished: finished, page: page));
+      } else {
+        await pageDao.update(
+            Model.Page(chapter: chapter, finished: finished, page: page));
         loadAllPages();
       }
     });
@@ -71,7 +64,7 @@ class PageProvider extends BaseProvider {
           );
         });
       } else {
-        pageDao.delete(chapter.url).then((value){
+        pageDao.delete(chapter.url).then((value) {
           loadAllPages();
           BotToast.showSimpleNotification(
             align: Alignment.bottomRight,
