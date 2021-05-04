@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -60,6 +59,13 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 400),
     );
+    context.read<PageProvider>().findChapter(widget.chapter).then((value){
+      if(value != null){
+        if(!value.finished){
+          _controller.jumpToPage(value.page);
+        }
+      }
+    });
     Wakelock.disable();
     super.initState();
   }
@@ -76,10 +82,8 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
     return WillPopScope(
       onWillPop: () async{
         if(pages.isEmpty){
-          print("pages are empty");
           context.read<PageProvider>().updatePage(widget.chapter,0, false);
         }else{
-          print("pages are not empty");
           List<int> distinctIds = pages.toSet().toList();
           if(distinctIds.reduce(max) == widget.pages.length-1){
             context.read<PageProvider>().updatePage(widget.chapter,distinctIds.reduce(max), true);
