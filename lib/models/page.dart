@@ -16,14 +16,14 @@ class Page {
 
   factory Page.fromJson(Map<String, dynamic> json) {
     return Page(
-      chapter: json['chapter'],
+      chapter: Chapter.fromJson(json['chapter']),
       page: json['page'],
       finished: json['finished'],
     );
   }
   Map<String, dynamic> toMap() {
     return {
-      'chapter': chapter,
+      'chapter': chapter.toMap(),
       'page': page,
       'finished': finished,
     };

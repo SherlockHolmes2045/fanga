@@ -8,6 +8,7 @@ import 'package:manga_reader/state/lelscan_provider.dart';
 import 'package:manga_reader/state/lelscan_top_manga_provider.dart';
 import 'package:manga_reader/state/lelscan_updates_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
+import 'package:manga_reader/state/page_provider.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -31,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<LibraryProvider>().loadLibrary();
       context.read<BookmarkProvider>().loadBookmarked();
+      context.read<PageProvider>().loadAllPages();
       context.read<LelscanProvider>().getPopularMangaList(Assets.lelscanCatalogName, 1);
       context.read<LelscanTopMangaProvider>().getTopMangaList(Assets.lelscanCatalogName, 1);
       context.read<LelscanUpdatesProvider>().getUpdatedMangaList(Assets.lelscanCatalogName, 1);

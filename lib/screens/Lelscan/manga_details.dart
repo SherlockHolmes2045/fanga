@@ -17,6 +17,7 @@ import 'package:manga_reader/state/chapter_provider.dart';
 import 'package:manga_reader/state/details_provider.dart';
 import 'package:manga_reader/state/lelscan_reader_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
+import 'package:manga_reader/state/page_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
@@ -441,16 +442,27 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                   'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
                                                                                   overflow: TextOverflow.clip,
                                                                                   style: TextStyle(
-                                                                                      color: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan,
+                                                                                      color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) /*&& context.read<PageProvider>().findChapter(mangaChapters[index]).finished*/ ? Colors.grey : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan,
                                                                                       fontSize: 13.0
                                                                                   ),
                                                                                 ),
                                                                               ),
                                                                               subtitle: Padding(
                                                                                 padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-                                                                                child: Text(
-                                                                                  mangaChapters[index].publishedAt,
-                                                                                  style: TextStyle(color: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan,),
+                                                                                child: RichText(
+                                                                                  text: TextSpan(
+                                                                                    text: mangaChapters[index].publishedAt,
+                                                                                    style: TextStyle(color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) /*&& context.read<PageProvider>().findChapter(mangaChapters[index]).finished*/ ? Colors.grey : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan,),
+                                                                                    children: <TextSpan>[
+                                                                                      if(context.read<PageProvider>().findChapter(mangaChapters[index]).chapter != null && !context.read<PageProvider>().findChapter(mangaChapters[index]).finished)
+                                                                                      TextSpan(
+                                                                                        text: "- ${context.read<PageProvider>().findChapter(mangaChapters[index]).page}",
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.grey
+                                                                                        )
+                                                                                      )
+                                                                                    ]
+                                                                                  ),
                                                                                 ),
                                                                               ),
                                                                               trailing: context.watch<ActionProvider>().selectedItems.isEmpty ?
@@ -461,6 +473,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                     context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga.title, MediaQuery.of(context).size);
                                                                                   }else if(result == 1){
                                                                                     context.read<BookmarkProvider>().bookmark(mangaChapters[index],MediaQuery.of(context).size);
+                                                                                  }else if( result == 2){
+                                                                                    context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size);
                                                                                   }
                                                                                 },
                                                                                 color: Color.fromRGBO(28, 28, 28, 1),

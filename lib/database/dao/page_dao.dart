@@ -49,7 +49,7 @@ class PageDao {
     }).toList();
   }
 
-  Future<Page> findChapter(String url) async {
+  Future<Page> findPage(String url) async {
     final finder = Finder(
         filter: Filter.and([
           Filter.equals("chapter.url",url),
