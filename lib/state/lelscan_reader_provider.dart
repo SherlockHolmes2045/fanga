@@ -8,13 +8,17 @@ import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/networking/services/lelscan_service.dart';
 import 'package:manga_reader/screens/reader.dart';
 import 'package:manga_reader/state/base_provider.dart';
+import 'package:manga_reader/utils/n_exception.dart';
 
 class LelscanReaderProvider extends BaseProvider {
   List<String> pages = [];
+  NException exception;
 
 
   getPages(String catalogName,Chapter chapter,BuildContext context,Manga manga) async{
+    toggleLoadingState();
     lelscanService.chapterPages(catalogName, chapter).then((value) {
+      toggleLoadingState();
       print(value);
       List<String> downloadedPages = List<String>();
       final chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${chapter.title}");
@@ -39,7 +43,9 @@ class LelscanReaderProvider extends BaseProvider {
         Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages,manga,chapter)));
       }
     }).catchError((onError){
-      print(onError);
+      toggleLoadingState();
+      exception = NException(onError);
+      notifyListeners();
     });
   }
 }

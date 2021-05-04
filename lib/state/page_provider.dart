@@ -31,9 +31,11 @@ class PageProvider extends BaseProvider {
             Model.Page(chapter: chapter, finished: finished, page: page));
         loadAllPages();
       } else {
-        await pageDao.update(
-            Model.Page(chapter: chapter, finished: finished, page: page));
-        loadAllPages();
+        if(value.page < page){
+          await pageDao.update(
+              Model.Page(chapter: chapter, finished: finished, page: page));
+          loadAllPages();
+        }
       }
     });
   }

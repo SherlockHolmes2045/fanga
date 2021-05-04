@@ -19,7 +19,10 @@ class PageDao {
   Future update(Page page) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(page.chapter.url));
+    final finder = Finder(filter: Filter.and([
+      Filter.equals("chapter.url",page.chapter.url),
+    ])
+    );
     await _pageStore.update(
       await _db,
       page.toMap(),
