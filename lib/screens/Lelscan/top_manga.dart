@@ -127,8 +127,7 @@ class _TopMangaState extends State<TopManga> {
                               .libraryList
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
-                            imageUrl: mangaList[index]
-                                .thumbnailUrl
+                            imageUrl: (mangaList[index].thumbnailUrl.split("/")[0] +"/"+ mangaList[index].thumbnailUrl.split("/")[1] + "/" + mangaList[index].thumbnailUrl.split("/")[2] + "/"+ mangaList[index].thumbnailUrl.split("/")[3] + "/" + mangaList[index].thumbnailUrl.split("/")[4]+ "/" + mangaList[index].thumbnailUrl.split("/")[5]+ "/" + mangaList[index].thumbnailUrl.split("/")[6]+"/cover_250x350."+mangaList[index].thumbnailUrl.split("/")[7].split(".")[1])
                                 .replaceAll('http', "https"),
                             width: double.infinity,
                             height: 350,
@@ -160,10 +159,8 @@ class _TopMangaState extends State<TopManga> {
                                     sigmaY: 10.0),
                                 child: Container(
                                     child: CachedNetworkImage(
-                                      imageUrl: mangaList[index]
-                                          .thumbnailUrl
-                                          .replaceAll(
-                                          'http', "https"),
+                                      imageUrl: (mangaList[index].thumbnailUrl.split("/")[0] +"/"+ mangaList[index].thumbnailUrl.split("/")[1] + "/" + mangaList[index].thumbnailUrl.split("/")[2] + "/"+ mangaList[index].thumbnailUrl.split("/")[3] + "/" + mangaList[index].thumbnailUrl.split("/")[4]+ "/" + mangaList[index].thumbnailUrl.split("/")[5]+ "/" + mangaList[index].thumbnailUrl.split("/")[6]+"/cover_250x350."+mangaList[index].thumbnailUrl.split("/")[7].split(".")[1])
+                                          .replaceAll('http', "https"),
                                       width: double.infinity,
                                       height: 350,
                                       errorWidget:

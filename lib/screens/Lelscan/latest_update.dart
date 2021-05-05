@@ -126,10 +126,8 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                               .libraryList
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
-                            imageUrl: !mangaList[index].thumbnailUrl.startsWith("http") ? "https:"+mangaList[index]
-                                .thumbnailUrl:mangaList[index]
-                                .thumbnailUrl
-                                .replaceAll('http', "https"),
+                            imageUrl:mangaList[index]
+                                .thumbnailUrl,
                             width: double.infinity,
                             height: 350,
                             errorWidget:
@@ -161,9 +159,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                                 child: Container(
                                     child: CachedNetworkImage(
                                       imageUrl: mangaList[index]
-                                          .thumbnailUrl
-                                          .replaceAll(
-                                          'http', "https"),
+                                          .thumbnailUrl,
                                       width: double.infinity,
                                       height: 350,
                                       errorWidget:

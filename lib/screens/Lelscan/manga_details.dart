@@ -448,7 +448,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                         color: Colors.cyan,
                                                                                       ),
                                                                                 title: Padding(
-                                                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
                                                                                   child: FutureBuilder(
                                                                                     future: context.read<PageProvider>().findChapter(mangaChapters[index]),
                                                                                     builder: (context, AsyncSnapshot<Model.Page> snapshot){
