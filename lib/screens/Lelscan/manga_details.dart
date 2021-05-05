@@ -429,8 +429,14 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                         height: SizeConfig
                                                                             .blockSizeVertical,
                                                                       ),
-                                                                      ListView.builder(
+                                                                      ListView.separated(
                                                                           shrinkWrap: true,
+                                                                          separatorBuilder: (context,int index){
+                                                                            return Divider(
+                                                                              color: Color.fromRGBO(28, 28, 28, 1),
+                                                                              thickness: 1.15,
+                                                                            );
+                                                                          },
                                                                           physics: NeverScrollableScrollPhysics(),
                                                                           itemCount: mangaChapters.length,
                                                                           itemBuilder: (context, int index) {
@@ -606,9 +612,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
           Container(
             width: SizeConfig.screenWidth / 2.2,
             child: CachedNetworkImage(
-              imageUrl: widget.manga.thumbnailUrl.startsWith("//")
-                  ? "https:" + widget.manga.thumbnailUrl
-                  : widget.manga.thumbnailUrl.replaceAll("http", "https"),
+              imageUrl: widget.manga.thumbnailUrl,
               width: double.infinity,
               height: 250,
               errorWidget: (context, text, data) {

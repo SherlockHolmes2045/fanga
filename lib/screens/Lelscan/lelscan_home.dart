@@ -6,7 +6,6 @@ import 'package:manga_reader/screens/Lelscan/all_manga.dart';
 import 'package:manga_reader/screens/Lelscan/latest_update.dart';
 import 'package:manga_reader/screens/Lelscan/manga_list.dart';
 import 'package:manga_reader/screens/Lelscan/top_manga.dart';
-import 'package:simple_search_bar/simple_search_bar.dart';
 
 class LelScan extends StatefulWidget {
   @override
@@ -14,7 +13,6 @@ class LelScan extends StatefulWidget {
 }
 
 class _LelScanState extends State<LelScan> {
-  final AppBarController appBarController = AppBarController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +44,7 @@ class _LelScanState extends State<LelScan> {
             ],
           ),
           title: Text(
-            "LelScan",
+            "Lelscan",
             style: TextStyle(color: Colors.white, fontSize: 22.0),
           ),
           actions: [

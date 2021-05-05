@@ -15,7 +15,6 @@ class SearchService{
           'Content-Type': "application/json",
         }),
       );
-      print(response.data);
       final items = response.data["data"].cast<Map<String, dynamic>>();
       List<Manga> result = items.map<Manga>((json) {
         return Manga.fromJson(json);

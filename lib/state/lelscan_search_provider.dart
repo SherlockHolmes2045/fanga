@@ -4,7 +4,7 @@ import 'package:manga_reader/networking/services/search_service.dart';
 import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 
-class SearchProvider extends BaseProvider{
+class LelscanSearchProvider extends BaseProvider{
   Either<NException,List<Manga>> searchResults = Right([]);
 
   getSearchResults(String catalogName,String searchTerms,int page){
