@@ -4,10 +4,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/screens/Lelscan/manga_details.dart';
+import 'package:manga_reader/screens/mangakawaii/manga_details.dart';
 import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/lelscan/lelscan_manga_list_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_manga_list_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_manga_list_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_manga_list_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_manga_list_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_manga_list_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_manga_list_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
@@ -34,19 +39,19 @@ class _AllMangaState extends State<AllManga> {
 
           if (_scrollController.position.pixels >
               triggerFetchMoreSize) {
-            if(context.read<LelscanMangaListProvider>().hasNext)
-            context
-                .read<LelscanMangaListProvider>()
-                .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().nextPage);
+            if(context.read<MangakawaiiMangaListProvider>().hasNext)
+              context
+                  .read<MangakawaiiMangaListProvider>()
+                  .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().nextPage);
           }
         }
       });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<LelscanMangaListProvider>().mangaList.fold((l) => null, (r) {
+      context.read<MangakawaiiMangaListProvider>().mangaList.fold((l) => null, (r) {
         if (r.isEmpty) {
           context
-              .read<LelscanMangaListProvider>()
-              .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+              .read<MangakawaiiMangaListProvider>()
+              .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().currentPage);
         }
       });
     });
@@ -56,7 +61,7 @@ class _AllMangaState extends State<AllManga> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return RefreshIndicator(
-        child: context.watch<LelscanMangaListProvider>().loadingState ==
+        child: context.watch<MangakawaiiMangaListProvider>().loadingState ==
             LoadingState.loading
             ? Center(
           child: CircularProgressIndicator(
@@ -64,7 +69,7 @@ class _AllMangaState extends State<AllManga> {
           ),
         )
             : context
-            .select((LelscanMangaListProvider provider) => provider)
+            .select((MangakawaiiMangaListProvider provider) => provider)
             .mangaList
             .fold((NException error) {
           return Center(
@@ -81,8 +86,8 @@ class _AllMangaState extends State<AllManga> {
                 RaisedButton(
                   onPressed: (){
                     context
-                        .read<LelscanMangaListProvider>()
-                        .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+                        .read<MangakawaiiMangaListProvider>()
+                        .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().currentPage);
                   },
                   child: Text("Réessayer"),
                 )
@@ -100,7 +105,7 @@ class _AllMangaState extends State<AllManga> {
                   style: TextStyle(color: Colors.white),
                 ),
                 RaisedButton(onPressed: (){
-                  context.read<LelscanMangaListProvider>().getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+                  context.read<MangakawaiiMangaListProvider>().getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().currentPage);
                 },
                   child: Text(
                       "Réessayer"
@@ -131,7 +136,7 @@ class _AllMangaState extends State<AllManga> {
                             Navigator.push(
                                 context,
                                 ScaleRoute(
-                                    page: LelscanDetail(
+                                    page: MangakawaiiDetail(
                                       manga: mangaList[index],
                                     )));
                           },
@@ -157,7 +162,7 @@ class _AllMangaState extends State<AllManga> {
                                   Navigator.push(
                                       context,
                                       ScaleRoute(
-                                          page: LelscanDetail(
+                                          page: MangakawaiiDetail(
                                             manga:
                                             mangaList[index],
                                           )));
@@ -190,7 +195,7 @@ class _AllMangaState extends State<AllManga> {
                                                 context,
                                                 ScaleRoute(
                                                     page:
-                                                    LelscanDetail(
+                                                    MangakawaiiDetail(
                                                       manga:
                                                       mangaList[
                                                       index],
@@ -232,9 +237,9 @@ class _AllMangaState extends State<AllManga> {
 
   Future _refreshData() async {
     await Future.delayed(Duration(seconds: 1));
-    context.read<LelscanMangaListProvider>().clearList();
+    context.read<MangakawaiiMangaListProvider>().clearList();
     context
-        .read<LelscanMangaListProvider>()
-        .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+        .read<MangakawaiiMangaListProvider>()
+        .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().currentPage);
   }
 }

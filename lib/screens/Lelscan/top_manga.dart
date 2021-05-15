@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/lelscan_top_manga_provider.dart';
+import 'package:manga_reader/state/lelscan/lelscan_top_manga_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';

@@ -5,11 +5,7 @@ import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/networking/services/search_service.dart';
 import 'package:manga_reader/screens/Lelscan/manga_details.dart';
-import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/lelscan_search_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
-import 'package:provider/provider.dart';
 
 class SearchManga extends SearchDelegate {
   String source;

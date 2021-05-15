@@ -4,49 +4,30 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/screens/Lelscan/manga_details.dart';
+import 'package:manga_reader/screens/mangakawaii/manga_details.dart';
 import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/lelscan/lelscan_manga_list_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_updates_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
-class AllManga extends StatefulWidget {
+class LatestUpdates extends StatefulWidget {
   @override
-  _AllMangaState createState() => _AllMangaState();
+  _LatestUpdatesState createState() => _LatestUpdatesState();
 }
 
-class _AllMangaState extends State<AllManga> {
-
-  ScrollController _scrollController = new ScrollController();
-
+class _LatestUpdatesState extends State<LatestUpdates> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _scrollController
-      ..addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          var triggerFetchMoreSize =
-              0.75 * _scrollController.position.maxScrollExtent;
-
-          if (_scrollController.position.pixels >
-              triggerFetchMoreSize) {
-            if(context.read<LelscanMangaListProvider>().hasNext)
-            context
-                .read<LelscanMangaListProvider>()
-                .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().nextPage);
-          }
-        }
-      });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<LelscanMangaListProvider>().mangaList.fold((l) => null, (r) {
+      context.read<MangakawaiiUpdatesProvider>().updatedMangaList.fold((l) => null, (r) {
         if (r.isEmpty) {
           context
-              .read<LelscanMangaListProvider>()
-              .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+              .read<MangakawaiiUpdatesProvider>()
+              .getUpdatedMangaList(Assets.mangakawaiiCatalogName, 1);
         }
       });
     });
@@ -56,7 +37,7 @@ class _AllMangaState extends State<AllManga> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return RefreshIndicator(
-        child: context.watch<LelscanMangaListProvider>().loadingState ==
+        child: context.watch<MangakawaiiUpdatesProvider>().loadingState ==
             LoadingState.loading
             ? Center(
           child: CircularProgressIndicator(
@@ -64,8 +45,8 @@ class _AllMangaState extends State<AllManga> {
           ),
         )
             : context
-            .select((LelscanMangaListProvider provider) => provider)
-            .mangaList
+            .select((MangakawaiiUpdatesProvider provider) => provider)
+            .updatedMangaList
             .fold((NException error) {
           return Center(
             child: Column(
@@ -81,8 +62,8 @@ class _AllMangaState extends State<AllManga> {
                 RaisedButton(
                   onPressed: (){
                     context
-                        .read<LelscanMangaListProvider>()
-                        .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+                        .read<MangakawaiiUpdatesProvider>()
+                        .getUpdatedMangaList(Assets.mangakawaiiCatalogName, 1);
                   },
                   child: Text("Réessayer"),
                 )
@@ -100,7 +81,7 @@ class _AllMangaState extends State<AllManga> {
                   style: TextStyle(color: Colors.white),
                 ),
                 RaisedButton(onPressed: (){
-                  context.read<LelscanMangaListProvider>().getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+                  context.read<MangakawaiiUpdatesProvider>().getUpdatedMangaList(Assets.mangakawaiiCatalogName, 1);
                 },
                   child: Text(
                       "Réessayer"
@@ -111,7 +92,6 @@ class _AllMangaState extends State<AllManga> {
           )
               : GridView.count(
             crossAxisCount: 2,
-            controller: _scrollController,
             padding: EdgeInsets.only(
               left: SizeConfig.blockSizeHorizontal * 2.5,
               right: SizeConfig.blockSizeHorizontal * 2.5,
@@ -131,7 +111,7 @@ class _AllMangaState extends State<AllManga> {
                             Navigator.push(
                                 context,
                                 ScaleRoute(
-                                    page: LelscanDetail(
+                                    page: MangakawaiiDetail(
                                       manga: mangaList[index],
                                     )));
                           },
@@ -146,7 +126,7 @@ class _AllMangaState extends State<AllManga> {
                               .libraryList
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
-                            imageUrl: mangaList[index]
+                            imageUrl:mangaList[index]
                                 .thumbnailUrl,
                             width: double.infinity,
                             height: 350,
@@ -157,7 +137,7 @@ class _AllMangaState extends State<AllManga> {
                                   Navigator.push(
                                       context,
                                       ScaleRoute(
-                                          page: LelscanDetail(
+                                          page: MangakawaiiDetail(
                                             manga:
                                             mangaList[index],
                                           )));
@@ -190,7 +170,7 @@ class _AllMangaState extends State<AllManga> {
                                                 context,
                                                 ScaleRoute(
                                                     page:
-                                                    LelscanDetail(
+                                                    MangakawaiiDetail(
                                                       manga:
                                                       mangaList[
                                                       index],
@@ -232,9 +212,8 @@ class _AllMangaState extends State<AllManga> {
 
   Future _refreshData() async {
     await Future.delayed(Duration(seconds: 1));
-    context.read<LelscanMangaListProvider>().clearList();
     context
-        .read<LelscanMangaListProvider>()
-        .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+        .read<MangakawaiiUpdatesProvider>()
+        .getUpdatedMangaList(Assets.mangakawaiiCatalogName, 1);
   }
 }

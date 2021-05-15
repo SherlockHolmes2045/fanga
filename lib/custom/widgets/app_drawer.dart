@@ -15,18 +15,21 @@ class AppDrawer extends StatelessWidget {
           children: <Widget>[
             _createHeader(),
             _createDrawerItem(
-              icon: Icons.contacts,
+              imagePath: Assets.lelscanIcon,
               text: 'LelScan',
               onTap: (){
                 Navigator.pushReplacementNamed(context, Routes.lelscan);
               }
             ),
             _createDrawerItem(
-              icon: Icons.event,
+              imagePath: Assets.mangakawaiiIcon,
               text: 'MangaKawaii',
+                onTap: (){
+                  Navigator.pushReplacementNamed(context, Routes.mangakawaii);
+                }
             ),
             _createDrawerItem(
-              icon: Icons.note,
+              imagePath: Assets.mangahereIcon,
               text: 'MangaHere',
             ),
             _createDrawerItem(
@@ -34,17 +37,19 @@ class AppDrawer extends StatelessWidget {
               text: 'Light Novels',
             ),
             Divider(
-              color: Colors.white,
+              color: Colors.white.withOpacity(0.5),
             ),
             _createDrawerItem(icon: Icons.collections_bookmark, text: 'Bibliothèque', onTap: () => Navigator.pushReplacementNamed(context, Routes.library)),
             _createDrawerItem(icon: Icons.download_rounded, text: 'Téléchargements',onTap: () => Navigator.pushNamed(context, Routes.downloads)),
             Divider(
-              color: Colors.white,
+              color: Colors.white.withOpacity(0.5),
             ),
             _createDrawerItem(
                 icon: Icons.settings, text: 'Paramètres'),
             _createDrawerItem(icon: Icons.info_outline, text: 'A propos'),
-            Divider(),
+            Divider(
+              color: Colors.white.withOpacity(0.5),
+            ),
             _createDrawerItem(icon: Icons.bug_report, text: 'Signaler un bug'),
           ],
         ),
@@ -76,11 +81,11 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget _createDrawerItem(
-      {IconData icon, String text, GestureTapCallback onTap}) {
+      {IconData icon, String text, GestureTapCallback onTap,String imagePath}) {
     return ListTile(
       title: Row(
         children: <Widget>[
-          Icon(icon,color: Colors.white,),
+          imagePath == null ? Icon(icon,color: Colors.white,):Image.asset(imagePath),
           Padding(
             padding: EdgeInsets.only(left: 8.0),
             child: Text(text,style: TextStyle(

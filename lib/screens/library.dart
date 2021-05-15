@@ -4,7 +4,7 @@ import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/app_drawer.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/lelscan_provider.dart';
+import 'package:manga_reader/state/lelscan/lelscan_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
