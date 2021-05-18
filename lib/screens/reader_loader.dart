@@ -34,9 +34,8 @@ class _ReaderLoaderState extends State<ReaderLoader> {
       child: Center(
         child: context.watch<LelscanReaderProvider>().loadingState ==
           LoadingState.loading ?
-          CircularProgressIndicator(
-
-        ) :
+          CircularProgressIndicator()
+            :
         context.watch<LelscanReaderProvider>().exception != null ?
                 Column(
                   children: [

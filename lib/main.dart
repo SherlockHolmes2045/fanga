@@ -18,6 +18,8 @@ import 'package:manga_reader/state/lelscan/lelscan_reader_provider.dart';
 import 'package:manga_reader/state/lelscan/lelscan_top_manga_provider.dart';
 import 'package:manga_reader/state/lelscan/lelscan_updates_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_chapter_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_details_provider.dart';
 import 'package:manga_reader/state/mangakawaii/mangakawaii_manga_list_provider.dart';
 import 'package:manga_reader/state/mangakawaii/mangakawaii_provider.dart';
 import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
@@ -63,6 +65,8 @@ void main() async {
           ChangeNotifierProvider(create: (_)=> MangakawaiiUpdatesProvider()),
           ChangeNotifierProvider(create: (_)=> MangakawaiiMangaListProvider()),
           ChangeNotifierProvider(create: (_)=> MangakawaiiTopMangaProvider()),
+          ChangeNotifierProvider(create: (_)=> MangakawaiiDetailsProvider()),
+          ChangeNotifierProvider(create: (_)=> MangakawaiiChapterProvider()),
         ],
         child: MyApp(),
       )

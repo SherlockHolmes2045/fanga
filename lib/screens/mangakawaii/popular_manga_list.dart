@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/screens/Lelscan/manga_details.dart';
+import 'package:manga_reader/screens/mangakawaii/manga_details.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/state/mangakawaii/mangakawaii_provider.dart';
@@ -110,7 +110,7 @@ class _MangaListState extends State<MangaList> {
                             Navigator.push(
                                 context,
                                 ScaleRoute(
-                                    page: LelscanDetail(
+                                    page: MangakawaiiDetail(
                                       manga: mangaList[index],
                                     )));
                           },
@@ -136,7 +136,7 @@ class _MangaListState extends State<MangaList> {
                                   Navigator.push(
                                       context,
                                       ScaleRoute(
-                                          page: LelscanDetail(
+                                          page: MangakawaiiDetail(
                                             manga:
                                             mangaList[index],
                                           )));
@@ -169,7 +169,7 @@ class _MangaListState extends State<MangaList> {
                                                 context,
                                                 ScaleRoute(
                                                     page:
-                                                    LelscanDetail(
+                                                    MangakawaiiDetail(
                                                       manga:
                                                       mangaList[
                                                       index],

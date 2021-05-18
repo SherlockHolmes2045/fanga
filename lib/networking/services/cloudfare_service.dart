@@ -120,6 +120,7 @@ class CloudfareService {
         }),
       );
       final items = response.data["chapters"].cast<Map<String, dynamic>>();
+      print(items);
       List<Chapter> result = items.map<Chapter>((json) {
         return Chapter.fromJson(json);
       }).toList();

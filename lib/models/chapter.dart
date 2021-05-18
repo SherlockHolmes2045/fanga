@@ -19,7 +19,7 @@ class Chapter {
       title: json['title'],
       url: json['url'],
       publishedAt: json['publishedAt'],
-      number: json['number'],
+      number: json['number'].toString(),
     );
   }
   Map<String, dynamic> toMap() {

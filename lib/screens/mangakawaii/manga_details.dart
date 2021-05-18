@@ -13,9 +13,9 @@ import 'package:manga_reader/screens/reader_loader.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/action_provider.dart';
 import 'package:manga_reader/state/bookmark_provider.dart';
-import 'package:manga_reader/state/lelscan/chapter_provider.dart';
-import 'package:manga_reader/state/lelscan/details_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_chapter_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_details_provider.dart';
 import 'package:manga_reader/state/page_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
@@ -42,20 +42,20 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<DetailsProvider>().mangaDetails.fold((l) => null, (r) {
+      context.read<MangakawaiiDetailsProvider>().mangaDetails.fold((l) => null, (r) {
         if (r.url == null || r.url != widget.manga.url) {
           context
-              .read<DetailsProvider>()
-              .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+              .read<MangakawaiiDetailsProvider>()
+              .getMangaDetails(Assets.mangakawaiiCatalogName, widget.manga);
         }
       });
-      context.read<ChapterProvider>().mangaChapters.fold((l) => null, (r) {
-        print(context.read<ChapterProvider>().currentManga.url);
+      context.read<MangakawaiiChapterProvider>().mangaChapters.fold((l) => null, (r) {
+        print(context.read<MangakawaiiChapterProvider>().currentManga.url);
         if (r.isEmpty ||
-            widget.manga != context.read<ChapterProvider>().currentManga) {
+            widget.manga != context.read<MangakawaiiChapterProvider>().currentManga) {
           context
-              .read<ChapterProvider>()
-              .getChapters(Assets.lelscanCatalogName, widget.manga);
+              .read<MangakawaiiChapterProvider>()
+              .getChapters(Assets.mangakawaiiCatalogName, widget.manga);
         }
       });
     });
@@ -100,7 +100,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                             context
                                 .read<ActionProvider>()
                                 .downloadMultipleChapters(
-                                Assets.lelscanCatalogName,
+                                Assets.mangakawaiiCatalogName,
                                 widget.manga.title,
                                 MediaQuery.of(context).size);
                           }),
@@ -131,6 +131,9 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
               : FloatingActionButton(
             backgroundColor: Colors.cyan,
             child: Icon(Icons.play_arrow, color: Colors.white),
+            onPressed: (){
+
+            },
           ),
           appBar: context.watch<ActionProvider>().selectedItems.isEmpty
               ? AppBar(
@@ -183,7 +186,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      context.watch<DetailsProvider>().loadingState ==
+                      context.watch<MangakawaiiDetailsProvider>().loadingState ==
                           LoadingState.loading
                           ? Center(
                         child: CircularProgressIndicator(
@@ -191,7 +194,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                         ),
                       )
                           : context
-                          .select((DetailsProvider provider) => provider)
+                          .select((MangakawaiiDetailsProvider provider) => provider)
                           .mangaDetails
                           .fold((NException error) {
                         return Center(
@@ -207,14 +210,14 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                               RaisedButton(
                                 onPressed: () {
                                   context
-                                      .read<DetailsProvider>()
+                                      .read<MangakawaiiDetailsProvider>()
                                       .getMangaDetails(
-                                      Assets.lelscanCatalogName,
+                                      Assets.mangakawaiiCatalogName,
                                       widget.manga);
                                   context
-                                      .read<ChapterProvider>()
+                                      .read<MangakawaiiChapterProvider>()
                                       .getChapters(
-                                      Assets.lelscanCatalogName,
+                                      Assets.mangakawaiiCatalogName,
                                       widget.manga);
                                 },
                                 child: Text("Réessayer"),
@@ -318,7 +321,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                     children: [
                                       context
                                           .watch<
-                                          ChapterProvider>()
+                                          MangakawaiiChapterProvider>()
                                           .loadingState ==
                                           LoadingState.loading
                                           ? Center(
@@ -330,7 +333,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                         ),
                                       )
                                           : context
-                                          .select((ChapterProvider
+                                          .select((MangakawaiiChapterProvider
                                       provider) =>
                                       provider)
                                           .mangaChapters
@@ -353,10 +356,10 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                     onPressed: () {
                                                       context
                                                           .read<
-                                                          ChapterProvider>()
+                                                          MangakawaiiChapterProvider>()
                                                           .getChapters(
                                                           Assets
-                                                              .lelscanCatalogName,
+                                                              .mangakawaiiCatalogName,
                                                           widget
                                                               .manga);
                                                     },
@@ -528,7 +531,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                           onSelected: (dynamic result) {
                                                             print(result);
                                                             if (result == 0) {
-                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga.title, MediaQuery.of(context).size);
+                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangakawaiiCatalogName, widget.manga.title, MediaQuery.of(context).size);
                                                             } else if (result == 1) {
                                                               context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
                                                             } else if (result == 2) {
@@ -572,7 +575,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                                 ScaleRoute(
                                                                     page: ReaderLoader(
                                                                       manga: widget.manga,
-                                                                      catalog: Assets.lelscanCatalogName,
+                                                                      catalog: Assets.mangakawaiiCatalogName,
                                                                       chapter: mangaChapters[index],
                                                                     )));
                                                           }
@@ -733,12 +736,16 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
   }
 
   Widget _buildRating(String rate) {
+    print(rate);
     if (rate != null) {
       var data = rate.split(" ");
       var mark = data[0].split("/");
       return Container(
         width: SizeConfig.screenWidth / 1.5,
         child: RatingBar.builder(
+          onRatingUpdate: (double value){
+
+          },
           initialRating: double.parse(mark[0]),
           tapOnlyMode: true,
           minRating: 0,
@@ -746,7 +753,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
           unratedColor: Colors.amber.withOpacity(0.5),
           direction: Axis.horizontal,
           allowHalfRating: true,
-          itemCount: int.parse(mark[1]),
+          itemCount: int.parse(mark[1].substring(0, mark[1].length - 3)),
           itemBuilder: (context, _) => Container(
             width: SizeConfig.blockSizeHorizontal * 4,
             child: Icon(
@@ -761,6 +768,9 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
       return Container(
         width: SizeConfig.screenWidth / 1.5,
         child: RatingBar.builder(
+          onRatingUpdate: (double value){
+
+          },
           initialRating: 0,
           tapOnlyMode: true,
           updateOnDrag: false,
@@ -784,7 +794,9 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
 
   Widget _buildGenres(String genres) {
     final data = genres.split(",");
-    return Row(
+    return Wrap(
+        runSpacing: 5.0,
+        spacing: 5.0,
         children: List.generate(data.length, (index) {
           return Container(
             padding: EdgeInsets.symmetric(horizontal: 5.0),
@@ -877,10 +889,10 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
   Future _refreshData() async {
     await Future.delayed(Duration(seconds: 1));
     context
-        .read<DetailsProvider>()
-        .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+        .read<MangakawaiiDetailsProvider>()
+        .getMangaDetails(Assets.mangakawaiiCatalogName, widget.manga);
     context
-        .read<ChapterProvider>()
-        .getChapters(Assets.lelscanCatalogName, widget.manga);
+        .read<MangakawaiiChapterProvider>()
+        .getChapters(Assets.mangakawaiiCatalogName, widget.manga);
   }
 }

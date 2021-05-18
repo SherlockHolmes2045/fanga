@@ -733,6 +733,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
   }
 
   Widget _buildRating(String rate) {
+    print(rate);
     if (rate != null) {
       var data = rate.split(" ");
       var mark = data[0].split("/");
