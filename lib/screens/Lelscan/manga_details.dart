@@ -785,7 +785,9 @@ class _LelscanDetailState extends State<LelscanDetail> {
 
   Widget _buildGenres(String genres) {
     final data = genres.split(",");
-    return Row(
+    return Wrap(
+        runSpacing: 5.0,
+        spacing: 5.0,
         children: List.generate(data.length, (index) {
       return Container(
         padding: EdgeInsets.symmetric(horizontal: 5.0),

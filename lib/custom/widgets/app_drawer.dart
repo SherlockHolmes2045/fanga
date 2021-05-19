@@ -33,9 +33,17 @@ class AppDrawer extends StatelessWidget {
               text: 'MangaHere',
             ),
             _createDrawerItem(
+              imagePath: Assets.readmangatodayIcon,
+              text: 'ReadMangaToday',
+                onTap: (){
+                Navigator.pushReplacementNamed(context, Routes.readmangatoday);
+              }
+            ),
+            //For the next updates
+            /*_createDrawerItem(
               icon: Icons.note,
               text: 'Light Novels',
-            ),
+            ),*/
             Divider(
               color: Colors.white.withOpacity(0.5),
             ),
