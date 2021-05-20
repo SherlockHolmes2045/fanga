@@ -127,8 +127,7 @@ class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
                             imageUrl: mangaList[index]
-                                .thumbnailUrl
-                                .replaceAll('http', "https"),
+                                .thumbnailUrl,
                             width: double.infinity,
                             height: 350,
                             errorWidget:
@@ -160,9 +159,7 @@ class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
                                 child: Container(
                                     child: CachedNetworkImage(
                                       imageUrl: mangaList[index]
-                                          .thumbnailUrl
-                                          .replaceAll(
-                                          'http', "https"),
+                                          .thumbnailUrl,
                                       width: double.infinity,
                                       height: 350,
                                       errorWidget:

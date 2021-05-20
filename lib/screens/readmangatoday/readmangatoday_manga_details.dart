@@ -13,10 +13,10 @@ import 'package:manga_reader/screens/reader_loader.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/action_provider.dart';
 import 'package:manga_reader/state/bookmark_provider.dart';
-import 'package:manga_reader/state/lelscan/chapter_provider.dart';
-import 'package:manga_reader/state/lelscan/details_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/state/page_provider.dart';
+import 'package:manga_reader/state/readmangatoday/readmangatoday_chapter_provider.dart';
+import 'package:manga_reader/state/readmangatoday/readmangatoday_details_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
@@ -42,19 +42,19 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<DetailsProvider>().mangaDetails.fold((l) => null, (r) {
+      context.read<ReadmangatodayDetailsProvider>().mangaDetails.fold((l) => null, (r) {
         if (r.url == null || r.url != widget.manga.url) {
           context
-              .read<DetailsProvider>()
+              .read<ReadmangatodayDetailsProvider>()
               .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
         }
       });
-      context.read<ChapterProvider>().mangaChapters.fold((l) => null, (r) {
-        print(context.read<ChapterProvider>().currentManga.url);
+      context.read<ReadmangatodayChapterProvider>().mangaChapters.fold((l) => null, (r) {
+        print(context.read<ReadmangatodayChapterProvider>().currentManga.url);
         if (r.isEmpty ||
-            widget.manga != context.read<ChapterProvider>().currentManga) {
+            widget.manga != context.read<ReadmangatodayChapterProvider>().currentManga) {
           context
-              .read<ChapterProvider>()
+              .read<ReadmangatodayChapterProvider>()
               .getChapters(Assets.lelscanCatalogName, widget.manga);
         }
       });
@@ -183,7 +183,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      context.watch<DetailsProvider>().loadingState ==
+                      context.watch<ReadmangatodayDetailsProvider>().loadingState ==
                           LoadingState.loading
                           ? Center(
                         child: CircularProgressIndicator(
@@ -191,7 +191,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                         ),
                       )
                           : context
-                          .select((DetailsProvider provider) => provider)
+                          .select((ReadmangatodayDetailsProvider provider) => provider)
                           .mangaDetails
                           .fold((NException error) {
                         return Center(
@@ -207,12 +207,12 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                               RaisedButton(
                                 onPressed: () {
                                   context
-                                      .read<DetailsProvider>()
+                                      .read<ReadmangatodayDetailsProvider>()
                                       .getMangaDetails(
                                       Assets.lelscanCatalogName,
                                       widget.manga);
                                   context
-                                      .read<ChapterProvider>()
+                                      .read<ReadmangatodayChapterProvider>()
                                       .getChapters(
                                       Assets.lelscanCatalogName,
                                       widget.manga);
@@ -318,7 +318,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                     children: [
                                       context
                                           .watch<
-                                          ChapterProvider>()
+                                          ReadmangatodayChapterProvider>()
                                           .loadingState ==
                                           LoadingState.loading
                                           ? Center(
@@ -330,7 +330,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                         ),
                                       )
                                           : context
-                                          .select((ChapterProvider
+                                          .select((ReadmangatodayChapterProvider
                                       provider) =>
                                       provider)
                                           .mangaChapters
@@ -353,7 +353,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                     onPressed: () {
                                                       context
                                                           .read<
-                                                          ChapterProvider>()
+                                                          ReadmangatodayChapterProvider>()
                                                           .getChapters(
                                                           Assets
                                                               .lelscanCatalogName,
@@ -880,10 +880,10 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
   Future _refreshData() async {
     await Future.delayed(Duration(seconds: 1));
     context
-        .read<DetailsProvider>()
-        .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+        .read<ReadmangatodayDetailsProvider>()
+        .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga);
     context
-        .read<ChapterProvider>()
-        .getChapters(Assets.lelscanCatalogName, widget.manga);
+        .read<ReadmangatodayChapterProvider>()
+        .getChapters(Assets.readmangatodayCatalogName, widget.manga);
   }
 }

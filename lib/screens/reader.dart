@@ -392,6 +392,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                               ? Axis.horizontal
                               : Axis.vertical,
                           //reverse: true,
+                          enableInfiniteScroll: false,
                           onPageChanged: (int nextPage,
                               CarouselPageChangedReason
                                   carouselPageChangedReason) {
@@ -404,7 +405,6 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                           height: height,
                           viewportFraction: 1.0,
                           enlargeCenterPage: false,
-                          // autoPlay: false,
                         ),
                         items: widget.pages
                             .map((item) => Container(
