@@ -723,7 +723,6 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                           )
                         ]),
                   ),
-                  _buildRating(manga.rating)
                 ],
               ),
             ),
@@ -733,60 +732,8 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     );
   }
 
-  Widget _buildRating(String rate) {
-    print(rate);
-    if (rate != null) {
-      var data = rate.split(" ");
-      var mark = data[0].split("/");
-      return Container(
-        width: SizeConfig.screenWidth / 1.5,
-        child: RatingBar.builder(
-          initialRating: double.parse(mark[0]),
-          tapOnlyMode: true,
-          minRating: 0,
-          updateOnDrag: false,
-          unratedColor: Colors.amber.withOpacity(0.5),
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: int.parse(mark[1]),
-          itemBuilder: (context, _) => Container(
-            width: SizeConfig.blockSizeHorizontal * 4,
-            child: Icon(
-              Icons.star,
-              size: 8,
-              color: Colors.amber,
-            ),
-          ),
-        ),
-      );
-    } else {
-      return Container(
-        width: SizeConfig.screenWidth / 1.5,
-        child: RatingBar.builder(
-          initialRating: 0,
-          tapOnlyMode: true,
-          updateOnDrag: false,
-          unratedColor: Colors.amber.withOpacity(0.5),
-          minRating: 0,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemBuilder: (context, _) => Container(
-            width: SizeConfig.blockSizeHorizontal * 4,
-            child: Icon(
-              Icons.star,
-              size: 8,
-              color: Colors.amber,
-            ),
-          ),
-        ),
-      );
-    }
-  }
-
   Widget _buildGenres(String genres) {
-    print(genres.runtimeType);
-    final data = genres.split(",");
+    final data = genres.split("\n");
     return Wrap(
         runSpacing: 5.0,
         spacing: 5.0,

@@ -129,7 +129,6 @@ class _MyAppState extends State<MyApp> {
       builder: BotToastInit(), //1. call BotToastInit
       navigatorObservers: [BotToastNavigatorObserver()], //2. registered route observer
       initialRoute: Routes.splash,
-      //home: CarouselDemo(),
       debugShowCheckedModeBanner: false,
       locale: _locale,
       supportedLocales: [

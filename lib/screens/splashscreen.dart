@@ -42,8 +42,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         Navigator.pushReplacementNamed(context, Routes.lelscan);
       });
     });
-
-    //navigate(iconAnimationController);
   }
   @override
   void dispose() {
