@@ -14,23 +14,23 @@ import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/action_provider.dart';
 import 'package:manga_reader/state/bookmark_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
+import 'package:manga_reader/state/mangafox/mangafox_chapter_provider.dart';
+import 'package:manga_reader/state/mangafox/mangafox_details_provider.dart';
 import 'package:manga_reader/state/page_provider.dart';
-import 'package:manga_reader/state/readmangatoday/readmangatoday_chapter_provider.dart';
-import 'package:manga_reader/state/readmangatoday/readmangatoday_details_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:manga_reader/models/page.dart' as Model;
 
-class ReadmangatodayDetail extends StatefulWidget {
+class MangafoxDetail extends StatefulWidget {
   final Manga manga;
-  ReadmangatodayDetail({this.manga});
+  MangafoxDetail({this.manga});
   @override
-  _ReadmangatodayDetailState createState() => _ReadmangatodayDetailState();
+  _MangafoxDetailState createState() => _MangafoxDetailState();
 }
 
-class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
+class _MangafoxDetailState extends State<MangafoxDetail> {
   List<String> menu = [
     "Télécharger",
     "Marquer ce chapitre",
@@ -42,20 +42,20 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ReadmangatodayDetailsProvider>().mangaDetails.fold((l) => null, (r) {
+      context.read<MangafoxDetailsProvider>().mangaDetails.fold((l) => null, (r) {
         if (r.url == null || r.url != widget.manga.url) {
           context
-              .read<ReadmangatodayDetailsProvider>()
-              .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga);
+              .read<MangafoxDetailsProvider>()
+              .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
         }
       });
-      context.read<ReadmangatodayChapterProvider>().mangaChapters.fold((l) => null, (r) {
-        print(context.read<ReadmangatodayChapterProvider>().currentManga.url);
+      context.read<MangafoxChapterProvider>().mangaChapters.fold((l) => null, (r) {
+        print(context.read<MangafoxChapterProvider>().currentManga.url);
         if (r.isEmpty ||
-            widget.manga != context.read<ReadmangatodayChapterProvider>().currentManga) {
+            widget.manga != context.read<MangafoxChapterProvider>().currentManga) {
           context
-              .read<ReadmangatodayChapterProvider>()
-              .getChapters(Assets.readmangatodayCatalogName, widget.manga);
+              .read<MangafoxChapterProvider>()
+              .getChapters(Assets.lelscanCatalogName, widget.manga);
         }
       });
     });
@@ -100,7 +100,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                             context
                                 .read<ActionProvider>()
                                 .downloadMultipleChapters(
-                                Assets.readmangatodayCatalogName,
+                                Assets.lelscanCatalogName,
                                 widget.manga.title,
                                 MediaQuery.of(context).size);
                           }),
@@ -183,7 +183,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      context.watch<ReadmangatodayDetailsProvider>().loadingState ==
+                      context.watch<MangafoxDetailsProvider>().loadingState ==
                           LoadingState.loading
                           ? Center(
                         child: CircularProgressIndicator(
@@ -191,12 +191,11 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                         ),
                       )
                           : context
-                          .select((ReadmangatodayDetailsProvider provider) => provider)
+                          .select((MangafoxDetailsProvider provider) => provider)
                           .mangaDetails
                           .fold((NException error) {
                         return Center(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 error.message,
@@ -208,14 +207,14 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                               RaisedButton(
                                 onPressed: () {
                                   context
-                                      .read<ReadmangatodayDetailsProvider>()
+                                      .read<MangafoxDetailsProvider>()
                                       .getMangaDetails(
-                                      Assets.readmangatodayCatalogName,
+                                      Assets.mangafoxCatalogName,
                                       widget.manga);
                                   context
-                                      .read<ReadmangatodayChapterProvider>()
+                                      .read<MangafoxChapterProvider>()
                                       .getChapters(
-                                      Assets.readmangatodayCatalogName,
+                                      Assets.mangafoxCatalogName,
                                       widget.manga);
                                 },
                                 child: Text("Réessayer"),
@@ -319,7 +318,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                     children: [
                                       context
                                           .watch<
-                                          ReadmangatodayChapterProvider>()
+                                          MangafoxChapterProvider>()
                                           .loadingState ==
                                           LoadingState.loading
                                           ? Center(
@@ -331,7 +330,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                         ),
                                       )
                                           : context
-                                          .select((ReadmangatodayChapterProvider
+                                          .select((MangafoxChapterProvider
                                       provider) =>
                                       provider)
                                           .mangaChapters
@@ -354,10 +353,10 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                     onPressed: () {
                                                       context
                                                           .read<
-                                                          ReadmangatodayChapterProvider>()
+                                                          MangafoxChapterProvider>()
                                                           .getChapters(
                                                           Assets
-                                                              .readmangatodayCatalogName,
+                                                              .mangafoxCatalogName,
                                                           widget
                                                               .manga);
                                                     },
@@ -529,7 +528,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                           onSelected: (dynamic result) {
                                                             print(result);
                                                             if (result == 0) {
-                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.readmangatodayCatalogName, widget.manga.title, MediaQuery.of(context).size);
+                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangafoxCatalogName, widget.manga.title, MediaQuery.of(context).size);
                                                             } else if (result == 1) {
                                                               context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
                                                             } else if (result == 2) {
@@ -573,7 +572,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                 ScaleRoute(
                                                                     page: ReaderLoader(
                                                                       manga: widget.manga,
-                                                                      catalog: Assets.readmangatodayCatalogName,
+                                                                      catalog: Assets.mangafoxCatalogName,
                                                                       chapter: mangaChapters[index],
                                                                     )));
                                                           }
@@ -785,7 +784,6 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
   }
 
   Widget _buildGenres(String genres) {
-    print(genres.runtimeType);
     final data = genres.split(",");
     return Wrap(
         runSpacing: 5.0,
@@ -882,10 +880,10 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
   Future _refreshData() async {
     await Future.delayed(Duration(seconds: 1));
     context
-        .read<ReadmangatodayDetailsProvider>()
-        .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga);
+        .read<MangafoxDetailsProvider>()
+        .getMangaDetails(Assets.mangafoxCatalogName, widget.manga);
     context
-        .read<ReadmangatodayChapterProvider>()
-        .getChapters(Assets.readmangatodayCatalogName, widget.manga);
+        .read<MangafoxChapterProvider>()
+        .getChapters(Assets.mangafoxCatalogName, widget.manga);
   }
 }

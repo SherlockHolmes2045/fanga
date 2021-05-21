@@ -31,6 +31,16 @@ class AppDrawer extends StatelessWidget {
             _createDrawerItem(
               imagePath: Assets.mangahereIcon,
               text: 'MangaHere',
+                onTap: (){
+                  Navigator.pushReplacementNamed(context, Routes.mangahere);
+                }
+            ),
+            _createDrawerItem(
+              imagePath: Assets.mangafoxIcon,
+              text: 'MangaFox',
+                onTap: (){
+                  Navigator.pushReplacementNamed(context, Routes.mangafox);
+                }
             ),
             _createDrawerItem(
               imagePath: Assets.readmangatodayIcon,

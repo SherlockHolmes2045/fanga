@@ -18,6 +18,12 @@ import 'package:manga_reader/state/lelscan/lelscan_reader_provider.dart';
 import 'package:manga_reader/state/lelscan/lelscan_top_manga_provider.dart';
 import 'package:manga_reader/state/lelscan/lelscan_updates_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
+import 'package:manga_reader/state/mangafox/mangafox_chapter_provider.dart';
+import 'package:manga_reader/state/mangafox/mangafox_details_provider.dart';
+import 'package:manga_reader/state/mangafox/mangafox_provider.dart';
+import 'package:manga_reader/state/mangahere/mangahere_chapter_provider.dart';
+import 'package:manga_reader/state/mangahere/mangahere_details_provider.dart';
+import 'package:manga_reader/state/mangahere/mangahere_provider.dart';
 import 'package:manga_reader/state/mangakawaii/mangakawaii_chapter_provider.dart';
 import 'package:manga_reader/state/mangakawaii/mangakawaii_details_provider.dart';
 import 'package:manga_reader/state/mangakawaii/mangakawaii_manga_list_provider.dart';
@@ -73,6 +79,12 @@ void main() async {
           ChangeNotifierProvider(create: (_)=> ReadmangatodayProvider()),
           ChangeNotifierProvider(create: (_)=> ReadmangatodayChapterProvider()),
           ChangeNotifierProvider(create: (_)=> ReadmangatodayDetailsProvider()),
+          ChangeNotifierProvider(create: (_)=> MangahereDetailsProvider()),
+          ChangeNotifierProvider(create: (_)=> MangahereChapterProvider()),
+          ChangeNotifierProvider(create: (_)=> MangahereProvider()),
+          ChangeNotifierProvider(create: (_)=> MangafoxProvider()),
+          ChangeNotifierProvider(create: (_)=> MangafoxDetailsProvider()),
+          ChangeNotifierProvider(create: (_)=> MangafoxChapterProvider()),
         ],
         child: MyApp(),
       )
