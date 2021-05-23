@@ -21,15 +21,23 @@ class LelscanReaderProvider extends BaseProvider {
     if(catalogName != Assets.mangakawaiiCatalogName){
       lelscanService.chapterPages(catalogName, chapter).then((value) {
         toggleLoadingState();
-        print(value);
         List<String> downloadedPages = List<String>();
-        final chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${chapter.title}");
+        Directory chapterDir;
+        if(chapter.title.isEmpty){
+          chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/Chapitre ${chapter.number}");
+        }else{
+          chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${chapter.title}");
+        }
+        print(value.length);
+        print(chapterDir.listSync().length);
+        // should only check for image file
         if(chapterDir.existsSync()){
-          if(chapterDir.listSync().length == value.length){
+          if(chapterDir.listSync().length - 1 == value.length){
             chapterDir.listSync().forEach((element) {
               downloadedPages.add(element.path);
             });
             downloadedPages.sort();
+            downloadedPages.removeAt(0);
             Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(downloadedPages,manga,chapter)));
           }else if(chapterDir.listSync().length == 0){
             this.pages = value;
@@ -46,6 +54,7 @@ class LelscanReaderProvider extends BaseProvider {
         }
       }).catchError((onError){
         toggleLoadingState();
+        print(onError);
         exception = NException(onError);
         notifyListeners();
       });

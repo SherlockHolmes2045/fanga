@@ -53,11 +53,15 @@ class Download extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                context
+                    .watch<ActionProvider>()
+                    .downloadTasks[index]
+                    .filename != null ?
                         context
                             .watch<ActionProvider>()
                             .downloadTasks[index]
                             .filename
-                            .split(".")[0],
+                            .split(".")[0] : "",
                         style: TextStyle(color: Colors.white)),
                     if(context.watch<ActionProvider>().downloadTasks[index].status == DownloadTaskStatus.running)...[
                       Padding(
