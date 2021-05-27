@@ -54,7 +54,7 @@ class _ReadmangatodayState extends State<Readmangatoday> {
                   onPressed: () {
                     showSearch(
                         context: context,
-                        delegate: SearchManga(Assets.lelscanCatalogName));
+                        delegate: SearchManga(Assets.readmangatodayCatalogName));
                   },
                 ),
                 IconButton(

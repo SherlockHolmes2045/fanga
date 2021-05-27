@@ -54,7 +54,7 @@ class _MangafoxState extends State<Mangafox> {
                   onPressed: () {
                     showSearch(
                         context: context,
-                        delegate: SearchManga(Assets.lelscanCatalogName));
+                        delegate: SearchManga(Assets.mangafoxCatalogName));
                   },
                 ),
                 IconButton(

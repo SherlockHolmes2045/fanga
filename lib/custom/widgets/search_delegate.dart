@@ -44,6 +44,7 @@ class SearchManga extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
+    print(ModalRoute.of(context).settings.name);
     SizeConfig().init(context);
     //context.read<SearchProvider>().getSearchResults(source, query, 1);
     return FutureBuilder(

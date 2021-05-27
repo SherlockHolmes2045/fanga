@@ -54,7 +54,7 @@ class _MangakawaiiState extends State<Mangakawaii> {
                   onPressed: () {
                     showSearch(
                         context: context,
-                        delegate: SearchManga(Assets.lelscanCatalogName));
+                        delegate: SearchManga(Assets.mangakawaiiCatalogName));
                   },
                 ),
                 IconButton(

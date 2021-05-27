@@ -54,7 +54,7 @@ class _MangahereState extends State<Mangahere> {
                   onPressed: () {
                     showSearch(
                         context: context,
-                        delegate: SearchManga(Assets.lelscanCatalogName));
+                        delegate: SearchManga(Assets.mangahereCatalogName));
                   },
                 ),
                 IconButton(
