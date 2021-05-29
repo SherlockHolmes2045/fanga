@@ -21,7 +21,7 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pushReplacementNamed(context, Routes.lelscan);
               }
             ),
-            _createDrawerItem(
+            /*_createDrawerItem(
               imagePath: Assets.mangakawaiiIcon,
               text: 'MangaKawaii',
                 onTap: (){
@@ -41,7 +41,7 @@ class AppDrawer extends StatelessWidget {
                 onTap: (){
                   Navigator.pushReplacementNamed(context, Routes.mangafox);
                 }
-            ),
+            ),*/
             _createDrawerItem(
               imagePath: Assets.readmangatodayIcon,
               text: 'ReadMangaToday',

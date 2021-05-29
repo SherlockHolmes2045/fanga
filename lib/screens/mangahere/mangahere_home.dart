@@ -61,7 +61,8 @@ class _MangahereState extends State<Mangahere> {
                     icon: Icon(
                       Icons.sort,
                       color: Colors.white,
-                    )
+                    ),
+                  onPressed: (){},
                 ),
               ],
             ),

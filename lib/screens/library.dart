@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/app_drawer.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
+import 'package:manga_reader/screens/readmangatoday/readmangatoday_manga_details.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/lelscan/lelscan_provider.dart';
 import 'package:manga_reader/state/library_provider.dart';
@@ -51,7 +52,9 @@ class _LibraryState extends State<Library> {
                 icon: Icon(
               Icons.sort,
               color: Colors.white,
-            ))
+            ),
+              onPressed: (){},
+            )
           ],
         ),
         drawer: AppDrawer(),
@@ -127,12 +130,33 @@ class _LibraryState extends State<Library> {
                                     Flexible(
                                       child: GestureDetector(
                                         onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              ScaleRoute(
-                                                  page: LelscanDetail(
-                                                manga: mangaList[index],
-                                              )));
+                                          print(mangaList[index].catalog);
+                                          switch(mangaList[index].catalog) {
+                                            case Assets.lelscanCatalogName: {
+                                              Navigator.push(
+                                                  context,
+                                                  ScaleRoute(
+                                                      page: LelscanDetail(
+                                                        manga: mangaList[index],
+                                                      )));
+                                            }
+                                            break;
+
+                                            case Assets.readmangatodayCatalogName: {
+                                              Navigator.push(
+                                                  context,
+                                                  ScaleRoute(
+                                                      page: ReadmangatodayDetail(
+                                                        manga: mangaList[index],
+                                                      )));
+                                            }
+                                            break;
+
+                                            default: {
+                                              //statements;
+                                            }
+                                            break;
+                                          }
                                         },
                                         child: CachedNetworkImage(
                                           imageUrl: mangaList[index].thumbnailUrl,
@@ -141,12 +165,32 @@ class _LibraryState extends State<Library> {
                                           errorWidget: (context, text, data) {
                                             return GestureDetector(
                                               onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    ScaleRoute(
-                                                        page: LelscanDetail(
-                                                      manga: mangaList[index],
-                                                    )));
+                                                switch(mangaList[index].catalog) {
+                                                  case Assets.lelscanCatalogName: {
+                                                    Navigator.push(
+                                                        context,
+                                                        ScaleRoute(
+                                                            page: LelscanDetail(
+                                                              manga: mangaList[index],
+                                                            )));
+                                                  }
+                                                  break;
+
+                                                  case Assets.readmangatodayCatalogName: {
+                                                    Navigator.push(
+                                                        context,
+                                                        ScaleRoute(
+                                                            page: ReadmangatodayDetail(
+                                                              manga: mangaList[index],
+                                                            )));
+                                                  }
+                                                  break;
+
+                                                  default: {
+                                                    //statements;
+                                                  }
+                                                  break;
+                                                }
                                               },
                                               child: Image.asset(
                                                 Assets.errorImage,

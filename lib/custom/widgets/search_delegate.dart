@@ -5,6 +5,7 @@ import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/networking/services/search_service.dart';
 import 'package:manga_reader/screens/Lelscan/manga_details.dart';
+import 'package:manga_reader/screens/readmangatoday/readmangatoday_manga_details.dart';
 import 'package:manga_reader/utils/size_config.dart';
 
 class SearchManga extends SearchDelegate {
@@ -53,10 +54,13 @@ class SearchManga extends SearchDelegate {
           if (snapshot.connectionState == ConnectionState.done) {
             // If we got an error
             if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  '${snapshot.error} occured',
-                  style: TextStyle(fontSize: 18,color: Colors.white),
+              return Container(
+                color: Colors.black,
+                child: Center(
+                  child: Text(
+                    '${snapshot.error} occured',
+                    style: TextStyle(fontSize: 18,color: Colors.white),
+                  ),
                 ),
               );
 
@@ -97,12 +101,32 @@ class SearchManga extends SearchDelegate {
                               Flexible(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        ScaleRoute(
-                                            page: LelscanDetail(
-                                              manga: snapshot.data[index],
-                                            )));
+                                    switch(source) {
+                                      case Assets.lelscanCatalogName: {
+                                        Navigator.push(
+                                            context,
+                                            ScaleRoute(
+                                                page: LelscanDetail(
+                                                  manga: snapshot.data[index],
+                                                )));
+                                      }
+                                      break;
+
+                                      case Assets.readmangatodayCatalogName: {
+                                        Navigator.push(
+                                            context,
+                                            ScaleRoute(
+                                                page: ReadmangatodayDetail(
+                                                  manga: snapshot.data[index],
+                                                )));
+                                      }
+                                      break;
+
+                                      default: {
+                                        //statements;
+                                      }
+                                      break;
+                                    }
                                   },
                                   child: CachedNetworkImage(
                                     imageUrl: snapshot.data[index].thumbnailUrl,
@@ -111,12 +135,34 @@ class SearchManga extends SearchDelegate {
                                     errorWidget: (context, text, data) {
                                       return GestureDetector(
                                         onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              ScaleRoute(
-                                                  page: LelscanDetail(
-                                                    manga: snapshot.data[index],
-                                                  )));
+                                          switch(source) {
+                                            case Assets.lelscanCatalogName: {
+                                              print("lelscan");
+                                              Navigator.push(
+                                                  context,
+                                                  ScaleRoute(
+                                                      page: LelscanDetail(
+                                                        manga: snapshot.data[index],
+                                                      )));
+                                            }
+                                            break;
+
+                                            case Assets.readmangatodayCatalogName: {
+                                              print("readmangatoday");
+                                              Navigator.push(
+                                                  context,
+                                                  ScaleRoute(
+                                                      page: ReadmangatodayDetail(
+                                                        manga: snapshot.data[index],
+                                                      )));
+                                            }
+                                            break;
+
+                                            default: {
+                                              //statements;
+                                            }
+                                            break;
+                                          }
                                         },
                                         child: Image.asset(
                                           Assets.errorImage,

@@ -61,7 +61,8 @@ class _MangafoxState extends State<Mangafox> {
                     icon: Icon(
                       Icons.sort,
                       color: Colors.white,
-                    )
+                    ),
+                  onPressed: (){},
                 ),
               ],
             ),
