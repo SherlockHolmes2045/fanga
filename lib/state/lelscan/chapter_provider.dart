@@ -9,6 +9,30 @@ class ChapterProvider extends BaseProvider {
   Either<NException,List<Chapter>> mangaChapters = Right([]);
   Manga currentManga = Manga();
 
+  bool downloaded = false;
+  bool nonreaded = false;
+  bool readed = false;
+  bool marked = false;
+
+  filterDownloaded(bool value){
+    downloaded = value;
+    notifyListeners();
+  }
+  filterNonReaded(bool value){
+    nonreaded = value;
+    notifyListeners();
+  }
+
+  filterReaded(bool value){
+    readed = value;
+    notifyListeners();
+  }
+
+  filterMarked(bool value){
+    marked = value;
+    notifyListeners();
+  }
+
 
   getChapters(String catalogName,Manga manga){
     this.currentManga = manga;

@@ -446,8 +446,85 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                               "Filtres",
                                                                                               style: TextStyle(
                                                                                                 color: Colors.white,
-                                                                                                fontWeight: FontWeight.bold
+                                                                                                fontWeight: FontWeight.bold,
+                                                                                                fontSize: SizeConfig.blockSizeHorizontal * 4.5
                                                                                               ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                        Padding(
+                                                                                          padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 8),
+                                                                                          child: Align(
+                                                                                            alignment: Alignment.center,
+                                                                                            child: Column(
+                                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                                              children: [
+                                                                                                Theme(
+                                                                                                  data: ThemeData(unselectedWidgetColor: Colors.white),
+                                                                                                  child: CheckboxListTile(
+                                                                                                    title: const Text(
+                                                                                                        'Téléchargés',
+                                                                                                      style: TextStyle(
+                                                                                                        color: Colors.white
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    value: context.watch<ChapterProvider>().downloaded,
+                                                                                                    onChanged: (bool value) {
+                                                                                                      context.read<ChapterProvider>().filterDownloaded(value);
+                                                                                                    },
+                                                                                                    controlAffinity: ListTileControlAffinity.leading,
+                                                                                                  ),
+                                                                                                ),
+
+                                                                                                Theme(
+                                                                                                  data: ThemeData(unselectedWidgetColor: Colors.white),
+                                                                                                  child: CheckboxListTile(
+                                                                                                    title: const Text(
+                                                                                                      'Non lus',
+                                                                                                      style: TextStyle(
+                                                                                                          color: Colors.white
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    value: context.watch<ChapterProvider>().nonreaded,
+                                                                                                    onChanged: (bool value) {
+                                                                                                      context.read<ChapterProvider>().filterNonReaded(value);
+                                                                                                    },
+                                                                                                    controlAffinity: ListTileControlAffinity.leading,
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Theme(
+                                                                                                  data: ThemeData(unselectedWidgetColor: Colors.white),
+                                                                                                  child: CheckboxListTile(
+                                                                                                    title: const Text(
+                                                                                                      'Lus',
+                                                                                                      style: TextStyle(
+                                                                                                          color: Colors.white
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    value: context.watch<ChapterProvider>().readed,
+                                                                                                    onChanged: (bool value) {
+                                                                                                      context.read<ChapterProvider>().filterReaded(value);
+                                                                                                    },
+                                                                                                    controlAffinity: ListTileControlAffinity.leading,
+                                                                                                  ),
+                                                                                                ),
+                                                                                                Theme(
+                                                                                                  data: ThemeData(unselectedWidgetColor: Colors.white),
+                                                                                                  child: CheckboxListTile(
+                                                                                                    title: const Text(
+                                                                                                      'Signets',
+                                                                                                      style: TextStyle(
+                                                                                                          color: Colors.white
+                                                                                                      ),
+                                                                                                    ),
+                                                                                                    value: context.watch<ChapterProvider>().marked,
+                                                                                                    onChanged: (bool value) {
+                                                                                                      context.read<ChapterProvider>().filterMarked(value);
+                                                                                                    },
+                                                                                                    controlAffinity: ListTileControlAffinity.leading,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ],
                                                                                             ),
                                                                                           ),
                                                                                         )
