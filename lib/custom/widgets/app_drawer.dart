@@ -62,13 +62,13 @@ class AppDrawer extends StatelessWidget {
             Divider(
               color: Colors.white.withOpacity(0.5),
             ),
-            _createDrawerItem(
+            /*_createDrawerItem(
                 icon: Icons.settings, text: 'Paramètres'),
             _createDrawerItem(icon: Icons.info_outline, text: 'A propos'),
             Divider(
               color: Colors.white.withOpacity(0.5),
             ),
-            _createDrawerItem(icon: Icons.bug_report, text: 'Signaler un bug'),
+            _createDrawerItem(icon: Icons.bug_report, text: 'Signaler un bug'),*/
           ],
         ),
       ),
@@ -84,7 +84,7 @@ class AppDrawer extends StatelessWidget {
                 fit: BoxFit.fill, image: AssetImage(Assets.background))),
         child: ClipRRect(
           child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
+              filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
               child: Stack(children: <Widget>[
                 Positioned(
                     bottom: 12.0,

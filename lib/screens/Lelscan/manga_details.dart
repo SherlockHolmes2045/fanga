@@ -18,6 +18,7 @@ import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/state/page_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:manga_reader/models/page.dart' as Model;
@@ -390,38 +391,72 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                 color: Colors.white,
                                                                                 fontSize: 17),
                                                                           ),
-                                                                          Container(
-                                                                            height:
-                                                                                SizeConfig.blockSizeVertical * 4,
-                                                                            padding:
-                                                                                EdgeInsets.symmetric(horizontal: 5.0),
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              border:
-                                                                                  Border.all(color: Colors.grey.withOpacity(0.5)),
-                                                                              borderRadius:
-                                                                                  BorderRadius.all(Radius.circular(25)),
-                                                                            ),
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisAlignment:
-                                                                                  MainAxisAlignment.spaceAround,
-                                                                              children: [
-                                                                                Icon(
-                                                                                  Icons.filter_list_sharp,
-                                                                                  color: Colors.white,
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  width: SizeConfig.blockSizeHorizontal * 2,
-                                                                                ),
-                                                                                Text(
-                                                                                  "Filtre",
-                                                                                  style: TextStyle(
+                                                                          InkWell(
+                                                                            child: Container(
+                                                                              height:
+                                                                                  SizeConfig.blockSizeVertical * 4,
+                                                                              padding:
+                                                                                  EdgeInsets.symmetric(horizontal: 5.0),
+                                                                              decoration:
+                                                                                  BoxDecoration(
+                                                                                border:
+                                                                                    Border.all(color: Colors.grey.withOpacity(0.5)),
+                                                                                borderRadius:
+                                                                                    BorderRadius.all(Radius.circular(25)),
+                                                                              ),
+                                                                              child:
+                                                                                  Row(
+                                                                                mainAxisAlignment:
+                                                                                    MainAxisAlignment.spaceAround,
+                                                                                children: [
+                                                                                  Icon(
+                                                                                    Icons.filter_list_sharp,
                                                                                     color: Colors.white,
                                                                                   ),
-                                                                                ),
-                                                                              ],
+                                                                                  SizedBox(
+                                                                                    width: SizeConfig.blockSizeHorizontal * 2,
+                                                                                  ),
+                                                                                  Text(
+                                                                                    "Filtre",
+                                                                                    style: TextStyle(
+                                                                                      color: Colors.white,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
                                                                             ),
+                                                                            onTap: (){
+                                                                              showMaterialModalBottomSheet(
+                                                                                context: context,
+                                                                                builder: (context) => SingleChildScrollView(
+                                                                                  controller: ModalScrollController.of(context),
+                                                                                  child: Container(
+                                                                                    color: Color.fromRGBO(28, 28, 28, 1).withOpacity(0.98),
+                                                                                    width: double.infinity,
+                                                                                    height: SizeConfig.screenHeight / 2,
+                                                                                    child: Stack(
+                                                                                      children: [
+                                                                                        Align(
+                                                                                          alignment: Alignment.topCenter,
+                                                                                          child: Container(
+                                                                                            alignment: Alignment.center,
+                                                                                            height: SizeConfig.blockSizeVertical * 6,
+                                                                                            color: Color.fromRGBO(28, 28, 28, 1),
+                                                                                            child: Text(
+                                                                                              "Filtres",
+                                                                                              style: TextStyle(
+                                                                                                color: Colors.white,
+                                                                                                fontWeight: FontWeight.bold
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                              );
+                                                                            },
                                                                           ),
                                                                         ],
                                                                       ),
