@@ -33,9 +33,7 @@ dependencies:
   flutter_launcher_icons: ^0.7.2
   get_it: ^5.0.6
   dio: ^3.0.10
-  photo_view: ^0.10.3
   cached_network_image: ^2.5.1
-  flutter_image: ^3.0.0
   flutter_downloader: ^1.5.2
   permission_handler: ^5.1.0+2
   path_provider: ^1.6.27
