@@ -18,6 +18,7 @@ class LelscanReaderProvider extends BaseProvider {
 
   getPages(String catalogName,Chapter chapter,BuildContext context,Manga manga) async{
     toggleLoadingState();
+    this.exception = null;
     if(catalogName != Assets.mangakawaiiCatalogName){
       lelscanService.chapterPages(catalogName, chapter).then((value) {
         toggleLoadingState();
@@ -52,8 +53,7 @@ class LelscanReaderProvider extends BaseProvider {
         }
       }).catchError((onError){
         toggleLoadingState();
-        print(onError);
-        exception = NException(onError);
+        exception = onError;
         notifyListeners();
       });
     }else{
