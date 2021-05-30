@@ -28,8 +28,6 @@ class LelscanReaderProvider extends BaseProvider {
         }else{
           chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${chapter.title}");
         }
-        print(value.length);
-        print(chapterDir.listSync().length);
         // should only check for image file
         if(chapterDir.existsSync()){
           if(chapterDir.listSync().length - 1 == value.length){
