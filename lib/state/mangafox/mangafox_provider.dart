@@ -8,9 +8,9 @@ class MangafoxProvider extends BaseProvider{
 
   Either<NException,List<Manga>> popularMangaList = Right([]);
 
-  getPopularMangaList(String catalogName,int page){
+  getPopularMangaList(String catalogName,int page, bool forceRefresh){
     this.toggleLoadingState();
-    lelscanService.popularMangaList(catalogName, page).then((mangas){
+    lelscanService.popularMangaList(catalogName, page,forceRefresh).then((mangas){
       popularMangaList = Right(mangas);
       this.toggleLoadingState();
     }).catchError((error){

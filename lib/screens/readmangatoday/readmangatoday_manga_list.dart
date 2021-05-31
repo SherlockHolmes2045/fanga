@@ -14,7 +14,8 @@ import 'package:provider/provider.dart';
 
 class ReadmangatodayMangaList extends StatefulWidget {
   @override
-  _ReadmangatodayMangaListState createState() => _ReadmangatodayMangaListState();
+  _ReadmangatodayMangaListState createState() =>
+      _ReadmangatodayMangaListState();
 }
 
 class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
@@ -23,13 +24,9 @@ class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ReadmangatodayProvider>().popularMangaList.fold((l) => null, (r) {
-        if (r.isEmpty) {
-          context
-              .read<ReadmangatodayProvider>()
-              .getPopularMangaList(Assets.readmangatodayCatalogName, 1);
-        }
-      });
+      context
+          .read<ReadmangatodayProvider>()
+          .getPopularMangaList(Assets.readmangatodayCatalogName, 1, false);
     });
   }
 
@@ -38,175 +35,180 @@ class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
     SizeConfig().init(context);
     return RefreshIndicator(
         child: context.watch<ReadmangatodayProvider>().loadingState ==
-            LoadingState.loading
+                LoadingState.loading
             ? Center(
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation(Colors.blue),
-          ),
-        )
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation(Colors.blue),
+                ),
+              )
             : context
-            .select((ReadmangatodayProvider provider) => provider)
-            .popularMangaList
-            .fold((NException error) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  error.message,
-                  style: TextStyle(color: Colors.white),
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical,
-                ),
-                RaisedButton(
-                  onPressed: (){
-                    context
-                        .read<ReadmangatodayProvider>()
-                        .getPopularMangaList(Assets.readmangatodayCatalogName, 1);
-                  },
-                  child: Text("Réessayer"),
-                )
-              ],
-            ),
-          );
-        }, (mangaList) {
-          return mangaList.isEmpty
-              ? Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Une erreur est survenue.",
-                  style: TextStyle(color: Colors.white),
-                ),
-                RaisedButton(onPressed: (){
-                  context.read<ReadmangatodayProvider>().getPopularMangaList(Assets.readmangatodayCatalogName, 1);
-                },
-                  child: Text(
-                      "Réessayer"
-                  ),
-                )
-              ],
-            ),
-          )
-              : GridView.count(
-            crossAxisCount: 2,
-            padding: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal * 2.5,
-              right: SizeConfig.blockSizeHorizontal * 2.5,
-              top: SizeConfig.blockSizeVertical * 4,
-              bottom: SizeConfig.blockSizeVertical * 4,
-            ),
-            crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-            mainAxisSpacing: SizeConfig.blockSizeVertical,
-            children: List.generate(mangaList.length, (index) {
-              return Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Flexible(
-                      child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                ScaleRoute(
-                                    page: ReadmangatodayDetail(
-                                      manga: mangaList[index],
-                                    )));
-                          },
-                          onLongPress: () {
-                            context
-                                .read<LibraryProvider>()
-                                .addToLibrary(mangaList[index],
-                                MediaQuery.of(context).size);
-                          },
-                          child: !context
-                              .watch<LibraryProvider>()
-                              .libraryList
-                              .contains(mangaList[index])
-                              ? CachedNetworkImage(
-                            imageUrl: mangaList[index]
-                                .thumbnailUrl,
-                            width: double.infinity,
-                            height: 350,
-                            errorWidget:
-                                (context, text, data) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      ScaleRoute(
-                                          page: ReadmangatodayDetail(
-                                            manga:
-                                            mangaList[index],
-                                          )));
-                                },
-                                child: Image.asset(
-                                  Assets.errorImage,
-                                  width: double.infinity,
-                                  height: 350,
-                                ),
-                              );
-                            },
-                            //fit: BoxFit.fill,
-                          )
-                              : ClipRect(
-                            child: BackdropFilter(
-                                filter: ImageFilter.blur(
-                                    sigmaX: 10.0,
-                                    sigmaY: 10.0),
-                                child: Container(
-                                    child: CachedNetworkImage(
-                                      imageUrl: mangaList[index]
-                                          .thumbnailUrl,
-                                      width: double.infinity,
-                                      height: 350,
-                                      errorWidget:
-                                          (context, text, data) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                ScaleRoute(
-                                                    page:
-                                                    ReadmangatodayDetail(
-                                                      manga:
-                                                      mangaList[
-                                                      index],
-                                                    )));
-                                          },
-                                          child: Image.asset(
-                                            Assets.errorImage,
-                                            width:
-                                            double.infinity,
-                                            height: 350,
-                                          ),
-                                        );
-                                      },
-                                      //fit: BoxFit.fill,
-                                    )
-                                )),
-                          )),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical),
-                      child: Text(
-                        mangaList[index].title,
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
+                .select((ReadmangatodayProvider provider) => provider)
+                .popularMangaList
+                .fold((NException error) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        error.message,
+                        style: TextStyle(color: Colors.white),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          );
-        }),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical,
+                      ),
+                      RaisedButton(
+                        onPressed: () {
+                          context
+                              .read<ReadmangatodayProvider>()
+                              .getPopularMangaList(
+                                  Assets.readmangatodayCatalogName, 1, true);
+                        },
+                        child: Text("Réessayer"),
+                      )
+                    ],
+                  ),
+                );
+              }, (mangaList) {
+                return mangaList.isEmpty
+                    ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Une erreur est survenue.",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            RaisedButton(
+                              onPressed: () {
+                                context
+                                    .read<ReadmangatodayProvider>()
+                                    .getPopularMangaList(
+                                        Assets.readmangatodayCatalogName,
+                                        1,
+                                        true);
+                              },
+                              child: Text("Réessayer"),
+                            )
+                          ],
+                        ),
+                      )
+                    : GridView.count(
+                        crossAxisCount: 2,
+                        padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 2.5,
+                          right: SizeConfig.blockSizeHorizontal * 2.5,
+                          top: SizeConfig.blockSizeVertical * 4,
+                          bottom: SizeConfig.blockSizeVertical * 4,
+                        ),
+                        crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
+                        mainAxisSpacing: SizeConfig.blockSizeVertical,
+                        children: List.generate(mangaList.length, (index) {
+                          return Container(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Flexible(
+                                  child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            ScaleRoute(
+                                                page: ReadmangatodayDetail(
+                                              manga: mangaList[index],
+                                            )));
+                                      },
+                                      onLongPress: () {
+                                        context
+                                            .read<LibraryProvider>()
+                                            .addToLibrary(mangaList[index],
+                                                MediaQuery.of(context).size);
+                                      },
+                                      child: !context
+                                              .watch<LibraryProvider>()
+                                              .libraryList
+                                              .contains(mangaList[index])
+                                          ? CachedNetworkImage(
+                                              imageUrl:
+                                                  mangaList[index].thumbnailUrl,
+                                              width: double.infinity,
+                                              height: 350,
+                                              errorWidget:
+                                                  (context, text, data) {
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        ScaleRoute(
+                                                            page:
+                                                                ReadmangatodayDetail(
+                                                          manga:
+                                                              mangaList[index],
+                                                        )));
+                                                  },
+                                                  child: Image.asset(
+                                                    Assets.errorImage,
+                                                    width: double.infinity,
+                                                    height: 350,
+                                                  ),
+                                                );
+                                              },
+                                              //fit: BoxFit.fill,
+                                            )
+                                          : ClipRect(
+                                              child: BackdropFilter(
+                                                  filter: ImageFilter.blur(
+                                                      sigmaX: 10.0,
+                                                      sigmaY: 10.0),
+                                                  child: Container(
+                                                      child: CachedNetworkImage(
+                                                    imageUrl: mangaList[index]
+                                                        .thumbnailUrl,
+                                                    width: double.infinity,
+                                                    height: 350,
+                                                    errorWidget:
+                                                        (context, text, data) {
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              ScaleRoute(
+                                                                  page:
+                                                                      ReadmangatodayDetail(
+                                                                manga:
+                                                                    mangaList[
+                                                                        index],
+                                                              )));
+                                                        },
+                                                        child: Image.asset(
+                                                          Assets.errorImage,
+                                                          width:
+                                                              double.infinity,
+                                                          height: 350,
+                                                        ),
+                                                      );
+                                                    },
+                                                    //fit: BoxFit.fill,
+                                                  ))),
+                                            )),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical),
+                                  child: Text(
+                                    mangaList[index].title,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                      );
+              }),
         onRefresh: _refreshData);
   }
 
@@ -214,6 +216,6 @@ class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<ReadmangatodayProvider>()
-        .getPopularMangaList(Assets.readmangatodayCatalogName, 1);
+        .getPopularMangaList(Assets.readmangatodayCatalogName, 1, true);
   }
 }

@@ -24,13 +24,9 @@ class _TopMangaState extends State<TopManga> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<LelscanTopMangaProvider>().topMangaList.fold((l) => null, (r) {
-        if (r.isEmpty) {
           context
               .read<LelscanTopMangaProvider>()
-              .getTopMangaList(Assets.lelscanCatalogName, 1);
-        }
-      });
+              .getTopMangaList(Assets.lelscanCatalogName, 1,false);
     });
   }
 
@@ -64,7 +60,7 @@ class _TopMangaState extends State<TopManga> {
                   onPressed: (){
                     context
                         .read<LelscanTopMangaProvider>()
-                        .getTopMangaList(Assets.lelscanCatalogName, 1);
+                        .getTopMangaList(Assets.lelscanCatalogName, 1,true);
                   },
                   child: Text("Réessayer"),
                 )
@@ -82,7 +78,7 @@ class _TopMangaState extends State<TopManga> {
                   style: TextStyle(color: Colors.white),
                 ),
                 RaisedButton(onPressed: (){
-                  context.read<LelscanTopMangaProvider>().getTopMangaList(Assets.lelscanCatalogName, 1);
+                  context.read<LelscanTopMangaProvider>().getTopMangaList(Assets.lelscanCatalogName, 1,true);
                 },
                   child: Text(
                       "Réessayer"
@@ -215,6 +211,6 @@ class _TopMangaState extends State<TopManga> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<LelscanTopMangaProvider>()
-        .getTopMangaList(Assets.lelscanCatalogName, 1);
+        .getTopMangaList(Assets.lelscanCatalogName, 1,true);
   }
 }

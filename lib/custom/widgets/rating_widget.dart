@@ -12,7 +12,6 @@ class Rating extends StatelessWidget {
     if (rate != null) {
       var data = rate.split(" ");
       var mark = data[0].split("/");
-      print(mark);
       return Container(
         width: SizeConfig.screenWidth / 1.2,
         child: RatingBar.builder(

@@ -8,9 +8,9 @@ class LelscanTopMangaProvider extends BaseProvider{
 
   Either<NException,List<Manga>> topMangaList = Right([]);
 
-  getTopMangaList(String catalogName,int page){
+  getTopMangaList(String catalogName,int page,bool forceRefresh){
     this.toggleLoadingState();
-    lelscanService.topMangaList(catalogName, page).then((mangas){
+    lelscanService.topMangaList(catalogName, page,forceRefresh).then((mangas){
       this.toggleLoadingState();
       topMangaList = Right(mangas);
     }).catchError((error){

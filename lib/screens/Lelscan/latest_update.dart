@@ -23,13 +23,10 @@ class _LatestUpdatesState extends State<LatestUpdates> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<LelscanUpdatesProvider>().updatedMangaList.fold((l) => null, (r) {
-        if (r.isEmpty) {
           context
               .read<LelscanUpdatesProvider>()
-              .getUpdatedMangaList(Assets.lelscanCatalogName, 1);
-        }
-      });
+              .getUpdatedMangaList(Assets.lelscanCatalogName, 1,false);
+
     });
   }
 
@@ -63,7 +60,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                   onPressed: (){
                     context
                         .read<LelscanUpdatesProvider>()
-                        .getUpdatedMangaList(Assets.lelscanCatalogName, 1);
+                        .getUpdatedMangaList(Assets.lelscanCatalogName, 1,true);
                   },
                   child: Text("Réessayer"),
                 )
@@ -81,7 +78,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                   style: TextStyle(color: Colors.white),
                 ),
                 RaisedButton(onPressed: (){
-                  context.read<LelscanUpdatesProvider>().getUpdatedMangaList(Assets.lelscanCatalogName, 1);
+                  context.read<LelscanUpdatesProvider>().getUpdatedMangaList(Assets.lelscanCatalogName, 1,true);
                 },
                   child: Text(
                       "Réessayer"
@@ -214,6 +211,6 @@ class _LatestUpdatesState extends State<LatestUpdates> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<LelscanUpdatesProvider>()
-        .getUpdatedMangaList(Assets.lelscanCatalogName, 1);
+        .getUpdatedMangaList(Assets.lelscanCatalogName, 1,true);
   }
 }

@@ -44,22 +44,13 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ReadmangatodayDetailsProvider>().mangaDetails.fold((l) => null, (r) {
-        if (r.url == null || r.url != widget.manga.url) {
           context
               .read<ReadmangatodayDetailsProvider>()
-              .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga);
-        }
-      });
-      context.read<ReadmangatodayChapterProvider>().mangaChapters.fold((l) => null, (r) {
-        print(context.read<ReadmangatodayChapterProvider>().currentManga.url);
-        if (r.isEmpty ||
-            widget.manga != context.read<ReadmangatodayChapterProvider>().currentManga) {
+              .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga,false);
+
           context
               .read<ReadmangatodayChapterProvider>()
-              .getChapters(Assets.readmangatodayCatalogName, widget.manga);
-        }
-      });
+              .getChapters(Assets.readmangatodayCatalogName, widget.manga,false);
     });
   }
 
@@ -213,12 +204,12 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                       .read<ReadmangatodayDetailsProvider>()
                                       .getMangaDetails(
                                       Assets.readmangatodayCatalogName,
-                                      widget.manga);
+                                      widget.manga,true);
                                   context
                                       .read<ReadmangatodayChapterProvider>()
                                       .getChapters(
                                       Assets.readmangatodayCatalogName,
-                                      widget.manga);
+                                      widget.manga,true);
                                 },
                                 child: Text("Réessayer"),
                               )
@@ -361,7 +352,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                           Assets
                                                               .readmangatodayCatalogName,
                                                           widget
-                                                              .manga);
+                                                              .manga,true);
                                                     },
                                                     child: Text(
                                                         "Réessayer"),
@@ -794,9 +785,9 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<ReadmangatodayDetailsProvider>()
-        .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga);
+        .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga,true);
     context
         .read<ReadmangatodayChapterProvider>()
-        .getChapters(Assets.readmangatodayCatalogName, widget.manga);
+        .getChapters(Assets.readmangatodayCatalogName, widget.manga,true);
   }
 }
