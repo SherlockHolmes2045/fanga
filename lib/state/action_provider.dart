@@ -30,8 +30,6 @@ class ActionProvider extends BaseProvider {
     lelscanService
         .downloadChapter(chapter, catalogName, title)
         .then((value) async {
-      print("succès de la requête");
-      print(title);
       final lelscanPath =
           Directory("storage/emulated/0/${Assets.appName}/$catalogName/$title");
       if (!lelscanPath.existsSync()) {
