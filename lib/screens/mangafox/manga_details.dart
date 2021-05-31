@@ -41,22 +41,13 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<MangafoxDetailsProvider>().mangaDetails.fold((l) => null, (r) {
-        if (r.url == null || r.url != widget.manga.url) {
           context
               .read<MangafoxDetailsProvider>()
-              .getMangaDetails(Assets.mangafoxCatalogName, widget.manga);
-        }
-      });
-      context.read<MangafoxChapterProvider>().mangaChapters.fold((l) => null, (r) {
-        print(context.read<MangafoxChapterProvider>().currentManga.url);
-        if (r.isEmpty ||
-            widget.manga != context.read<MangafoxChapterProvider>().currentManga) {
+              .getMangaDetails(Assets.mangafoxCatalogName, widget.manga,false);
+
           context
               .read<MangafoxChapterProvider>()
-              .getChapters(Assets.mangafoxCatalogName, widget.manga);
-        }
-      });
+              .getChapters(Assets.mangafoxCatalogName, widget.manga,false);
     });
   }
 
@@ -210,12 +201,12 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
                                       .read<MangafoxDetailsProvider>()
                                       .getMangaDetails(
                                       Assets.mangafoxCatalogName,
-                                      widget.manga);
+                                      widget.manga,true);
                                   context
                                       .read<MangafoxChapterProvider>()
                                       .getChapters(
                                       Assets.mangafoxCatalogName,
-                                      widget.manga);
+                                      widget.manga,true);
                                 },
                                 child: Text("Réessayer"),
                               )
@@ -359,7 +350,7 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
                                                           Assets
                                                               .mangafoxCatalogName,
                                                           widget
-                                                              .manga);
+                                                              .manga,true);
                                                     },
                                                     child: Text(
                                                         "Réessayer"),
@@ -682,9 +673,9 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<MangafoxDetailsProvider>()
-        .getMangaDetails(Assets.mangafoxCatalogName, widget.manga);
+        .getMangaDetails(Assets.mangafoxCatalogName, widget.manga,true);
     context
         .read<MangafoxChapterProvider>()
-        .getChapters(Assets.mangafoxCatalogName, widget.manga);
+        .getChapters(Assets.mangafoxCatalogName, widget.manga,true);
   }
 }

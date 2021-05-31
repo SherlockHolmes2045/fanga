@@ -42,22 +42,13 @@ class _LelscanDetailState extends State<LelscanDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<DetailsProvider>().mangaDetails.fold((l) => null, (r) {
-        if (r.url == null || r.url != widget.manga.url) {
           context
               .read<DetailsProvider>()
-              .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
-        }
-      });
-      context.read<ChapterProvider>().mangaChapters.fold((l) => null, (r) {
-        print(context.read<ChapterProvider>().currentManga.url);
-        if (r.isEmpty ||
-            widget.manga != context.read<ChapterProvider>().currentManga) {
+              .getMangaDetails(Assets.lelscanCatalogName, widget.manga,false);
+
           context
               .read<ChapterProvider>()
-              .getChapters(Assets.lelscanCatalogName, widget.manga);
-        }
-      });
+              .getChapters(Assets.lelscanCatalogName, widget.manga,false);
     });
   }
 
@@ -211,12 +202,12 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                             .read<DetailsProvider>()
                                             .getMangaDetails(
                                                 Assets.lelscanCatalogName,
-                                                widget.manga);
+                                                widget.manga,false);
                                         context
                                             .read<ChapterProvider>()
                                             .getChapters(
                                                 Assets.lelscanCatalogName,
-                                                widget.manga);
+                                                widget.manga,true);
                                       },
                                       child: Text("Réessayer"),
                                     )
@@ -359,7 +350,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                             Assets
                                                                                 .lelscanCatalogName,
                                                                             widget
-                                                                                .manga);
+                                                                                .manga,true);
                                                                   },
                                                                   child: Text(
                                                                       "Réessayer"),
@@ -793,9 +784,9 @@ class _LelscanDetailState extends State<LelscanDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<DetailsProvider>()
-        .getMangaDetails(Assets.lelscanCatalogName, widget.manga);
+        .getMangaDetails(Assets.lelscanCatalogName, widget.manga,true);
     context
         .read<ChapterProvider>()
-        .getChapters(Assets.lelscanCatalogName, widget.manga);
+        .getChapters(Assets.lelscanCatalogName, widget.manga,true);
   }
 }

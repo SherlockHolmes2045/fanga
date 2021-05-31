@@ -7,13 +7,10 @@ import 'package:manga_reader/utils/n_exception.dart';
 
 class MangafoxChapterProvider extends BaseProvider {
   Either<NException,List<Chapter>> mangaChapters = Right([]);
-  Manga currentManga = Manga();
 
-
-  getChapters(String catalogName,Manga manga){
-    this.currentManga = manga;
+  getChapters(String catalogName,Manga manga,bool forceRefresh){
     this.toggleLoadingState();
-    lelscanService.mangaChapters(manga, catalogName).then((value){
+    lelscanService.mangaChapters(manga, catalogName,forceRefresh).then((value){
       mangaChapters = Right(value);
       this.toggleLoadingState();
     }).catchError((error){

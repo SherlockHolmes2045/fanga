@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
+import 'package:manga_reader/screens/Lelscan/lelscan_home.dart';
 import 'package:manga_reader/screens/Lelscan/manga_details.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/lelscan/lelscan_manga_list_provider.dart';
@@ -37,16 +38,17 @@ class _AllMangaState extends State<AllManga> {
             if(context.read<LelscanMangaListProvider>().hasNext)
             context
                 .read<LelscanMangaListProvider>()
-                .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().nextPage);
+                .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().nextPage,false);
           }
         }
       });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<LelscanMangaListProvider>().mangaList.fold((l) => null, (r) {
-        if (r.isEmpty) {
+      context.read<LelscanMangaListProvider>().mangaList.fold((l) => null, (r){
+        if(r.isEmpty){
           context
               .read<LelscanMangaListProvider>()
-              .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+              .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage,false);
+
         }
       });
     });
@@ -82,7 +84,7 @@ class _AllMangaState extends State<AllManga> {
                   onPressed: (){
                     context
                         .read<LelscanMangaListProvider>()
-                        .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+                        .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage,true);
                   },
                   child: Text("Réessayer"),
                 )
@@ -100,7 +102,7 @@ class _AllMangaState extends State<AllManga> {
                   style: TextStyle(color: Colors.white),
                 ),
                 RaisedButton(onPressed: (){
-                  context.read<LelscanMangaListProvider>().getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+                  context.read<LelscanMangaListProvider>().getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage,true);
                 },
                   child: Text(
                       "Réessayer"
@@ -235,6 +237,6 @@ class _AllMangaState extends State<AllManga> {
     context.read<LelscanMangaListProvider>().clearList();
     context
         .read<LelscanMangaListProvider>()
-        .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage);
+        .getMangaList(Assets.lelscanCatalogName, context.read<LelscanMangaListProvider>().currentPage,true);
   }
 }

@@ -23,13 +23,9 @@ class _MangaListState extends State<MangaList> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<MangafoxProvider>().popularMangaList.fold((l) => null, (r) {
-        if (r.isEmpty) {
-          context
+         context
               .read<MangafoxProvider>()
-              .getPopularMangaList(Assets.mangafoxCatalogName, 1);
-        }
-      });
+              .getPopularMangaList(Assets.mangafoxCatalogName, 1,false);
     });
   }
 
@@ -63,7 +59,7 @@ class _MangaListState extends State<MangaList> {
                   onPressed: (){
                     context
                         .read<MangafoxProvider>()
-                        .getPopularMangaList(Assets.mangafoxCatalogName, 1);
+                        .getPopularMangaList(Assets.mangafoxCatalogName, 1,true);
                   },
                   child: Text("Réessayer"),
                 )
@@ -81,7 +77,7 @@ class _MangaListState extends State<MangaList> {
                   style: TextStyle(color: Colors.white),
                 ),
                 RaisedButton(onPressed: (){
-                  context.read<MangafoxProvider>().getPopularMangaList(Assets.mangafoxCatalogName, 1);
+                  context.read<MangafoxProvider>().getPopularMangaList(Assets.mangafoxCatalogName, 1,true);
                 },
                   child: Text(
                       "Réessayer"
@@ -217,6 +213,6 @@ class _MangaListState extends State<MangaList> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<MangafoxProvider>()
-        .getPopularMangaList(Assets.mangafoxCatalogName, 1);
+        .getPopularMangaList(Assets.mangafoxCatalogName, 1,true);
   }
 }

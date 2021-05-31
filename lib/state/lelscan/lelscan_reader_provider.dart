@@ -16,11 +16,11 @@ class LelscanReaderProvider extends BaseProvider {
   NException exception;
 
 
-  getPages(String catalogName,Chapter chapter,BuildContext context,Manga manga) async{
+  getPages(String catalogName,Chapter chapter,BuildContext context,Manga manga,bool forceRefresh) async{
     toggleLoadingState();
     this.exception = null;
     if(catalogName != Assets.mangakawaiiCatalogName){
-      lelscanService.chapterPages(catalogName, chapter).then((value) {
+      lelscanService.chapterPages(catalogName, chapter,forceRefresh).then((value) {
         toggleLoadingState();
         List<String> downloadedPages = List<String>();
         Directory chapterDir;

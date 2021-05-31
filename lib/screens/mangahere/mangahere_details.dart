@@ -41,22 +41,13 @@ class _MangahereDetailState extends State<MangahereDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<MangahereDetailsProvider>().mangaDetails.fold((l) => null, (r) {
-        if (r.url == null || r.url != widget.manga.url) {
           context
               .read<MangahereDetailsProvider>()
-              .getMangaDetails(Assets.mangahereCatalogName, widget.manga);
-        }
-      });
-      context.read<MangahereChapterProvider>().mangaChapters.fold((l) => null, (r) {
-        print(context.read<MangahereChapterProvider>().currentManga.url);
-        if (r.isEmpty ||
-            widget.manga != context.read<MangahereChapterProvider>().currentManga) {
+              .getMangaDetails(Assets.mangahereCatalogName, widget.manga,false);
+
           context
               .read<MangahereChapterProvider>()
-              .getChapters(Assets.mangahereCatalogName, widget.manga);
-        }
-      });
+              .getChapters(Assets.mangahereCatalogName, widget.manga,false);
     });
   }
 
@@ -210,12 +201,12 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                       .read<MangahereDetailsProvider>()
                                       .getMangaDetails(
                                       Assets.mangahereCatalogName,
-                                      widget.manga);
+                                      widget.manga,true);
                                   context
                                       .read<MangahereChapterProvider>()
                                       .getChapters(
                                       Assets.mangahereCatalogName,
-                                      widget.manga);
+                                      widget.manga,true);
                                 },
                                 child: Text("Réessayer"),
                               )
@@ -358,7 +349,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                           Assets
                                                               .mangahereCatalogName,
                                                           widget
-                                                              .manga);
+                                                              .manga,true);
                                                     },
                                                     child: Text(
                                                         "Réessayer"),
@@ -680,9 +671,9 @@ class _MangahereDetailState extends State<MangahereDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<MangahereDetailsProvider>()
-        .getMangaDetails(Assets.mangahereCatalogName, widget.manga);
+        .getMangaDetails(Assets.mangahereCatalogName, widget.manga,true);
     context
         .read<MangahereChapterProvider>()
-        .getChapters(Assets.mangahereCatalogName, widget.manga);
+        .getChapters(Assets.mangahereCatalogName, widget.manga,true);
   }
 }

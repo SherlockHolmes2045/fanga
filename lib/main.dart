@@ -41,8 +41,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_moment/simple_moment.dart';
 
+import 'di.dart';
+
 void main() async {
   setupLocator();
+  locator<Di>().dio.interceptors.add(locator<Di>().dioCacheManager.interceptor);
   WidgetsFlutterBinding.ensureInitialized();
   createDb();
   await createFolders(Assets.appName);
@@ -184,7 +187,11 @@ createDb() async {
 
   file.exists().then((isThere) {
     if (!isThere) {
-      file.create();
+      file.create().then((value){
+        
+      }).catchError((onError){
+        BotToast.showText(text: "Impossible de créer la base de données");
+      });
     }
   });
 }

@@ -1,10 +1,8 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/manga_details.dart';
@@ -44,22 +42,13 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ReadmangatodayDetailsProvider>().mangaDetails.fold((l) => null, (r) {
-        if (r.url == null || r.url != widget.manga.url) {
           context
               .read<ReadmangatodayDetailsProvider>()
-              .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga);
-        }
-      });
-      context.read<ReadmangatodayChapterProvider>().mangaChapters.fold((l) => null, (r) {
-        print(context.read<ReadmangatodayChapterProvider>().currentManga.url);
-        if (r.isEmpty ||
-            widget.manga != context.read<ReadmangatodayChapterProvider>().currentManga) {
+              .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga,false);
+
           context
               .read<ReadmangatodayChapterProvider>()
-              .getChapters(Assets.readmangatodayCatalogName, widget.manga);
-        }
-      });
+              .getChapters(Assets.readmangatodayCatalogName, widget.manga,false);
     });
   }
 
@@ -132,6 +121,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
           )
               : FloatingActionButton(
             backgroundColor: Colors.cyan,
+            onPressed: (){},
             child: Icon(Icons.play_arrow, color: Colors.white),
           ),
           appBar: context.watch<ActionProvider>().selectedItems.isEmpty
@@ -213,12 +203,12 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                       .read<ReadmangatodayDetailsProvider>()
                                       .getMangaDetails(
                                       Assets.readmangatodayCatalogName,
-                                      widget.manga);
+                                      widget.manga,true);
                                   context
                                       .read<ReadmangatodayChapterProvider>()
                                       .getChapters(
                                       Assets.readmangatodayCatalogName,
-                                      widget.manga);
+                                      widget.manga,true);
                                 },
                                 child: Text("Réessayer"),
                               )
@@ -361,7 +351,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                           Assets
                                                               .readmangatodayCatalogName,
                                                           widget
-                                                              .manga);
+                                                              .manga,true);
                                                     },
                                                     child: Text(
                                                         "Réessayer"),
@@ -794,9 +784,9 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<ReadmangatodayDetailsProvider>()
-        .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga);
+        .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga,true);
     context
         .read<ReadmangatodayChapterProvider>()
-        .getChapters(Assets.readmangatodayCatalogName, widget.manga);
+        .getChapters(Assets.readmangatodayCatalogName, widget.manga,true);
   }
 }

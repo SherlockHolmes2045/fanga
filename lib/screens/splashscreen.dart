@@ -33,10 +33,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       context.read<LibraryProvider>().loadLibrary();
       context.read<BookmarkProvider>().loadBookmarked();
       context.read<PageProvider>().loadAllPages();
-      context.read<LelscanProvider>().getPopularMangaList(Assets.lelscanCatalogName, 1);
-      context.read<LelscanTopMangaProvider>().getTopMangaList(Assets.lelscanCatalogName, 1);
-      context.read<LelscanUpdatesProvider>().getUpdatedMangaList(Assets.lelscanCatalogName, 1);
-      context.read<LelscanMangaListProvider>().getMangaList(Assets.lelscanCatalogName,context.read<LelscanMangaListProvider>().currentPage);
+      context.read<LelscanProvider>().getPopularMangaList(Assets.lelscanCatalogName, 1,false);
+      context.read<LelscanTopMangaProvider>().getTopMangaList(Assets.lelscanCatalogName, 1,false);
+      context.read<LelscanUpdatesProvider>().getUpdatedMangaList(Assets.lelscanCatalogName, 1,false);
+      context.read<LelscanMangaListProvider>().getMangaList(Assets.lelscanCatalogName,context.read<LelscanMangaListProvider>().currentPage,false);
       Future.delayed(Duration(seconds: 5),(){
         iconAnimationController.stop();
         Navigator.pushReplacementNamed(context, Routes.lelscan);
