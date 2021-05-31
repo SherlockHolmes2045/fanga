@@ -25,7 +25,7 @@ class _ReaderLoaderState extends State<ReaderLoader> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context
           .read<LelscanReaderProvider>()
-          .getPages(widget.catalog, widget.chapter, context, widget.manga);
+          .getPages(widget.catalog, widget.chapter, context, widget.manga,false);
     });
   }
 
@@ -59,7 +59,7 @@ class _ReaderLoaderState extends State<ReaderLoader> {
                                 widget.catalog,
                                 widget.chapter,
                                 context,
-                                widget.manga);
+                                widget.manga,true);
                           },
                           child: Text("Réessayer"),
                         )

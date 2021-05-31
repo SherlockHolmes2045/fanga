@@ -152,15 +152,18 @@ class LelscanService {
     }
   }
 
-  Future<List<String>> chapterPages(String catalogName, Chapter chapter) async {
+  Future<List<String>> chapterPages(String catalogName, Chapter chapter, bool forceRefresh) async {
     try {
       final String uri = locator<Di>().apiUrl + "/manga/pages";
       Response response = await locator<Di>().dio.post(
             uri,
             data: {'chapter': chapter.toMap(), 'catalog': catalogName},
-            options: Options(headers: {
-              'Content-Type': "application/json",
-            }),
+            options: buildCacheOptions(Duration(days: 365),
+                maxStale: Duration(days: 365),
+                forceRefresh: forceRefresh,
+                options: Options(headers: {
+                  'Content-Type': "application/json",
+                })),
           );
       List<String> result = [];
       for (int i = 0; i < response.data["images"].length; i++) {

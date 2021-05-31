@@ -17,7 +17,10 @@ class Rating extends StatelessWidget {
         child: RatingBar.builder(
           initialRating: double.parse(mark[0]),
           itemSize: SizeConfig.blockSizeHorizontal * 8,
-          tapOnlyMode: true,
+          tapOnlyMode: false,
+          onRatingUpdate: (double value){
+
+          },
           minRating: 0,
           itemPadding: EdgeInsets.all(0.8),
           updateOnDrag: false,
@@ -45,6 +48,9 @@ class Rating extends StatelessWidget {
           updateOnDrag: false,
           unratedColor: Colors.amber.withOpacity(0.5),
           minRating: 0,
+          onRatingUpdate: (double value){
+
+          },
           direction: Axis.horizontal,
           allowHalfRating: true,
           itemCount: 5,
