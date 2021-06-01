@@ -41,10 +41,6 @@ class MangaDao {
 
   Future<List<Manga>> getAllSortedByName() async {
     // Finder object can also sort data.
-    final finder = Finder(sortOrders: [
-      SortOrder('name'),
-    ]);
-
     final recordSnapshots = await _mangaStore.find(
       await _db,
     );

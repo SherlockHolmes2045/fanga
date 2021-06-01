@@ -92,7 +92,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                       .read<ActionProvider>()
                                       .downloadMultipleChapters(
                                           Assets.lelscanCatalogName,
-                                          widget.manga.title,
+                                          widget.manga,
                                           MediaQuery.of(context).size);
                                 }),
                             IconButton(
@@ -631,7 +631,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                         onSelected: (dynamic result) {
                                                                                           print(result);
                                                                                           if (result == 0) {
-                                                                                            context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga.title, MediaQuery.of(context).size);
+                                                                                            context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
                                                                                           } else if (result == 1) {
                                                                                             context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
                                                                                           } else if (result == 2) {

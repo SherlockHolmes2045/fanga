@@ -92,7 +92,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                 .read<ActionProvider>()
                                 .downloadMultipleChapters(
                                 Assets.readmangatodayCatalogName,
-                                widget.manga.title,
+                                widget.manga,
                                 MediaQuery.of(context).size);
                           }),
                       IconButton(
@@ -632,7 +632,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                           onSelected: (dynamic result) {
                                                             print(result);
                                                             if (result == 0) {
-                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.readmangatodayCatalogName, widget.manga.title, MediaQuery.of(context).size);
+                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.readmangatodayCatalogName, widget.manga, MediaQuery.of(context).size);
                                                             } else if (result == 1) {
                                                               context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
                                                             } else if (result == 2) {

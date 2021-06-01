@@ -100,7 +100,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                 .read<ActionProvider>()
                                 .downloadMultipleChapters(
                                 Assets.mangakawaiiCatalogName,
-                                widget.manga.title,
+                                widget.manga,
                                 MediaQuery.of(context).size);
                           }),
                       IconButton(
@@ -530,7 +530,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                           onSelected: (dynamic result) {
                                                             print(result);
                                                             if (result == 0) {
-                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangakawaiiCatalogName, widget.manga.title, MediaQuery.of(context).size);
+                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangakawaiiCatalogName, widget.manga, MediaQuery.of(context).size);
                                                             } else if (result == 1) {
                                                               context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
                                                             } else if (result == 2) {

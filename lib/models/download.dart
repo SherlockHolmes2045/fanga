@@ -7,7 +7,7 @@ class Download {
   Manga manga;
   String taskId;
 
-  bool operator == (o) => o is Chapter && chapter.url == o.url;
+  bool operator == (o) => o is Download && taskId == taskId;
 
   Download({
     this.chapter,
@@ -30,5 +30,5 @@ class Download {
     };
   }
   @override
-  int get hashCode => chapter.url.hashCode;
+  int get hashCode => taskId.hashCode;
 }
