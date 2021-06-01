@@ -25,7 +25,7 @@ class ActionProvider extends BaseProvider {
 
   getAllDownloads() async {
     final tasks = await FlutterDownloader.loadTasks();
-    downloadTasks = tasks;
+    downloadTasks = tasks.reversed.toList();
     notifyListeners();
   }
   
@@ -115,6 +115,7 @@ class ActionProvider extends BaseProvider {
         crossPage: true,
         subTitle: error.message,
       );
+      print(error);
       NException exception = error;
     });
   }
