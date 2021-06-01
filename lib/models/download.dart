@@ -18,7 +18,7 @@ class Download {
   factory Download.fromJson(Map<String, dynamic> json) {
     return Download(
       chapter: Chapter.fromJson(json['chapter']),
-      manga: json['manga'],
+      manga: Manga.fromJson(json['manga']),
       taskId: json['taskId'],
     );
   }

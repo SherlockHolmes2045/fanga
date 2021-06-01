@@ -52,21 +52,21 @@ class DownloadDao {
     }).toList();
   }
 
-  Future<List<Download>> findManga(String value) async {
+  Future<Download> findDownload(String value) async {
 
     final finder = Finder(
         filter: Filter.and([
-          Filter.equals("chapter.title",value),
-          Filter.equals("manga.title", value)
+          Filter.equals("taskId",value),
         ])
     );
-    final recordSnapshots = await _downloadStore.find(
+    final recordSnapshots = await _downloadStore.findFirst(
         await _db,
         finder: finder
     );
-    return recordSnapshots.map((snapshot) {
-      final fruit = Download.fromJson(snapshot.value);
-      return fruit;
-    }).toList();
+    if(recordSnapshots == null){
+      return null;
+    }else{
+      return Download.fromJson(recordSnapshots.value);
+    }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/app_drawer.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
+import 'package:manga_reader/database/dao/download_dao.dart';
 import 'package:manga_reader/screens/readmangatoday/readmangatoday_manga_details.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/lelscan/lelscan_provider.dart';

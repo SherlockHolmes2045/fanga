@@ -28,6 +28,10 @@ class ActionProvider extends BaseProvider {
     downloadTasks = tasks;
     notifyListeners();
   }
+  
+  Future<Download> findDownload(String taskId) async{
+    return await downloadDao.findDownload(taskId);
+  }
 
   downloadChapter(
       Chapter chapter, String catalogName, Manga manga, Size size,) {
@@ -111,7 +115,7 @@ class ActionProvider extends BaseProvider {
         crossPage: true,
         subTitle: error.message,
       );
-      NException exception = NException(error);
+      NException exception = error;
     });
   }
 
