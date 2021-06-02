@@ -17,10 +17,10 @@ class DownloadDao {
     await _downloadStore.add(await _db, download.toMap());
   }
 
-  Future update(Download download) async {
+  Future update(Download download,String taskId) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(download.taskId));
+    final finder = Finder(filter: Filter.byKey(taskId));
     await _downloadStore.update(
       await _db,
       download.toMap(),

@@ -33,6 +33,10 @@ class ActionProvider extends BaseProvider {
     return await downloadDao.findDownload(taskId);
   }
 
+  Future<void> updateDownload(Download download,String taskId) async{
+    await downloadDao.update(download, taskId);
+  }
+
   downloadChapter(
       Chapter chapter, String catalogName, Manga manga, Size size,) {
     lelscanService
@@ -41,7 +45,7 @@ class ActionProvider extends BaseProvider {
       final lelscanPath =
           Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}");
       if (!lelscanPath.existsSync()) {
-        lelscanPath.create(recursive: true);
+        await lelscanPath.create(recursive: true);
       }
       final taskId = await FlutterDownloader.enqueue(
           url: locator<Di>().apiUrl + value,
@@ -69,7 +73,7 @@ class ActionProvider extends BaseProvider {
                   height: size.height / 10,
                   child: child,
                 )),
-        title: "Le téléchargement de ${chapter.title}",
+        title: "Le téléchargement de ${chapter.title.isNotEmpty ? chapter.title : "Chapitre ${chapter.number}"}",
         crossPage: true,
         subTitle: "vient de commencer",
       );

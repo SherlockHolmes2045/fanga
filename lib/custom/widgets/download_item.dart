@@ -2,9 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:manga_reader/constants/assets.dart';
+import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/models/download.dart';
+import 'package:manga_reader/screens/reader_loader.dart';
+import 'package:manga_reader/state/action_provider.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:manga_reader/utils/task_info.dart';
+import 'package:provider/provider.dart';
 
 class DownloadItem extends StatelessWidget {
   final Download download;
@@ -112,27 +116,54 @@ class DownloadItem extends StatelessWidget {
                   Icons.pause,
                   color: Colors.grey,
                 ),
-                onPressed: () {})
+                onPressed: () {
+                  //FlutterDownloader.pause(taskId: downloadTask.taskId);
+                })
             : downloadTask.status == DownloadTaskStatus.paused
                 ? IconButton(
                     icon: Icon(
                       Icons.play_arrow,
                       color: Colors.grey,
                     ),
-                    onPressed: () {})
+                    onPressed: () {
+                      /*FlutterDownloader.resume(taskId: downloadTask.taskId).then((value) async{
+                        if(download != null){
+                          Download newDownload = Download(chapter: download.chapter,manga: download.manga,taskId:value);
+                          await context.read<ActionProvider>().updateDownload(newDownload, downloadTask.taskId);
+                        }
+                      });*/
+                    })
                 : downloadTask.status == DownloadTaskStatus.failed
                     ? IconButton(
                         icon: Icon(
                           Icons.refresh,
                           color: Colors.grey,
                         ),
-                        onPressed: () {})
+                        onPressed: () {
+                          /*FlutterDownloader.retry(taskId: downloadTask.taskId).then((value) async{
+                            if(download != null){
+                              Download newDownload = Download(chapter: download.chapter,manga: download.manga,taskId:value);
+                              await context.read<ActionProvider>().updateDownload(newDownload, downloadTask.taskId);
+                            }
+                          });*/
+                        })
                     : IconButton(
                         icon: Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.grey,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          if(download != null){
+                            Navigator.push(
+                                context,
+                                ScaleRoute(
+                                    page: ReaderLoader(
+                                      manga: download.manga,
+                                      catalog: download.manga.catalog,
+                                      chapter: download.chapter,
+                                    )));
+                          }
+                        },
                       ));
   }
 }

@@ -43,7 +43,6 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
   @override
   void didChangeDependencies() {
     widget.pages.forEach((imageUrl) {
-      print(imageUrl);
       if(Uri.parse(imageUrl).isAbsolute){
         precacheImage(NetworkImage(imageUrl), context);
       }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import '../../di.dart';
@@ -11,9 +12,12 @@ class SearchService{
       Response response = await locator<Di>().dio.post(
         uri,
         data: {'manga': searchTerms, 'source': catalogName,"page": page},
-        options: Options(headers: {
-          'Content-Type': "application/json",
-        }),
+        options: buildCacheOptions(Duration(days: 7),
+            maxStale: Duration(days: 7),
+            forceRefresh: false,
+            options: Options(headers: {
+              'Content-Type': "application/json",
+            })),
       );
       final items = response.data["data"].cast<Map<String, dynamic>>();
       List<Manga> result = items.map<Manga>((json) {
