@@ -91,7 +91,7 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
                                 .read<ActionProvider>()
                                 .downloadMultipleChapters(
                                 Assets.mangafoxCatalogName,
-                                widget.manga.title,
+                                widget.manga,
                                 MediaQuery.of(context).size);
                           }),
                       IconButton(
@@ -520,7 +520,7 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
                                                           onSelected: (dynamic result) {
                                                             print(result);
                                                             if (result == 0) {
-                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangafoxCatalogName, widget.manga.title, MediaQuery.of(context).size);
+                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangafoxCatalogName, widget.manga, MediaQuery.of(context).size);
                                                             } else if (result == 1) {
                                                               context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
                                                             } else if (result == 2) {
