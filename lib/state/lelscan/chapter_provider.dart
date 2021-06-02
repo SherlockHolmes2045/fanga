@@ -7,6 +7,8 @@ import 'package:manga_reader/utils/n_exception.dart';
 
 class ChapterProvider extends BaseProvider {
   Either<NException,List<Chapter>> mangaChapters = Right([]);
+  bool isFiltered = false;
+  List<Chapter> filteredChapters = List<Chapter>();
 
   bool downloaded = false;
   bool nonreaded = false;

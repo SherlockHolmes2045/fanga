@@ -34,7 +34,7 @@ class MangaItem extends StatelessWidget {
                 onLongPress: addLibrary,
                 child: !libraryList.contains(manga)
                     ? CachedNetworkImage(
-                        imageUrl: img != null ? manga.thumbnailUrl : img,
+                        imageUrl: img == null ? manga.thumbnailUrl : img,
                         width: double.infinity,
                         height: 350,
                         errorWidget: (context, text, data) {
@@ -55,7 +55,7 @@ class MangaItem extends StatelessWidget {
                                 ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
                             child: Container(
                                 child: CachedNetworkImage(
-                              imageUrl: img != null ? manga.thumbnailUrl : img,
+                              imageUrl: img == null ? manga.thumbnailUrl : img,
                               width: double.infinity,
                               height: 350,
                               errorWidget: (context, text, data) {
