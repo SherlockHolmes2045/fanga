@@ -77,4 +77,8 @@ class LibraryProvider extends BaseProvider{
       }
     });
   }
+
+  Future<List<Manga>> findManga(String searchTerms) async {
+    return await mangaDao.searchManga(searchTerms);
+  }
 }
