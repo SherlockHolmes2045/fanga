@@ -51,7 +51,21 @@ class MangaDao {
       return fruit;
     }).toList();
   }
-
+  Future<List<Manga>> searchManga(String searchTerm) async{
+    final finder = Finder(
+      filter: Filter.and([
+        Filter.custom((record) => Manga.fromJson(record.value).title.toLowerCase().contains(searchTerm))
+      ])
+    );
+    final recordSnapshots = await _mangaStore.find(
+        await _db,
+        finder: finder
+    );
+    return recordSnapshots.map((snapshot) {
+      final mangas = Manga.fromJson(snapshot.value);
+      return mangas;
+    }).toList();
+  }
   Future<List<Manga>> findManga(String url) async {
 
     final finder = Finder(
