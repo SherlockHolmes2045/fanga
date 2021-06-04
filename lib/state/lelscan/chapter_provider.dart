@@ -63,8 +63,8 @@ class ChapterProvider extends BaseProvider {
     if(value){
       isFiltered = true;
       nonreaded = value;
-      downloadDao.getAll().then((value) {
-        List<Chapter> matchingList = value.map((download) => download.chapter).toList();
+      pageDao.getAll().then((value) {
+        List<Chapter> matchingList = value.map((page) => page.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
@@ -80,8 +80,8 @@ class ChapterProvider extends BaseProvider {
       if(!downloaded && !readed && !marked){
         isFiltered = false;
       }
-      downloadDao.getAll().then((value) {
-        List<Chapter> matchingList = value.map((download) => download.chapter).toList();
+      pageDao.getAll().then((value) {
+        List<Chapter> matchingList = value.map((page) => page.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
