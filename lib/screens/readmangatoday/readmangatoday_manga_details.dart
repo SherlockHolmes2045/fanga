@@ -58,8 +58,14 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     return SafeArea(
       child: WillPopScope(
         onWillPop: () async {
-          context.read<ActionProvider>().emptyItems();
-          return true;
+          if(context.read<ActionProvider>().selectedItems.isNotEmpty){
+            context.read<ActionProvider>().emptyItems();
+            return false;
+          }else{
+            context.read<ActionProvider>().emptyItems();
+            //context.read<ChapterProvider>().clearAllFilters();
+            return true;
+          }
         },
         child: Scaffold(
           backgroundColor: Colors.black,

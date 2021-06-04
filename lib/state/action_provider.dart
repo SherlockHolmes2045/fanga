@@ -99,6 +99,8 @@ class ActionProvider extends BaseProvider {
             print(e);
           }
           timer.cancel();
+        }else if(task.status == DownloadTaskStatus.canceled || task.status == DownloadTaskStatus.paused || task.status == DownloadTaskStatus.failed || task.status == DownloadTaskStatus.undefined){
+          timer.cancel();
         }
       });
     }).catchError((error) {
@@ -187,6 +189,8 @@ class ActionProvider extends BaseProvider {
             } catch (e) {
               print(e);
             }
+            timer.cancel();
+          }else if(task.status == DownloadTaskStatus.canceled || task.status == DownloadTaskStatus.paused || task.status == DownloadTaskStatus.failed || task.status == DownloadTaskStatus.undefined){
             timer.cancel();
           }
         });
