@@ -1,7 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:manga_reader/models/chapter.dart';
+
+import 'manga.dart';
 
 class Page {
 
+  Manga manga;
   Chapter chapter;
   int page;
   bool finished;
@@ -9,9 +13,10 @@ class Page {
   bool operator == (o) => o is Chapter && chapter.url == o.url;
 
   Page({
-    this.chapter,
-    this.page,
-    this.finished
+    @required this.chapter,
+    @required this.page,
+    @required this.finished,
+    @required this.manga
   });
 
   factory Page.fromJson(Map<String, dynamic> json) {
@@ -19,6 +24,7 @@ class Page {
       chapter: Chapter.fromJson(json['chapter']),
       page: json['page'],
       finished: json['finished'],
+      manga: Manga.fromJson(json['manga'])
     );
   }
   Map<String, dynamic> toMap() {
@@ -26,6 +32,7 @@ class Page {
       'chapter': chapter.toMap(),
       'page': page,
       'finished': finished,
+      'manga': manga.toMap()
     };
   }
   @override

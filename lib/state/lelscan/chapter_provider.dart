@@ -1,12 +1,17 @@
 import 'dart:collection';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
+import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/database/dao/chapter_bookmark_dao.dart';
 import 'package:manga_reader/database/dao/download_dao.dart';
 import 'package:manga_reader/database/dao/page_dao.dart';
 import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/models/manga.dart';
+import 'package:manga_reader/models/page.dart' as Model;
 import 'package:manga_reader/networking/services/lelscan_service.dart';
+import 'package:manga_reader/screens/reader_loader.dart';
 import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/extensions.dart';
@@ -29,7 +34,8 @@ class ChapterProvider extends BaseProvider {
       isFiltered = true;
       downloaded = value;
       downloadDao.getAll().then((value) {
-        List<Chapter> matchingList = value.map((downloaded) => downloaded.chapter).toList();
+        List<Chapter> matchingList =
+            value.map((downloaded) => downloaded.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
@@ -40,11 +46,12 @@ class ChapterProvider extends BaseProvider {
         notifyListeners();
       });
     } else {
-      if(!readed && !nonreaded && !marked){
+      if (!readed && !nonreaded && !marked) {
         isFiltered = false;
       }
       downloadDao.getAll().then((value) {
-        List<Chapter> matchingList = value.map((download) => download.chapter).toList();
+        List<Chapter> matchingList =
+            value.map((download) => download.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
@@ -60,11 +67,11 @@ class ChapterProvider extends BaseProvider {
   }
 
   filterNonReaded(bool value) {
-    if(value){
+    if (value) {
       isFiltered = true;
       nonreaded = value;
-      downloadDao.getAll().then((value) {
-        List<Chapter> matchingList = value.map((download) => download.chapter).toList();
+      pageDao.getAll().then((value) {
+        List<Chapter> matchingList = value.map((page) => page.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
@@ -76,12 +83,12 @@ class ChapterProvider extends BaseProvider {
         });
         notifyListeners();
       });
-    }else{
-      if(!downloaded && !readed && !marked){
+    } else {
+      if (!downloaded && !readed && !marked) {
         isFiltered = false;
       }
-      downloadDao.getAll().then((value) {
-        List<Chapter> matchingList = value.map((download) => download.chapter).toList();
+      pageDao.getAll().then((value) {
+        List<Chapter> matchingList = value.map((page) => page.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
@@ -134,10 +141,10 @@ class ChapterProvider extends BaseProvider {
   }
 
   filterMarked(bool value) {
-    if(value){
+    if (value) {
       isFiltered = true;
       marked = true;
-      chapterBookmarkDao.loadAllBookMarked().then((bookmarked){
+      chapterBookmarkDao.loadAllBookMarked().then((bookmarked) {
         final matchingSet = HashSet.from(bookmarked);
         mangaChapters.fold((l) => null, (r) {
           final result = r.where((item) => matchingSet.contains(item));
@@ -146,8 +153,8 @@ class ChapterProvider extends BaseProvider {
         });
         notifyListeners();
       });
-    }else{
-      if(!downloaded && !readed && !nonreaded){
+    } else {
+      if (!downloaded && !readed && !nonreaded) {
         isFiltered = false;
       }
       chapterBookmarkDao.loadAllBookMarked().then((bookmarked) {
@@ -184,6 +191,49 @@ class ChapterProvider extends BaseProvider {
       this.toggleLoadingState();
       print(error);
       mangaChapters = Left(error);
+    });
+  }
+
+  resumeChapter(Manga manga, BuildContext context) {
+    pageDao.getAll().then((value) {
+      List<Model.Page> mangaPages =
+          value.where((page) => page.manga == manga).toList();
+      mangaPages.sort((a, b) =>
+          int.parse(a.chapter.number).compareTo(int.parse(b.chapter.number)));
+      if(mangaPages.isNotEmpty){
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: ReaderLoader(
+                  manga: mangaPages.last.manga,
+                  catalog: mangaPages.last.manga.catalog,
+                  chapter: mangaPages.last.chapter,
+                )));
+
+      }else{
+        mangaChapters.fold((l){
+          BotToast.showText(
+            text:
+            "Les chapitres ne sont pas encore chargés",
+          );
+        }, (r){
+          if(r.isEmpty){
+            BotToast.showText(
+              text:
+              "Les chapitres ne sont pas encore chargés",
+            );
+          }else{
+            Navigator.push(
+                context,
+                ScaleRoute(
+                    page: ReaderLoader(
+                      manga: manga,
+                      catalog: manga.catalog,
+                      chapter: r.last,
+                    )));
+          }
+        });
+      }
     });
   }
 }

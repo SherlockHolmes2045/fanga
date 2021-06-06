@@ -63,7 +63,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
             return false;
           }else{
             context.read<ActionProvider>().emptyItems();
-            //context.read<ChapterProvider>().clearAllFilters();
+            context.read<ReadmangatodayChapterProvider>().clearAllFilters();
             return true;
           }
         },
@@ -106,13 +106,17 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                   Icons.bookmark_border,
                                   color: Colors.white,
                                 ),
-                                onPressed: null),
+                                onPressed: (){
+                                  context.read<BookmarkProvider>().bookmarkSelected(context.read<ActionProvider>().selectedItems,MediaQuery.of(context).size);
+                                }),
                             IconButton(
                                 icon: Icon(
                                   Icons.check,
                                   color: Colors.white,
                                 ),
-                                onPressed: null),
+                                onPressed: (){
+                                  context.read<PageProvider>().markAsReadSelected(context.read<ActionProvider>().selectedItems,widget.manga, MediaQuery.of(context).size);
+                                }),
                             IconButton(
                                 icon: Icon(
                                   Icons.check_circle_outline_rounded,
@@ -127,7 +131,9 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                 )
               : FloatingActionButton(
                   backgroundColor: Colors.cyan,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<ReadmangatodayChapterProvider>().resumeChapter(widget.manga, context);
+                  },
                   child: Icon(Icons.play_arrow, color: Colors.white),
                 ),
           appBar: context.watch<ActionProvider>().selectedItems.isEmpty
@@ -398,7 +404,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                             MainAxisAlignment.spaceBetween,
                                                                         children: [
                                                                           Text(
-                                                                            mangaChapters.length.toString() +
+                                                                            context.watch<ReadmangatodayChapterProvider>().isFiltered ? context.watch<ReadmangatodayChapterProvider>().filteredChapters.length.toString() + " chapitres" : mangaChapters.length.toString() +
                                                                                 " chapitres",
                                                                             style:
                                                                                 TextStyle(color: Colors.white, fontSize: 17),
@@ -535,6 +541,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                         height:
                                                                             SizeConfig.blockSizeVertical,
                                                                       ),
+                                                                      !context.watch<ReadmangatodayChapterProvider>().isFiltered ?
                                                                       ListView.separated(
                                                                           shrinkWrap: true,
                                                                           separatorBuilder: (context, int index) {
@@ -624,9 +631,9 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                           if (result == 0) {
                                                                                             context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.readmangatodayCatalogName, widget.manga, MediaQuery.of(context).size);
                                                                                           } else if (result == 1) {
-                                                                                            context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
+                                                                                            context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size,true);
                                                                                           } else if (result == 2) {
-                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size);
+                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size,widget.manga,true);
                                                                                           }
                                                                                         },
                                                                                         color: Color.fromRGBO(28, 28, 28, 1),
@@ -669,6 +676,145 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                           catalog: Assets.readmangatodayCatalogName,
                                                                                           chapter: mangaChapters[index],
                                                                                         )));
+                                                                                  }
+                                                                                },
+                                                                              ),
+                                                                            );
+                                                                          }) :
+                                                                      ListView.separated(
+                                                                          shrinkWrap: true,
+                                                                          separatorBuilder: (context, int index) {
+                                                                            return Divider(
+                                                                              color: Color.fromRGBO(28, 28, 28, 1),
+                                                                              thickness: 1.15,
+                                                                            );
+                                                                          },
+                                                                          physics: NeverScrollableScrollPhysics(),
+                                                                          itemCount: context.watch<ReadmangatodayChapterProvider>().filteredChapters.length,
+                                                                          itemBuilder: (context, int index) {
+                                                                            return Container(
+                                                                              color: context.watch<ActionProvider>().selectedItems.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters) ? Color.fromRGBO(28, 28, 28, 1) : Colors.black54,
+                                                                              child: ListTile(
+                                                                                contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                                                                                leading: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters)
+                                                                                    ? null
+                                                                                    : Icon(
+                                                                                  Icons.bookmark,
+                                                                                  color: Colors.cyan,
+                                                                                ),
+                                                                                title: Padding(
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, bottom: SizeConfig.blockSizeVertical),
+                                                                                    child: FutureBuilder(
+                                                                                        future: context.read<PageProvider>().findChapter(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]),
+                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                          if (snapshot.hasData) {
+                                                                                            return Text(
+                                                                                              'Chapitre ${context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].number} ${context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].title}',
+                                                                                              overflow: TextOverflow.clip,
+                                                                                              style: TextStyle(
+                                                                                                  color: context.watch<PageProvider>().pages.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) && snapshot.data.finished
+                                                                                                      ? Colors.grey
+                                                                                                      : !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index])
+                                                                                                      ? Colors.white
+                                                                                                      : Colors.cyan,
+                                                                                                  fontSize: 13.0),
+                                                                                            );
+                                                                                          } else {
+                                                                                            return Text(
+                                                                                              'Chapitre ${context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].number} ${mangaChapters[index].title}',
+                                                                                              overflow: TextOverflow.clip,
+                                                                                              style: TextStyle(color: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) ? Colors.white : Colors.cyan, fontSize: 13.0),
+                                                                                            );
+                                                                                          }
+                                                                                        })),
+                                                                                subtitle: Padding(
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                                                    child: FutureBuilder(
+                                                                                        future: context.read<PageProvider>().findChapter(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]),
+                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                          if (snapshot.hasData) {
+                                                                                            return RichText(
+                                                                                                text: TextSpan(
+                                                                                                    text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].publishedAt)),
+                                                                                                    style: TextStyle(
+                                                                                                      color: context.watch<PageProvider>().pages.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) && snapshot.data.finished
+                                                                                                          ? Colors.grey
+                                                                                                          : !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index])
+                                                                                                          ? Colors.white
+                                                                                                          : Colors.cyan,
+                                                                                                    ),
+                                                                                                    children: <TextSpan>[
+                                                                                                      if (!snapshot.data.finished)
+                                                                                                        TextSpan(
+                                                                                                            text: " \u22C5 ",
+                                                                                                            style: TextStyle(
+                                                                                                              color: Colors.white,
+                                                                                                              fontWeight: FontWeight.bold,
+                                                                                                            )),
+                                                                                                      if (!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                                                    ]));
+                                                                                          } else {
+                                                                                            return RichText(
+                                                                                                text: TextSpan(
+                                                                                                  text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].publishedAt)),
+                                                                                                  style: TextStyle(
+                                                                                                    color: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) ? Colors.white : Colors.cyan,
+                                                                                                  ),
+                                                                                                ));
+                                                                                          }
+                                                                                        })),
+                                                                                trailing: context.watch<ActionProvider>().selectedItems.isEmpty
+                                                                                    ? PopupMenuButton(
+                                                                                  onSelected: (dynamic result) {
+                                                                                    print(result);
+                                                                                    if (result == 0) {
+                                                                                      context.read<ActionProvider>().downloadChapter(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], Assets.readmangatodayCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                                                    } else if (result == 1) {
+                                                                                      context.read<BookmarkProvider>().bookmark(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,true);
+                                                                                    } else if (result == 2) {
+                                                                                      context.read<PageProvider>().markAsRead(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,widget.manga,true);
+                                                                                    }
+                                                                                  },
+                                                                                  color: Color.fromRGBO(28, 28, 28, 1),
+                                                                                  child: Icon(
+                                                                                    Icons.more_vert,
+                                                                                    color: Colors.white,
+                                                                                  ),
+                                                                                  itemBuilder: (context) {
+                                                                                    return List.generate(menu.length, (index) {
+                                                                                      return PopupMenuItem(
+                                                                                        value: index,
+                                                                                        child: Text(
+                                                                                          menu[index],
+                                                                                          style: TextStyle(color: Colors.white),
+                                                                                        ),
+                                                                                      );
+                                                                                    });
+                                                                                  },
+                                                                                )
+                                                                                    : Icon(
+                                                                                  Icons.more_vert,
+                                                                                  color: Colors.white,
+                                                                                ),
+                                                                                onLongPress: () {
+                                                                                  context.read<ActionProvider>().selectItems(context.read<ReadmangatodayChapterProvider>().filteredChapters[index]);
+                                                                                },
+                                                                                onTap: () {
+                                                                                  if (context.read<ActionProvider>().selectedItems.isNotEmpty) {
+                                                                                    if (context.read<ActionProvider>().selectedItems.contains(context.read<ReadmangatodayChapterProvider>().filteredChapters[index])) {
+                                                                                      context.read<ActionProvider>().removeItem(context.read<ReadmangatodayChapterProvider>().filteredChapters[index]);
+                                                                                    } else {
+                                                                                      context.read<ActionProvider>().selectItems(context.read<ReadmangatodayChapterProvider>().filteredChapters[index]);
+                                                                                    }
+                                                                                  } else {
+                                                                                    Navigator.push(
+                                                                                        context,
+                                                                                        ScaleRoute(
+                                                                                            page: ReaderLoader(
+                                                                                              manga: widget.manga,
+                                                                                              catalog: Assets.readmangatodayCatalogName,
+                                                                                              chapter: context.read<ReadmangatodayChapterProvider>().filteredChapters[index],
+                                                                                            )));
                                                                                   }
                                                                                 },
                                                                               ),

@@ -521,9 +521,9 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                             if (result == 0) {
                                                               context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangahereCatalogName, widget.manga, MediaQuery.of(context).size);
                                                             } else if (result == 1) {
-                                                              context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
+                                                              context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size,true);
                                                             } else if (result == 2) {
-                                                              context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size);
+                                                              context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size,widget.manga,true);
                                                             }
                                                           },
                                                           color: Color.fromRGBO(28, 28, 28, 1),
