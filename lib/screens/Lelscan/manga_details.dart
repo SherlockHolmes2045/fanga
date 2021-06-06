@@ -106,13 +106,17 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                   Icons.bookmark_border,
                                   color: Colors.white,
                                 ),
-                                onPressed: null),
+                                onPressed: (){
+                                  context.read<BookmarkProvider>().bookmarkSelected(context.read<ActionProvider>().selectedItems,MediaQuery.of(context).size);
+                                }),
                             IconButton(
                                 icon: Icon(
                                   Icons.check,
                                   color: Colors.white,
                                 ),
-                                onPressed: null),
+                                onPressed: (){
+                                  context.read<PageProvider>().markAsReadSelected(context.read<ActionProvider>().selectedItems,widget.manga, MediaQuery.of(context).size);
+                                }),
                             IconButton(
                                 icon: Icon(
                                   Icons.check_circle_outline_rounded,
@@ -642,9 +646,9 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                           if (result == 0) {
                                                                                             context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
                                                                                           } else if (result == 1) {
-                                                                                            context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
+                                                                                            context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size,true);
                                                                                           } else if (result == 2) {
-                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size,widget.manga);
+                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size,widget.manga,true);
                                                                                           }
                                                                                         },
                                                                                         color: Color.fromRGBO(28, 28, 28, 1),
@@ -794,9 +798,9 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                     if (result == 0) {
                                                                                       context.read<ActionProvider>().downloadChapter(context.watch<ChapterProvider>().filteredChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
                                                                                     } else if (result == 1) {
-                                                                                      context.read<BookmarkProvider>().bookmark(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size);
+                                                                                      context.read<BookmarkProvider>().bookmark(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,true);
                                                                                     } else if (result == 2) {
-                                                                                      context.read<PageProvider>().markAsRead(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,widget.manga);
+                                                                                      context.read<PageProvider>().markAsRead(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,widget.manga,true);
                                                                                     }
                                                                                   },
                                                                                   color: Color.fromRGBO(28, 28, 28, 1),

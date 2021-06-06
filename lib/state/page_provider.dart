@@ -41,7 +41,7 @@ class PageProvider extends BaseProvider {
     });
   }
 
-  markAsRead(Chapter chapter, Size size,Manga manga) {
+  markAsRead(Chapter chapter, Size size,Manga manga,bool notify) {
     pageDao.findPage(chapter.url).then((value) {
       if (value == null) {
         pageDao
@@ -49,44 +49,68 @@ class PageProvider extends BaseProvider {
                 chapter: chapter, finished: true, page: Random().nextInt(100),manga: manga))
             .then((value) {
           loadAllPages();
-          BotToast.showSimpleNotification(
-            align: Alignment.bottomRight,
-            duration: Duration(seconds: 4),
-            wrapToastAnimation: (controller, cancel, child) =>
-                CustomOffsetAnimation(
-                    reverse: true,
-                    controller: controller,
-                    child: Container(
-                      width: size.width * 0.85,
-                      height: size.height / 10,
-                      child: child,
-                    )),
-            title: chapter.title,
-            crossPage: true,
-            subTitle: "a été marqué comme lu",
-          );
+          if(notify){
+            BotToast.showSimpleNotification(
+              align: Alignment.bottomRight,
+              duration: Duration(seconds: 4),
+              wrapToastAnimation: (controller, cancel, child) =>
+                  CustomOffsetAnimation(
+                      reverse: true,
+                      controller: controller,
+                      child: Container(
+                        width: size.width * 0.85,
+                        height: size.height / 10,
+                        child: child,
+                      )),
+              title: chapter.title,
+              crossPage: true,
+              subTitle: "a été marqué comme lu",
+            );
+          }
         });
       } else {
         pageDao.delete(chapter.url).then((value) {
           loadAllPages();
-          BotToast.showSimpleNotification(
-            align: Alignment.bottomRight,
-            duration: Duration(seconds: 4),
-            wrapToastAnimation: (controller, cancel, child) =>
-                CustomOffsetAnimation(
-                    reverse: true,
-                    controller: controller,
-                    child: Container(
-                      width: size.width * 0.85,
-                      height: size.height / 10,
-                      child: child,
-                    )),
-            title: chapter.title,
-            crossPage: true,
-            subTitle: "a été marqué comme non lu",
-          );
+          if(notify){
+            BotToast.showSimpleNotification(
+              align: Alignment.bottomRight,
+              duration: Duration(seconds: 4),
+              wrapToastAnimation: (controller, cancel, child) =>
+                  CustomOffsetAnimation(
+                      reverse: true,
+                      controller: controller,
+                      child: Container(
+                        width: size.width * 0.85,
+                        height: size.height / 10,
+                        child: child,
+                      )),
+              title: chapter.title,
+              crossPage: true,
+              subTitle: "a été marqué comme non lu",
+            );
+          }
         });
       }
+    });
+  }
+  markAsReadSelected(List<Chapter> chapters,Manga manga,Size size){
+    chapters.forEach((element) {
+      markAsRead(element, size, manga,false);
+      BotToast.showSimpleNotification(
+        align: Alignment.bottomRight,
+        duration: Duration(seconds: 4),
+        wrapToastAnimation: (controller, cancel, child) =>
+            CustomOffsetAnimation(
+                reverse: true,
+                controller: controller,
+                child: Container(
+                  width: size.width * 0.85,
+                  height: size.height / 10,
+                  child: child,
+                )),
+        title: "${chapters.length} chapitres ont été marqué comme lus",
+        crossPage: true,
+      );
     });
   }
 }

@@ -23,7 +23,6 @@ class LelscanService {
                   'Content-Type': "application/json",
                 })),
           );
-      print(uri);
       final items =
           response.data["data"]["mangas"].cast<Map<String, dynamic>>();
       List<Manga> mangas = items.map<Manga>((json) {

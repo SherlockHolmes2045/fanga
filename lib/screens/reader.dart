@@ -123,7 +123,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                       color: !context.read<BookmarkProvider>().bookmarked.contains(widget.chapter) ? Colors.white : Colors.cyan,
                     ),
                     onPressed: () {
-                      context.read<BookmarkProvider>().bookmark(widget.chapter,MediaQuery.of(context).size);
+                      context.read<BookmarkProvider>().bookmark(widget.chapter,MediaQuery.of(context).size,true);
                     }),
               ),
               Padding(
