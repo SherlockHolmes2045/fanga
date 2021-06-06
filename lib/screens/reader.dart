@@ -81,13 +81,13 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
     return WillPopScope(
       onWillPop: () async{
         if(pages.isEmpty){
-          context.read<PageProvider>().updatePage(widget.chapter,0, false);
+          context.read<PageProvider>().updatePage(widget.chapter,0, false,widget.manga);
         }else{
           List<int> distinctIds = pages.toSet().toList();
           if(distinctIds.reduce(max) == widget.pages.length-1){
-            context.read<PageProvider>().updatePage(widget.chapter,distinctIds.reduce(max), true);
+            context.read<PageProvider>().updatePage(widget.chapter,distinctIds.reduce(max), true,widget.manga);
           }else{
-            context.read<PageProvider>().updatePage(widget.chapter,distinctIds.reduce(max), false);
+            context.read<PageProvider>().updatePage(widget.chapter,distinctIds.reduce(max), false,widget.manga);
           }
         }
         return true;
@@ -171,7 +171,6 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                             value: readingDirection,
                                             onChanged:
                                                 (ReadingDirectionModel value) {
-                                              print(value.readingDirection);
                                               setState(() {
                                                 readingDirection = value;
                                               });
@@ -179,7 +178,6 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                             items: directions.map(
                                                 (ReadingDirectionModel
                                                     readingDirectionModel) {
-                                              print(readingDirectionModel.text);
                                               return DropdownMenuItem<
                                                   ReadingDirectionModel>(
                                                 value: readingDirectionModel,
@@ -395,7 +393,6 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                           onPageChanged: (int nextPage,
                               CarouselPageChangedReason
                                   carouselPageChangedReason) {
-                            print(nextPage);
                             pages.add(nextPage);
                             setState(() {
                               currentPage = (nextPage + 1).toDouble();
@@ -433,8 +430,6 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                       errorBuilder: (BuildContext context,
                                           Object exception,
                                           StackTrace stackTrace) {
-                                        print(exception);
-                                        print(stackTrace);
                                         return Center(
                                           child: Column(
                                             mainAxisAlignment:
@@ -530,7 +525,6 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                           activeColor: Colors.cyan,
                                           inactiveColor: Colors.grey,
                                           onChanged: (newValue) {
-                                            print(newValue.floor());
                                             setState(() {
                                               currentPage = newValue;
                                             });

@@ -127,7 +127,9 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                 )
               : FloatingActionButton(
                   backgroundColor: Colors.cyan,
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<ReadmangatodayChapterProvider>().resumeChapter(widget.manga, context);
+                  },
                   child: Icon(Icons.play_arrow, color: Colors.white),
                 ),
           appBar: context.watch<ActionProvider>().selectedItems.isEmpty
@@ -627,7 +629,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                           } else if (result == 1) {
                                                                                             context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
                                                                                           } else if (result == 2) {
-                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size);
+                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size,widget.manga);
                                                                                           }
                                                                                         },
                                                                                         color: Color.fromRGBO(28, 28, 28, 1),
@@ -766,7 +768,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                     } else if (result == 1) {
                                                                                       context.read<BookmarkProvider>().bookmark(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], MediaQuery.of(context).size);
                                                                                     } else if (result == 2) {
-                                                                                      context.read<PageProvider>().markAsRead(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], MediaQuery.of(context).size);
+                                                                                      context.read<PageProvider>().markAsRead(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,widget.manga);
                                                                                     }
                                                                                   },
                                                                                   color: Color.fromRGBO(28, 28, 28, 1),

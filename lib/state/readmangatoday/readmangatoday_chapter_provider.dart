@@ -1,15 +1,20 @@
 import 'dart:collection';
 
+import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
+import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/database/dao/chapter_bookmark_dao.dart';
 import 'package:manga_reader/database/dao/download_dao.dart';
 import 'package:manga_reader/database/dao/page_dao.dart';
 import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/networking/services/lelscan_service.dart';
+import 'package:manga_reader/screens/reader_loader.dart';
 import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/extensions.dart';
+import 'package:manga_reader/models/page.dart' as Model;
 
 class ReadmangatodayChapterProvider extends BaseProvider {
   Either<NException, List<Chapter>> mangaChapters = Right([]);
@@ -186,6 +191,48 @@ class ReadmangatodayChapterProvider extends BaseProvider {
       this.toggleLoadingState();
       print(error);
       mangaChapters = Left(error);
+    });
+  }
+  resumeChapter(Manga manga, BuildContext context) {
+    pageDao.getAll().then((value) {
+      List<Model.Page> mangaPages =
+      value.where((page) => page.manga == manga).toList();
+      mangaPages.sort((a, b) =>
+          int.parse(a.chapter.number).compareTo(int.parse(b.chapter.number)));
+      if(mangaPages.isNotEmpty){
+        Navigator.push(
+            context,
+            ScaleRoute(
+                page: ReaderLoader(
+                  manga: mangaPages.last.manga,
+                  catalog: mangaPages.last.manga.catalog,
+                  chapter: mangaPages.last.chapter,
+                )));
+
+      }else{
+        mangaChapters.fold((l){
+          BotToast.showText(
+            text:
+            "Les chapitres ne sont pas encore chargés",
+          );
+        }, (r){
+          if(r.isEmpty){
+            BotToast.showText(
+              text:
+              "Les chapitres ne sont pas encore chargés",
+            );
+          }else{
+            Navigator.push(
+                context,
+                ScaleRoute(
+                    page: ReaderLoader(
+                      manga: manga,
+                      catalog: manga.catalog,
+                      chapter: r.last,
+                    )));
+          }
+        });
+      }
     });
   }
 }

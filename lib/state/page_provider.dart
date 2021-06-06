@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:manga_reader/custom/widgets/custom_notification_animation.dart';
 import 'package:manga_reader/database/dao/page_dao.dart';
 import 'package:manga_reader/models/chapter.dart';
+import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/models/page.dart' as Model;
 import 'package:manga_reader/state/base_provider.dart';
 
@@ -24,28 +25,28 @@ class PageProvider extends BaseProvider {
     return await pageDao.findPage(chapter.url);
   }
 
-  updatePage(Chapter chapter, int page, bool finished) {
+  updatePage(Chapter chapter, int page, bool finished,Manga manga) {
     pageDao.findPage(chapter.url).then((value) async {
       if (value == null) {
         await pageDao.insert(
-            Model.Page(chapter: chapter, finished: finished, page: page));
+            Model.Page(chapter: chapter, finished: finished, page: page,manga: manga));
         loadAllPages();
       } else {
         if(value.page < page){
           await pageDao.update(
-              Model.Page(chapter: chapter, finished: finished, page: page));
+              Model.Page(chapter: chapter, finished: finished, page: page,manga: manga));
           loadAllPages();
         }
       }
     });
   }
 
-  markAsRead(Chapter chapter, Size size) {
+  markAsRead(Chapter chapter, Size size,Manga manga) {
     pageDao.findPage(chapter.url).then((value) {
       if (value == null) {
         pageDao
             .insert(Model.Page(
-                chapter: chapter, finished: true, page: Random().nextInt(100)))
+                chapter: chapter, finished: true, page: Random().nextInt(100),manga: manga))
             .then((value) {
           loadAllPages();
           BotToast.showSimpleNotification(

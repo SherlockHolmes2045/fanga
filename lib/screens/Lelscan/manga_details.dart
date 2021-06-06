@@ -128,7 +128,9 @@ class _LelscanDetailState extends State<LelscanDetail> {
               : FloatingActionButton(
                   backgroundColor: Colors.cyan,
                   child: Icon(Icons.play_arrow, color: Colors.white),
-            onPressed: (){},
+            onPressed: (){
+                    context.read<ChapterProvider>().resumeChapter(widget.manga,context);
+            },
                 ),
           appBar: context.watch<ActionProvider>().selectedItems.isEmpty
               ? AppBar(
@@ -642,7 +644,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                           } else if (result == 1) {
                                                                                             context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size);
                                                                                           } else if (result == 2) {
-                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size);
+                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size,widget.manga);
                                                                                           }
                                                                                         },
                                                                                         color: Color.fromRGBO(28, 28, 28, 1),
@@ -794,7 +796,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                     } else if (result == 1) {
                                                                                       context.read<BookmarkProvider>().bookmark(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size);
                                                                                     } else if (result == 2) {
-                                                                                      context.read<PageProvider>().markAsRead(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size);
+                                                                                      context.read<PageProvider>().markAsRead(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,widget.manga);
                                                                                     }
                                                                                   },
                                                                                   color: Color.fromRGBO(28, 28, 28, 1),
