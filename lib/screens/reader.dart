@@ -106,7 +106,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                   style: TextStyle(fontSize: height / 42),
                 ),
                 Text(
-                  widget.chapter.title,
+                  widget.chapter.title.isEmpty ? "Chapitre ${widget.chapter.number}" : widget.chapter.title,
                   style: TextStyle(
                       fontSize: height / 50,
                       color: Colors.white.withOpacity(0.5)),

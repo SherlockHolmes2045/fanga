@@ -62,7 +62,7 @@ class PageProvider extends BaseProvider {
                         height: size.height / 10,
                         child: child,
                       )),
-              title: chapter.title,
+              title: chapter.title.isEmpty ? "Chapitre ${chapter.number}" : chapter.title,
               crossPage: true,
               subTitle: "a été marqué comme lu",
             );
@@ -84,7 +84,7 @@ class PageProvider extends BaseProvider {
                         height: size.height / 10,
                         child: child,
                       )),
-              title: chapter.title,
+              title: chapter.title.isEmpty ? "Chapitre ${chapter.number}" : chapter.title,
               crossPage: true,
               subTitle: "a été marqué comme non lu",
             );
