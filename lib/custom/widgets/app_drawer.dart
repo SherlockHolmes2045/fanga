@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/routes.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/routes.dart';
 
 class AppDrawer extends StatelessWidget {
   @override

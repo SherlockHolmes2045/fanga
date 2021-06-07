@@ -1,25 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/models/download.dart';
-import 'package:manga_reader/screens/reader_loader.dart';
-import 'package:manga_reader/state/action_provider.dart';
-import 'package:manga_reader/utils/size_config.dart';
-import 'package:manga_reader/utils/task_info.dart';
-import 'package:provider/provider.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/models/download.dart';
+import 'package:Fanga/screens/reader_loader.dart';
+import 'package:Fanga/utils/size_config.dart';
+import 'package:Fanga/utils/task_info.dart';
 
 class DownloadItem extends StatelessWidget {
   final Download download;
   final DownloadTask downloadTask;
-  const DownloadItem({Key key,@required this.download,@required this.downloadTask})
+  const DownloadItem(
+      {Key key, @required this.download, @required this.downloadTask})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    if(downloadTask.status == DownloadTaskStatus.running){
+    if (downloadTask.status == DownloadTaskStatus.running) {
       print(downloadTask.progress);
     }
     return ListTile(
@@ -51,7 +50,8 @@ class DownloadItem extends StatelessWidget {
           children: [
             Text(
                 downloadTask.filename != null
-                    ? downloadTask.filename.split(".")[0]
+                    ? downloadTask.filename
+                        .substring(0, downloadTask.filename.length - 4)
                     : "",
                 style: TextStyle(color: Colors.white)),
             if (downloadTask.status == DownloadTaskStatus.running) ...[
@@ -85,7 +85,7 @@ class DownloadItem extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "${dirStatSync(downloadTask.savedDir + "/" + downloadTask.filename.split('.')[0])["size"].toStringAsFixed(2)} Mo  ",
+                    "${dirStatSync(downloadTask.savedDir + "/" + downloadTask.filename.substring(0, downloadTask.filename.length - 4))["size"].toStringAsFixed(2)} Mo  ",
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
@@ -153,15 +153,15 @@ class DownloadItem extends StatelessWidget {
                           color: Colors.grey,
                         ),
                         onPressed: () {
-                          if(download != null){
+                          if (download != null) {
                             Navigator.push(
                                 context,
                                 ScaleRoute(
                                     page: ReaderLoader(
-                                      manga: download.manga,
-                                      catalog: download.manga.catalog,
-                                      chapter: download.chapter,
-                                    )));
+                                  manga: download.manga,
+                                  catalog: download.manga.catalog,
+                                  chapter: download.chapter,
+                                )));
                           }
                         },
                       ));

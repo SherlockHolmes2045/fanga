@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:manga_reader/constants/preferences.dart';
+import 'package:Fanga/constants/preferences.dart';
 
 class SharedPreferenceHelper {
   // shared pref instance
@@ -42,7 +42,9 @@ class SharedPreferenceHelper {
 
   Future<bool> get isLoggedIn async {
     return _sharedPreference.then((preference) {
-      return preference.getString(Preferences.auth_token) == null ? false : true ;
+      return preference.getString(Preferences.auth_token) == null
+          ? false
+          : true;
     });
   }
 
@@ -51,9 +53,10 @@ class SharedPreferenceHelper {
       return preference.getBool(Preferences.first_usage) ?? true;
     });
   }
+
   Future<void> setFirstUsage() async {
     return _sharedPreference.then((preference) {
-      preference.setBool(Preferences.first_usage,false);
+      preference.setBool(Preferences.first_usage, false);
     });
   }
 
@@ -100,57 +103,56 @@ class SharedPreferenceHelper {
   }
 
   Future<void> storeData(String key, value, String type) {
-    switch(type){
-      case "string" :
+    switch (type) {
+      case "string":
         return _sharedPreference.then((prefs) {
           return prefs.setString(key, value);
         });
         break;
-      
-      case "int" :
+
+      case "int":
         return _sharedPreference.then((prefs) {
           return prefs.setInt(key, value);
         });
         break;
-  
-      case "bool" :
+
+      case "bool":
         return _sharedPreference.then((prefs) {
           return prefs.setBool(key, value);
         });
         break;
-  
+
       default:
         return _sharedPreference.then((prefs) {
           return prefs.setString(key, value);
         });
-     }
+    }
   }
 
   Future<dynamic> getData(String key, String type) {
-    
-      switch(type){
-        case "string" :
-          return _sharedPreference.then((prefs) {
-            return prefs.getString(key);
-          });
-          break;
-        
-        case "int" :
-          return _sharedPreference.then((prefs) {
-            return prefs.getInt(key);
-          });
-          break;
-    
-        case "bool" :
-          return _sharedPreference.then((prefs) {
-            return prefs.getBool(key);
-          });
-          break;
-    
-        default:
-          return _sharedPreference.then((prefs) {
-            return prefs.getString(key);
-          });
-     }
+    switch (type) {
+      case "string":
+        return _sharedPreference.then((prefs) {
+          return prefs.getString(key);
+        });
+        break;
+
+      case "int":
+        return _sharedPreference.then((prefs) {
+          return prefs.getInt(key);
+        });
+        break;
+
+      case "bool":
+        return _sharedPreference.then((prefs) {
+          return prefs.getBool(key);
+        });
+        break;
+
+      default:
+        return _sharedPreference.then((prefs) {
+          return prefs.getString(key);
+        });
+    }
   }
 }

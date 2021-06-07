@@ -1,9 +1,8 @@
-import 'package:manga_reader/database/app_database.dart';
-import 'package:manga_reader/models/download.dart';
+import 'package:Fanga/database/app_database.dart';
+import 'package:Fanga/models/download.dart';
 import 'package:sembast/sembast.dart';
 
 class DownloadDao {
-
   static const String DOWNLOAD_STORE_NAME = 'downloads';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Fruit objects converted to Map
@@ -17,7 +16,7 @@ class DownloadDao {
     await _downloadStore.add(await _db, download.toMap());
   }
 
-  Future update(Download download,String taskId) async {
+  Future update(Download download, String taskId) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.byKey(taskId));
@@ -29,10 +28,10 @@ class DownloadDao {
   }
 
   Future delete(String taskId) async {
-    final finder = Finder(filter: Filter.and([
-      Filter.equals("taskId",taskId),
-    ])
-    );
+    final finder = Finder(
+        filter: Filter.and([
+      Filter.equals("taskId", taskId),
+    ]));
     await _downloadStore.delete(
       await _db,
       finder: finder,
@@ -40,7 +39,6 @@ class DownloadDao {
   }
 
   Future<List<Download>> getAll() async {
-
     final recordSnapshots = await _downloadStore.find(
       await _db,
     );
@@ -53,19 +51,15 @@ class DownloadDao {
   }
 
   Future<Download> findDownload(String value) async {
-
     final finder = Finder(
         filter: Filter.and([
-          Filter.equals("taskId",value),
-        ])
-    );
-    final recordSnapshots = await _downloadStore.findFirst(
-        await _db,
-        finder: finder
-    );
-    if(recordSnapshots == null){
+      Filter.equals("taskId", value),
+    ]));
+    final recordSnapshots =
+        await _downloadStore.findFirst(await _db, finder: finder);
+    if (recordSnapshots == null) {
       return null;
-    }else{
+    } else {
       return Download.fromJson(recordSnapshots.value);
     }
   }

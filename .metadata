@@ -4,7 +4,11 @@
 # This file should be version controlled and should not be manually edited.
 
 version:
+<<<<<<< HEAD
   revision: 27321ebbad34b0a3fafe99fac037102196d655ff
+=======
+  revision: 84f3d28555368a70270e9ac8390a9441df95e752
+>>>>>>> 6fa6b0b (changed app package name and fix issue with downloading and removed some useless lines of code)
   channel: stable
 
 project_type: app

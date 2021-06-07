@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:manga_reader/custom/widgets/download_item.dart';
-import 'package:manga_reader/state/action_provider.dart';
-import 'package:manga_reader/utils/size_config.dart';
-import 'package:manga_reader/models/download.dart' as Model;
+import 'package:Fanga/custom/widgets/download_item.dart';
+import 'package:Fanga/state/action_provider.dart';
+import 'package:Fanga/utils/size_config.dart';
+import 'package:Fanga/models/download.dart' as Model;
 import 'package:provider/provider.dart';
 
 class Download extends StatelessWidget {

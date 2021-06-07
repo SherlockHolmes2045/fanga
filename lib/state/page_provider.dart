@@ -1,12 +1,12 @@
 import 'dart:math';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/custom/widgets/custom_notification_animation.dart';
-import 'package:manga_reader/database/dao/page_dao.dart';
-import 'package:manga_reader/models/chapter.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/models/page.dart' as Model;
-import 'package:manga_reader/state/base_provider.dart';
+import 'package:Fanga/custom/widgets/custom_notification_animation.dart';
+import 'package:Fanga/database/dao/page_dao.dart';
+import 'package:Fanga/models/chapter.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/models/page.dart' as Model;
+import 'package:Fanga/state/base_provider.dart';
 
 class PageProvider extends BaseProvider {
   List<Model.Page> pages = [];
@@ -25,31 +25,34 @@ class PageProvider extends BaseProvider {
     return await pageDao.findPage(chapter.url);
   }
 
-  updatePage(Chapter chapter, int page, bool finished,Manga manga) {
+  updatePage(Chapter chapter, int page, bool finished, Manga manga) {
     pageDao.findPage(chapter.url).then((value) async {
       if (value == null) {
-        await pageDao.insert(
-            Model.Page(chapter: chapter, finished: finished, page: page,manga: manga));
+        await pageDao.insert(Model.Page(
+            chapter: chapter, finished: finished, page: page, manga: manga));
         loadAllPages();
       } else {
-        if(value.page < page){
-          await pageDao.update(
-              Model.Page(chapter: chapter, finished: finished, page: page,manga: manga));
+        if (value.page < page) {
+          await pageDao.update(Model.Page(
+              chapter: chapter, finished: finished, page: page, manga: manga));
           loadAllPages();
         }
       }
     });
   }
 
-  markAsRead(Chapter chapter, Size size,Manga manga,bool notify) {
+  markAsRead(Chapter chapter, Size size, Manga manga, bool notify) {
     pageDao.findPage(chapter.url).then((value) {
       if (value == null) {
         pageDao
             .insert(Model.Page(
-                chapter: chapter, finished: true, page: Random().nextInt(100),manga: manga))
+                chapter: chapter,
+                finished: true,
+                page: Random().nextInt(100),
+                manga: manga))
             .then((value) {
           loadAllPages();
-          if(notify){
+          if (notify) {
             BotToast.showSimpleNotification(
               align: Alignment.bottomRight,
               duration: Duration(seconds: 4),
@@ -62,7 +65,9 @@ class PageProvider extends BaseProvider {
                         height: size.height / 10,
                         child: child,
                       )),
-              title: chapter.title.isEmpty ? "Chapitre ${chapter.number}" : chapter.title,
+              title: chapter.title.isEmpty
+                  ? "Chapitre ${chapter.number}"
+                  : chapter.title,
               crossPage: true,
               subTitle: "a été marqué comme lu",
             );
@@ -71,7 +76,7 @@ class PageProvider extends BaseProvider {
       } else {
         pageDao.delete(chapter.url).then((value) {
           loadAllPages();
-          if(notify){
+          if (notify) {
             BotToast.showSimpleNotification(
               align: Alignment.bottomRight,
               duration: Duration(seconds: 4),
@@ -84,7 +89,9 @@ class PageProvider extends BaseProvider {
                         height: size.height / 10,
                         child: child,
                       )),
-              title: chapter.title.isEmpty ? "Chapitre ${chapter.number}" : chapter.title,
+              title: chapter.title.isEmpty
+                  ? "Chapitre ${chapter.number}"
+                  : chapter.title,
               crossPage: true,
               subTitle: "a été marqué comme non lu",
             );
@@ -93,9 +100,10 @@ class PageProvider extends BaseProvider {
       }
     });
   }
-  markAsReadSelected(List<Chapter> chapters,Manga manga,Size size){
+
+  markAsReadSelected(List<Chapter> chapters, Manga manga, Size size) {
     chapters.forEach((element) {
-      markAsRead(element, size, manga,false);
+      markAsRead(element, size, manga, false);
       BotToast.showSimpleNotification(
         align: Alignment.bottomRight,
         duration: Duration(seconds: 4),

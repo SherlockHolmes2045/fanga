@@ -4,24 +4,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/manga_details.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/screens/reader_loader.dart';
-import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/action_provider.dart';
-import 'package:manga_reader/state/bookmark_provider.dart';
-import 'package:manga_reader/state/lelscan/chapter_provider.dart';
-import 'package:manga_reader/state/lelscan/details_provider.dart';
-import 'package:manga_reader/state/library_provider.dart';
-import 'package:manga_reader/state/page_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/manga_details.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/screens/reader_loader.dart';
+import 'package:Fanga/state/LoadingState.dart';
+import 'package:Fanga/state/action_provider.dart';
+import 'package:Fanga/state/bookmark_provider.dart';
+import 'package:Fanga/state/lelscan/chapter_provider.dart';
+import 'package:Fanga/state/lelscan/details_provider.dart';
+import 'package:Fanga/state/library_provider.dart';
+import 'package:Fanga/state/page_provider.dart';
+import 'package:Fanga/utils/n_exception.dart';
+import 'package:Fanga/utils/size_config.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:manga_reader/models/page.dart' as Model;
+import 'package:Fanga/models/page.dart' as Model;
 
 class LelscanDetail extends StatefulWidget {
   final Manga manga;
@@ -42,13 +42,13 @@ class _LelscanDetailState extends State<LelscanDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          context
-              .read<DetailsProvider>()
-              .getMangaDetails(Assets.lelscanCatalogName, widget.manga,false);
+      context
+          .read<DetailsProvider>()
+          .getMangaDetails(Assets.lelscanCatalogName, widget.manga, false);
 
-          context
-              .read<ChapterProvider>()
-              .getChapters(Assets.lelscanCatalogName, widget.manga,false);
+      context
+          .read<ChapterProvider>()
+          .getChapters(Assets.lelscanCatalogName, widget.manga, false);
     });
   }
 
@@ -57,11 +57,11 @@ class _LelscanDetailState extends State<LelscanDetail> {
     SizeConfig().init(context);
     return SafeArea(
       child: WillPopScope(
-        onWillPop: () async{
-          if(context.read<ActionProvider>().selectedItems.isNotEmpty){
+        onWillPop: () async {
+          if (context.read<ActionProvider>().selectedItems.isNotEmpty) {
             context.read<ActionProvider>().emptyItems();
             return false;
-          }else{
+          } else {
             context.read<ActionProvider>().emptyItems();
             context.read<ChapterProvider>().clearAllFilters();
             return true;
@@ -106,16 +106,29 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                   Icons.bookmark_border,
                                   color: Colors.white,
                                 ),
-                                onPressed: (){
-                                  context.read<BookmarkProvider>().bookmarkSelected(context.read<ActionProvider>().selectedItems,MediaQuery.of(context).size);
+                                onPressed: () {
+                                  context
+                                      .read<BookmarkProvider>()
+                                      .bookmarkSelected(
+                                          context
+                                              .read<ActionProvider>()
+                                              .selectedItems,
+                                          MediaQuery.of(context).size);
                                 }),
                             IconButton(
                                 icon: Icon(
                                   Icons.check,
                                   color: Colors.white,
                                 ),
-                                onPressed: (){
-                                  context.read<PageProvider>().markAsReadSelected(context.read<ActionProvider>().selectedItems,widget.manga, MediaQuery.of(context).size);
+                                onPressed: () {
+                                  context
+                                      .read<PageProvider>()
+                                      .markAsReadSelected(
+                                          context
+                                              .read<ActionProvider>()
+                                              .selectedItems,
+                                          widget.manga,
+                                          MediaQuery.of(context).size);
                                 }),
                             IconButton(
                                 icon: Icon(
@@ -132,9 +145,11 @@ class _LelscanDetailState extends State<LelscanDetail> {
               : FloatingActionButton(
                   backgroundColor: Colors.cyan,
                   child: Icon(Icons.play_arrow, color: Colors.white),
-            onPressed: (){
-                    context.read<ChapterProvider>().resumeChapter(widget.manga,context);
-            },
+                  onPressed: () {
+                    context
+                        .read<ChapterProvider>()
+                        .resumeChapter(widget.manga, context);
+                  },
                 ),
           appBar: context.watch<ActionProvider>().selectedItems.isEmpty
               ? AppBar(
@@ -214,12 +229,14 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                             .read<DetailsProvider>()
                                             .getMangaDetails(
                                                 Assets.lelscanCatalogName,
-                                                widget.manga,false);
+                                                widget.manga,
+                                                false);
                                         context
                                             .read<ChapterProvider>()
                                             .getChapters(
                                                 Assets.lelscanCatalogName,
-                                                widget.manga,true);
+                                                widget.manga,
+                                                true);
                                       },
                                       child: Text("Réessayer"),
                                     )
@@ -239,20 +256,22 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                         children: [
                                           Padding(
                                             padding: EdgeInsets.only(
-                                                top:
-                                                    SizeConfig.blockSizeVertical *
-                                                        3),
-                                            child:
-                                                MangaDetails(manga:mangaDetails),
+                                                top: SizeConfig
+                                                        .blockSizeVertical *
+                                                    3),
+                                            child: MangaDetails(
+                                                manga: mangaDetails),
                                           ),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical * 2,
+                                                SizeConfig.blockSizeVertical *
+                                                    2,
                                           ),
                                           _builButtons(),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical * 2,
+                                                SizeConfig.blockSizeVertical *
+                                                    2,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
@@ -281,12 +300,14 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                     color: Colors.white,
                                                     height: 1.3,
                                                   ),
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                                 expanded: InkWell(
                                                   child: Text(
                                                     mangaDetails.description,
-                                                    textAlign: TextAlign.justify,
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         height: 1.3),
@@ -310,7 +331,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                           ),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical * 2,
+                                                SizeConfig.blockSizeVertical *
+                                                    2,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
@@ -330,7 +352,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                               CircularProgressIndicator(
                                                             valueColor:
                                                                 AlwaysStoppedAnimation(
-                                                                    Colors.blue),
+                                                                    Colors
+                                                                        .blue),
                                                           ),
                                                         )
                                                       : context
@@ -338,8 +361,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                   provider) =>
                                                               provider)
                                                           .mangaChapters
-                                                          .fold(
-                                                              (NException error) {
+                                                          .fold((NException
+                                                              error) {
                                                           return Center(
                                                             child: Column(
                                                               children: [
@@ -354,15 +377,14 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                       .blockSizeVertical,
                                                                 ),
                                                                 RaisedButton(
-                                                                  onPressed: () {
-                                                                    context
-                                                                        .read<
-                                                                            ChapterProvider>()
-                                                                        .getChapters(
-                                                                            Assets
-                                                                                .lelscanCatalogName,
-                                                                            widget
-                                                                                .manga,true);
+                                                                  onPressed:
+                                                                      () {
+                                                                    context.read<ChapterProvider>().getChapters(
+                                                                        Assets
+                                                                            .lelscanCatalogName,
+                                                                        widget
+                                                                            .manga,
+                                                                        true);
                                                                   },
                                                                   child: Text(
                                                                       "Réessayer"),
@@ -384,33 +406,26 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                     children: [
                                                                       Row(
                                                                         mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .spaceBetween,
+                                                                            MainAxisAlignment.spaceBetween,
                                                                         children: [
                                                                           Text(
-                                                                            context.watch<ChapterProvider>().isFiltered ? context.watch<ChapterProvider>().filteredChapters.length.toString() + " chapitres" : mangaChapters.length.toString() +
-                                                                                " chapitres",
-                                                                            style: TextStyle(
-                                                                                color: Colors.white,
-                                                                                fontSize: 17),
+                                                                            context.watch<ChapterProvider>().isFiltered
+                                                                                ? context.watch<ChapterProvider>().filteredChapters.length.toString() + " chapitres"
+                                                                                : mangaChapters.length.toString() + " chapitres",
+                                                                            style:
+                                                                                TextStyle(color: Colors.white, fontSize: 17),
                                                                           ),
                                                                           InkWell(
-                                                                            child: Container(
-                                                                              height:
-                                                                                  SizeConfig.blockSizeVertical * 4,
-                                                                              padding:
-                                                                                  EdgeInsets.symmetric(horizontal: 5.0),
-                                                                              decoration:
-                                                                                  BoxDecoration(
-                                                                                border:
-                                                                                    Border.all(color: Colors.grey.withOpacity(0.5)),
-                                                                                borderRadius:
-                                                                                    BorderRadius.all(Radius.circular(25)),
+                                                                            child:
+                                                                                Container(
+                                                                              height: SizeConfig.blockSizeVertical * 4,
+                                                                              padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                                                              decoration: BoxDecoration(
+                                                                                border: Border.all(color: Colors.grey.withOpacity(0.5)),
+                                                                                borderRadius: BorderRadius.all(Radius.circular(25)),
                                                                               ),
-                                                                              child:
-                                                                                  Row(
-                                                                                mainAxisAlignment:
-                                                                                    MainAxisAlignment.spaceAround,
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                                 children: [
                                                                                   Icon(
                                                                                     Icons.filter_list_sharp,
@@ -428,7 +443,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                 ],
                                                                               ),
                                                                             ),
-                                                                            onTap: (){
+                                                                            onTap:
+                                                                                () {
                                                                               showMaterialModalBottomSheet(
                                                                                 context: context,
                                                                                 builder: (context) => SingleChildScrollView(
@@ -447,11 +463,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                             color: Color.fromRGBO(28, 28, 28, 1),
                                                                                             child: Text(
                                                                                               "Filtres",
-                                                                                              style: TextStyle(
-                                                                                                color: Colors.white,
-                                                                                                fontWeight: FontWeight.bold,
-                                                                                                fontSize: SizeConfig.blockSizeHorizontal * 4.5
-                                                                                              ),
+                                                                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: SizeConfig.blockSizeHorizontal * 4.5),
                                                                                             ),
                                                                                           ),
                                                                                         ),
@@ -466,10 +478,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                   data: ThemeData(unselectedWidgetColor: Colors.white),
                                                                                                   child: CheckboxListTile(
                                                                                                     title: const Text(
-                                                                                                        'Téléchargés',
-                                                                                                      style: TextStyle(
-                                                                                                        color: Colors.white
-                                                                                                      ),
+                                                                                                      'Téléchargés',
+                                                                                                      style: TextStyle(color: Colors.white),
                                                                                                     ),
                                                                                                     value: context.watch<ChapterProvider>().downloaded,
                                                                                                     onChanged: (bool value) {
@@ -478,15 +488,12 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
                                                                                                 ),
-
                                                                                                 Theme(
                                                                                                   data: ThemeData(unselectedWidgetColor: Colors.white),
                                                                                                   child: CheckboxListTile(
                                                                                                     title: const Text(
                                                                                                       'Non lus',
-                                                                                                      style: TextStyle(
-                                                                                                          color: Colors.white
-                                                                                                      ),
+                                                                                                      style: TextStyle(color: Colors.white),
                                                                                                     ),
                                                                                                     value: context.watch<ChapterProvider>().nonreaded,
                                                                                                     onChanged: (bool value) {
@@ -500,9 +507,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                   child: CheckboxListTile(
                                                                                                     title: const Text(
                                                                                                       'Lus',
-                                                                                                      style: TextStyle(
-                                                                                                          color: Colors.white
-                                                                                                      ),
+                                                                                                      style: TextStyle(color: Colors.white),
                                                                                                     ),
                                                                                                     value: context.watch<ChapterProvider>().readed,
                                                                                                     onChanged: (bool value) {
@@ -516,9 +521,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                   child: CheckboxListTile(
                                                                                                     title: const Text(
                                                                                                       'Signets',
-                                                                                                      style: TextStyle(
-                                                                                                          color: Colors.white
-                                                                                                      ),
+                                                                                                      style: TextStyle(color: Colors.white),
                                                                                                     ),
                                                                                                     value: context.watch<ChapterProvider>().marked,
                                                                                                     onChanged: (bool value) {
@@ -541,313 +544,290 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                         ],
                                                                       ),
                                                                       SizedBox(
-                                                                        height: SizeConfig
-                                                                            .blockSizeVertical,
+                                                                        height:
+                                                                            SizeConfig.blockSizeVertical,
                                                                       ),
-                                                                      !context.watch<ChapterProvider>().isFiltered ?
-                                                                      ListView.separated(
-                                                                          shrinkWrap: true,
-                                                                          separatorBuilder: (context,int index){
-                                                                            return Divider(
-                                                                              color: Color.fromRGBO(28, 28, 28, 1),
-                                                                              thickness: 1.15,
-                                                                            );
-                                                                          },
-                                                                          physics: NeverScrollableScrollPhysics(),
-                                                                          itemCount: mangaChapters.length,
-                                                                          itemBuilder: (context, int index) {
-                                                                            return Container(
-                                                                              color: context.watch<ActionProvider>().selectedItems.contains(mangaChapters[index])
-                                                                                  ? Color.fromRGBO(28, 28, 28, 1)
-                                                                                  : Colors.black54,
-                                                                              child:
-                                                                                  ListTile(
-                                                                                contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                                                                                leading: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
-                                                                                    ? null
-                                                                                    : Icon(
-                                                                                        Icons.bookmark,
-                                                                                        color: Colors.cyan,
-                                                                                      ),
-                                                                                title: Padding(
-                                                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
-                                                                                  child: FutureBuilder(
-                                                                                    future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                                    builder: (context, AsyncSnapshot<Model.Page> snapshot){
-                                                                                      if(snapshot.hasData){
-                                                                                        return Text(
-                                                                                          'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
-                                                                                          overflow: TextOverflow.clip,
-                                                                                          style: TextStyle(
-                                                                                              color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished ? Colors.grey
-                                                                                                  : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
-                                                                                                  ? Colors.white
-                                                                                                  : Colors.cyan,
-                                                                                              fontSize: 13.0),
-                                                                                        );
-                                                                                      }else{
-                                                                                        return Text(
-                                                                                          'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
-                                                                                          overflow: TextOverflow.clip,
-                                                                                          style: TextStyle(
-                                                                                              color: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
-                                                                                                  ? Colors.white
-                                                                                                  : Colors.cyan,
-                                                                                              fontSize: 13.0),
-                                                                                        );
-                                                                                      }
-                                                                                    }
-                                                                                  )
-                                                                                ),
-                                                                                subtitle: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-                                                                                    child: FutureBuilder(
-                                                                                        future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
-                                                                                          if (snapshot.hasData) {
-                                                                                              return RichText(
-                                                                                                text: TextSpan(
-                                                                                                    text: mangaChapters[index].publishedAt,
-                                                                                                    style: TextStyle(
-                                                                                                      color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished ? Colors.grey :
-                                                                                                      !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
+                                                                      !context
+                                                                              .watch<ChapterProvider>()
+                                                                              .isFiltered
+                                                                          ? ListView.separated(
+                                                                              shrinkWrap: true,
+                                                                              separatorBuilder: (context, int index) {
+                                                                                return Divider(
+                                                                                  color: Color.fromRGBO(28, 28, 28, 1),
+                                                                                  thickness: 1.15,
+                                                                                );
+                                                                              },
+                                                                              physics: NeverScrollableScrollPhysics(),
+                                                                              itemCount: mangaChapters.length,
+                                                                              itemBuilder: (context, int index) {
+                                                                                return Container(
+                                                                                  color: context.watch<ActionProvider>().selectedItems.contains(mangaChapters[index]) ? Color.fromRGBO(28, 28, 28, 1) : Colors.black54,
+                                                                                  child: ListTile(
+                                                                                    contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                                                                                    leading: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
+                                                                                        ? null
+                                                                                        : Icon(
+                                                                                            Icons.bookmark,
+                                                                                            color: Colors.cyan,
+                                                                                          ),
+                                                                                    title: Padding(
+                                                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, bottom: SizeConfig.blockSizeVertical),
+                                                                                        child: FutureBuilder(
+                                                                                            future: context.read<PageProvider>().findChapter(mangaChapters[index]),
+                                                                                            builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                              if (snapshot.hasData) {
+                                                                                                return Text(
+                                                                                                  'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
+                                                                                                  overflow: TextOverflow.clip,
+                                                                                                  style: TextStyle(
+                                                                                                      color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished
+                                                                                                          ? Colors.grey
+                                                                                                          : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                                                               ? Colors.white
                                                                                                               : Colors.cyan,
-                                                                                                    ),
-                                                                                                    children: <TextSpan>[
-                                                                                                      if(!snapshot.data.finished)
-                                                                                                      TextSpan(
-                                                                                                        text: " \u22C5 ",
+                                                                                                      fontSize: 13.0),
+                                                                                                );
+                                                                                              } else {
+                                                                                                return Text(
+                                                                                                  'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
+                                                                                                  overflow: TextOverflow.clip,
+                                                                                                  style: TextStyle(color: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan, fontSize: 13.0),
+                                                                                                );
+                                                                                              }
+                                                                                            })),
+                                                                                    subtitle: Padding(
+                                                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                                                        child: FutureBuilder(
+                                                                                            future: context.read<PageProvider>().findChapter(mangaChapters[index]),
+                                                                                            builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                              if (snapshot.hasData) {
+                                                                                                return RichText(
+                                                                                                    text: TextSpan(
+                                                                                                        text: mangaChapters[index].publishedAt,
                                                                                                         style: TextStyle(
-                                                                                                          color: Colors.white,
-                                                                                                          fontWeight: FontWeight.bold,
-                                                                                                        )
-                                                                                                      ),
-                                                                                                      if(!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
-                                                                                                    ])
-                                                                                              );
-                                                                                          } else {
-                                                                                            return RichText(
-                                                                                                text: TextSpan(
-                                                                                                  text: mangaChapters[index].publishedAt,
-                                                                                                  style: TextStyle(
-                                                                                                    color:  !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
-                                                                                                        ? Colors.white
-                                                                                                        : Colors.cyan,
-                                                                                                  ),
-                                                                                                )
-                                                                                            );
-                                                                                          }
-                                                                                        })),
-                                                                                trailing: context.watch<ActionProvider>().selectedItems.isEmpty
-                                                                                    ? PopupMenuButton(
-                                                                                        onSelected: (dynamic result) {
-                                                                                          print(result);
-                                                                                          if (result == 0) {
-                                                                                            context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
-                                                                                          } else if (result == 1) {
-                                                                                            context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size,true);
-                                                                                          } else if (result == 2) {
-                                                                                            context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size,widget.manga,true);
-                                                                                          }
-                                                                                        },
-                                                                                        color: Color.fromRGBO(28, 28, 28, 1),
-                                                                                        child: Icon(
-                                                                                          Icons.more_vert,
-                                                                                          color: Colors.white,
-                                                                                        ),
-                                                                                        itemBuilder: (context) {
-                                                                                          return List.generate(menu.length, (index) {
-                                                                                            return PopupMenuItem(
-                                                                                              value: index,
-                                                                                              child: Text(
-                                                                                                menu[index],
-                                                                                                style: TextStyle(color: Colors.white),
-                                                                                              ),
-                                                                                            );
-                                                                                          });
-                                                                                        },
-                                                                                      )
-                                                                                    : Icon(
-                                                                                        Icons.more_vert,
-                                                                                        color: Colors.white,
-                                                                                      ),
-                                                                                onLongPress: () {
-                                                                                  context.read<ActionProvider>().selectItems(mangaChapters[index]);
-                                                                                },
-                                                                                onTap: () {
-                                                                                  if (context.read<ActionProvider>().selectedItems.isNotEmpty) {
-                                                                                    if (context.read<ActionProvider>().selectedItems.contains(mangaChapters[index])) {
-                                                                                      context.read<ActionProvider>().removeItem(mangaChapters[index]);
-                                                                                    } else {
-                                                                                      context.read<ActionProvider>().selectItems(mangaChapters[index]);
-                                                                                    }
-                                                                                  } else {
-                                                                                    Navigator.push(
-                                                                                        context,
-                                                                                        ScaleRoute(
-                                                                                            page: ReaderLoader(
-                                                                                          manga: widget.manga,
-                                                                                          catalog: Assets.lelscanCatalogName,
-                                                                                          chapter: mangaChapters[index],
-                                                                                        )));
-                                                                                  }
-                                                                                },
-                                                                              ),
-                                                                            );
-                                                                          }) :
-
-                                                                      ListView.separated(
-                                                                          shrinkWrap: true,
-                                                                          separatorBuilder: (context,int index){
-                                                                            return Divider(
-                                                                              color: Color.fromRGBO(28, 28, 28, 1),
-                                                                              thickness: 1.15,
-                                                                            );
-                                                                          },
-                                                                          physics: NeverScrollableScrollPhysics(),
-                                                                          itemCount: context.watch<ChapterProvider>().filteredChapters.length,
-                                                                          itemBuilder: (context, int index) {
-                                                                            return Container(
-                                                                              color: context.watch<ActionProvider>().selectedItems.contains(context.watch<ChapterProvider>().filteredChapters[index])
-                                                                                  ? Color.fromRGBO(28, 28, 28, 1)
-                                                                                  : Colors.black54,
-                                                                              child:
-                                                                              ListTile(
-                                                                                contentPadding: EdgeInsets.symmetric(vertical: 5.0),
-                                                                                leading: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
-                                                                                    ? null
-                                                                                    : Icon(
-                                                                                  Icons.bookmark,
-                                                                                  color: Colors.cyan,
-                                                                                ),
-                                                                                title: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
-                                                                                    child: FutureBuilder(
-                                                                                        future: context.read<PageProvider>().findChapter(context.watch<ChapterProvider>().filteredChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot){
-                                                                                          if(snapshot.hasData){
-                                                                                            return Text(
-                                                                                              'Chapitre ${context.watch<ChapterProvider>().filteredChapters[index].number} ${context.watch<ChapterProvider>().filteredChapters[index].title}',
-                                                                                              overflow: TextOverflow.clip,
-                                                                                              style: TextStyle(
-                                                                                                  color: context.watch<PageProvider>().pages.contains(context.watch<ChapterProvider>().filteredChapters[index]) && snapshot.data.finished ? Colors.grey
-                                                                                                      : !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
-                                                                                                      ? Colors.white
-                                                                                                      : Colors.cyan,
-                                                                                                  fontSize: 13.0),
-                                                                                            );
-                                                                                          }else{
-                                                                                            return Text(
-                                                                                              'Chapitre ${context.watch<ChapterProvider>().filteredChapters[index].number} ${context.watch<ChapterProvider>().filteredChapters[index].title}',
-                                                                                              overflow: TextOverflow.clip,
-                                                                                              style: TextStyle(
-                                                                                                  color: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
-                                                                                                      ? Colors.white
-                                                                                                      : Colors.cyan,
-                                                                                                  fontSize: 13.0),
-                                                                                            );
-                                                                                          }
-                                                                                        }
-                                                                                    )
-                                                                                ),
-                                                                                subtitle: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-                                                                                    child: FutureBuilder(
-                                                                                        future: context.read<PageProvider>().findChapter(context.watch<ChapterProvider>().filteredChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
-                                                                                          if (snapshot.hasData) {
-                                                                                            return RichText(
-                                                                                                text: TextSpan(
-                                                                                                    text: context.watch<ChapterProvider>().filteredChapters[index].publishedAt,
-                                                                                                    style: TextStyle(
-                                                                                                      color: context.watch<PageProvider>().pages.contains(context.watch<ChapterProvider>().filteredChapters[index]) && snapshot.data.finished ? Colors.grey :
-                                                                                                      !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
-                                                                                                          ? Colors.white
-                                                                                                          : Colors.cyan,
-                                                                                                    ),
-                                                                                                    children: <TextSpan>[
-                                                                                                      if(!snapshot.data.finished)
+                                                                                                          color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished
+                                                                                                              ? Colors.grey
+                                                                                                              : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
+                                                                                                                  ? Colors.white
+                                                                                                                  : Colors.cyan,
+                                                                                                        ),
+                                                                                                        children: <TextSpan>[
+                                                                                                      if (!snapshot.data.finished)
                                                                                                         TextSpan(
                                                                                                             text: " \u22C5 ",
                                                                                                             style: TextStyle(
                                                                                                               color: Colors.white,
                                                                                                               fontWeight: FontWeight.bold,
-                                                                                                            )
+                                                                                                            )),
+                                                                                                      if (!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                                                    ]));
+                                                                                              } else {
+                                                                                                return RichText(
+                                                                                                    text: TextSpan(
+                                                                                                  text: mangaChapters[index].publishedAt,
+                                                                                                  style: TextStyle(
+                                                                                                    color: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan,
+                                                                                                  ),
+                                                                                                ));
+                                                                                              }
+                                                                                            })),
+                                                                                    trailing: context.watch<ActionProvider>().selectedItems.isEmpty
+                                                                                        ? PopupMenuButton(
+                                                                                            onSelected: (dynamic result) {
+                                                                                              print(result);
+                                                                                              if (result == 0) {
+                                                                                                context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                                                              } else if (result == 1) {
+                                                                                                context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size, true);
+                                                                                              } else if (result == 2) {
+                                                                                                context.read<PageProvider>().markAsRead(mangaChapters[index], MediaQuery.of(context).size, widget.manga, true);
+                                                                                              }
+                                                                                            },
+                                                                                            color: Color.fromRGBO(28, 28, 28, 1),
+                                                                                            child: Icon(
+                                                                                              Icons.more_vert,
+                                                                                              color: Colors.white,
+                                                                                            ),
+                                                                                            itemBuilder: (context) {
+                                                                                              return List.generate(menu.length, (index) {
+                                                                                                return PopupMenuItem(
+                                                                                                  value: index,
+                                                                                                  child: Text(
+                                                                                                    menu[index],
+                                                                                                    style: TextStyle(color: Colors.white),
+                                                                                                  ),
+                                                                                                );
+                                                                                              });
+                                                                                            },
+                                                                                          )
+                                                                                        : Icon(
+                                                                                            Icons.more_vert,
+                                                                                            color: Colors.white,
+                                                                                          ),
+                                                                                    onLongPress: () {
+                                                                                      context.read<ActionProvider>().selectItems(mangaChapters[index]);
+                                                                                    },
+                                                                                    onTap: () {
+                                                                                      if (context.read<ActionProvider>().selectedItems.isNotEmpty) {
+                                                                                        if (context.read<ActionProvider>().selectedItems.contains(mangaChapters[index])) {
+                                                                                          context.read<ActionProvider>().removeItem(mangaChapters[index]);
+                                                                                        } else {
+                                                                                          context.read<ActionProvider>().selectItems(mangaChapters[index]);
+                                                                                        }
+                                                                                      } else {
+                                                                                        Navigator.push(
+                                                                                            context,
+                                                                                            ScaleRoute(
+                                                                                                page: ReaderLoader(
+                                                                                              manga: widget.manga,
+                                                                                              catalog: Assets.lelscanCatalogName,
+                                                                                              chapter: mangaChapters[index],
+                                                                                            )));
+                                                                                      }
+                                                                                    },
+                                                                                  ),
+                                                                                );
+                                                                              })
+                                                                          : ListView.separated(
+                                                                              shrinkWrap: true,
+                                                                              separatorBuilder: (context, int index) {
+                                                                                return Divider(
+                                                                                  color: Color.fromRGBO(28, 28, 28, 1),
+                                                                                  thickness: 1.15,
+                                                                                );
+                                                                              },
+                                                                              physics: NeverScrollableScrollPhysics(),
+                                                                              itemCount: context.watch<ChapterProvider>().filteredChapters.length,
+                                                                              itemBuilder: (context, int index) {
+                                                                                return Container(
+                                                                                  color: context.watch<ActionProvider>().selectedItems.contains(context.watch<ChapterProvider>().filteredChapters[index]) ? Color.fromRGBO(28, 28, 28, 1) : Colors.black54,
+                                                                                  child: ListTile(
+                                                                                    contentPadding: EdgeInsets.symmetric(vertical: 5.0),
+                                                                                    leading: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
+                                                                                        ? null
+                                                                                        : Icon(
+                                                                                            Icons.bookmark,
+                                                                                            color: Colors.cyan,
+                                                                                          ),
+                                                                                    title: Padding(
+                                                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, bottom: SizeConfig.blockSizeVertical),
+                                                                                        child: FutureBuilder(
+                                                                                            future: context.read<PageProvider>().findChapter(context.watch<ChapterProvider>().filteredChapters[index]),
+                                                                                            builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                              if (snapshot.hasData) {
+                                                                                                return Text(
+                                                                                                  'Chapitre ${context.watch<ChapterProvider>().filteredChapters[index].number} ${context.watch<ChapterProvider>().filteredChapters[index].title}',
+                                                                                                  overflow: TextOverflow.clip,
+                                                                                                  style: TextStyle(
+                                                                                                      color: context.watch<PageProvider>().pages.contains(context.watch<ChapterProvider>().filteredChapters[index]) && snapshot.data.finished
+                                                                                                          ? Colors.grey
+                                                                                                          : !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
+                                                                                                              ? Colors.white
+                                                                                                              : Colors.cyan,
+                                                                                                      fontSize: 13.0),
+                                                                                                );
+                                                                                              } else {
+                                                                                                return Text(
+                                                                                                  'Chapitre ${context.watch<ChapterProvider>().filteredChapters[index].number} ${context.watch<ChapterProvider>().filteredChapters[index].title}',
+                                                                                                  overflow: TextOverflow.clip,
+                                                                                                  style: TextStyle(color: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index]) ? Colors.white : Colors.cyan, fontSize: 13.0),
+                                                                                                );
+                                                                                              }
+                                                                                            })),
+                                                                                    subtitle: Padding(
+                                                                                        padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                                                        child: FutureBuilder(
+                                                                                            future: context.read<PageProvider>().findChapter(context.watch<ChapterProvider>().filteredChapters[index]),
+                                                                                            builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                              if (snapshot.hasData) {
+                                                                                                return RichText(
+                                                                                                    text: TextSpan(
+                                                                                                        text: context.watch<ChapterProvider>().filteredChapters[index].publishedAt,
+                                                                                                        style: TextStyle(
+                                                                                                          color: context.watch<PageProvider>().pages.contains(context.watch<ChapterProvider>().filteredChapters[index]) && snapshot.data.finished
+                                                                                                              ? Colors.grey
+                                                                                                              : !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
+                                                                                                                  ? Colors.white
+                                                                                                                  : Colors.cyan,
                                                                                                         ),
-                                                                                                      if(!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
-                                                                                                    ])
-                                                                                            );
-                                                                                          } else {
-                                                                                            return RichText(
-                                                                                                text: TextSpan(
+                                                                                                        children: <TextSpan>[
+                                                                                                      if (!snapshot.data.finished)
+                                                                                                        TextSpan(
+                                                                                                            text: " \u22C5 ",
+                                                                                                            style: TextStyle(
+                                                                                                              color: Colors.white,
+                                                                                                              fontWeight: FontWeight.bold,
+                                                                                                            )),
+                                                                                                      if (!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                                                    ]));
+                                                                                              } else {
+                                                                                                return RichText(
+                                                                                                    text: TextSpan(
                                                                                                   text: context.watch<ChapterProvider>().filteredChapters[index].publishedAt,
                                                                                                   style: TextStyle(
-                                                                                                    color:  !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
-                                                                                                        ? Colors.white
-                                                                                                        : Colors.cyan,
+                                                                                                    color: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index]) ? Colors.white : Colors.cyan,
                                                                                                   ),
-                                                                                                )
-                                                                                            );
-                                                                                          }
-                                                                                        })),
-                                                                                trailing: context.watch<ActionProvider>().selectedItems.isEmpty
-                                                                                    ? PopupMenuButton(
-                                                                                  onSelected: (dynamic result) {
-                                                                                    print(result);
-                                                                                    if (result == 0) {
-                                                                                      context.read<ActionProvider>().downloadChapter(context.watch<ChapterProvider>().filteredChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
-                                                                                    } else if (result == 1) {
-                                                                                      context.read<BookmarkProvider>().bookmark(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,true);
-                                                                                    } else if (result == 2) {
-                                                                                      context.read<PageProvider>().markAsRead(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,widget.manga,true);
-                                                                                    }
-                                                                                  },
-                                                                                  color: Color.fromRGBO(28, 28, 28, 1),
-                                                                                  child: Icon(
-                                                                                    Icons.more_vert,
-                                                                                    color: Colors.white,
-                                                                                  ),
-                                                                                  itemBuilder: (context) {
-                                                                                    return List.generate(menu.length, (index) {
-                                                                                      return PopupMenuItem(
-                                                                                        value: index,
-                                                                                        child: Text(
-                                                                                          menu[index],
-                                                                                          style: TextStyle(color: Colors.white),
-                                                                                        ),
-                                                                                      );
-                                                                                    });
-                                                                                  },
-                                                                                )
-                                                                                    : Icon(
-                                                                                  Icons.more_vert,
-                                                                                  color: Colors.white,
-                                                                                ),
-                                                                                onLongPress: () {
-                                                                                  context.read<ActionProvider>().selectItems(context.read<ChapterProvider>().filteredChapters[index]);
-                                                                                },
-                                                                                onTap: () {
-                                                                                  if (context.read<ActionProvider>().selectedItems.isNotEmpty) {
-                                                                                    if (context.read<ActionProvider>().selectedItems.contains(context.read<ChapterProvider>().filteredChapters[index])) {
-                                                                                      context.read<ActionProvider>().removeItem(context.read<ChapterProvider>().filteredChapters[index]);
-                                                                                    } else {
+                                                                                                ));
+                                                                                              }
+                                                                                            })),
+                                                                                    trailing: context.watch<ActionProvider>().selectedItems.isEmpty
+                                                                                        ? PopupMenuButton(
+                                                                                            onSelected: (dynamic result) {
+                                                                                              print(result);
+                                                                                              if (result == 0) {
+                                                                                                context.read<ActionProvider>().downloadChapter(context.watch<ChapterProvider>().filteredChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                                                              } else if (result == 1) {
+                                                                                                context.read<BookmarkProvider>().bookmark(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size, true);
+                                                                                              } else if (result == 2) {
+                                                                                                context.read<PageProvider>().markAsRead(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size, widget.manga, true);
+                                                                                              }
+                                                                                            },
+                                                                                            color: Color.fromRGBO(28, 28, 28, 1),
+                                                                                            child: Icon(
+                                                                                              Icons.more_vert,
+                                                                                              color: Colors.white,
+                                                                                            ),
+                                                                                            itemBuilder: (context) {
+                                                                                              return List.generate(menu.length, (index) {
+                                                                                                return PopupMenuItem(
+                                                                                                  value: index,
+                                                                                                  child: Text(
+                                                                                                    menu[index],
+                                                                                                    style: TextStyle(color: Colors.white),
+                                                                                                  ),
+                                                                                                );
+                                                                                              });
+                                                                                            },
+                                                                                          )
+                                                                                        : Icon(
+                                                                                            Icons.more_vert,
+                                                                                            color: Colors.white,
+                                                                                          ),
+                                                                                    onLongPress: () {
                                                                                       context.read<ActionProvider>().selectItems(context.read<ChapterProvider>().filteredChapters[index]);
-                                                                                    }
-                                                                                  } else {
-                                                                                    Navigator.push(
-                                                                                        context,
-                                                                                        ScaleRoute(
-                                                                                            page: ReaderLoader(
+                                                                                    },
+                                                                                    onTap: () {
+                                                                                      if (context.read<ActionProvider>().selectedItems.isNotEmpty) {
+                                                                                        if (context.read<ActionProvider>().selectedItems.contains(context.read<ChapterProvider>().filteredChapters[index])) {
+                                                                                          context.read<ActionProvider>().removeItem(context.read<ChapterProvider>().filteredChapters[index]);
+                                                                                        } else {
+                                                                                          context.read<ActionProvider>().selectItems(context.read<ChapterProvider>().filteredChapters[index]);
+                                                                                        }
+                                                                                      } else {
+                                                                                        Navigator.push(
+                                                                                            context,
+                                                                                            ScaleRoute(
+                                                                                                page: ReaderLoader(
                                                                                               manga: widget.manga,
                                                                                               catalog: Assets.lelscanCatalogName,
                                                                                               chapter: context.read<ChapterProvider>().filteredChapters[index],
                                                                                             )));
-                                                                                  }
-                                                                                },
-                                                                              ),
-                                                                            );
-                                                                          })
+                                                                                      }
+                                                                                    },
+                                                                                  ),
+                                                                                );
+                                                                              })
                                                                     ],
                                                                   ),
                                                                 );
@@ -869,7 +849,6 @@ class _LelscanDetailState extends State<LelscanDetail> {
       ),
     );
   }
-
 
   Widget _builButtons() {
     return Padding(
@@ -949,9 +928,9 @@ class _LelscanDetailState extends State<LelscanDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<DetailsProvider>()
-        .getMangaDetails(Assets.lelscanCatalogName, widget.manga,true);
+        .getMangaDetails(Assets.lelscanCatalogName, widget.manga, true);
     context
         .read<ChapterProvider>()
-        .getChapters(Assets.lelscanCatalogName, widget.manga,true);
+        .getChapters(Assets.lelscanCatalogName, widget.manga, true);
   }
 }

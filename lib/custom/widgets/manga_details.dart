@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/genre_widget.dart';
-import 'package:manga_reader/custom/widgets/rating_widget.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/genre_widget.dart';
+import 'package:Fanga/custom/widgets/rating_widget.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/utils/size_config.dart';
 
 class MangaDetails extends StatelessWidget {
   final Manga manga;
-  const MangaDetails({Key key,this.manga}) : super(key: key);
+  const MangaDetails({Key key, this.manga}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class MangaDetails extends StatelessWidget {
                         children: <TextSpan>[
                           TextSpan(
                             text:
-                            manga.artist.isEmpty ? "inconnu" : manga.artist,
+                                manga.artist.isEmpty ? "inconnu" : manga.artist,
                             style: TextStyle(
                               color: Colors.cyan,
                             ),
@@ -93,7 +93,7 @@ class MangaDetails extends StatelessWidget {
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
                   ),
-                  Genres(genres:manga.genre),
+                  Genres(genres: manga.genre),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
                   ),
@@ -132,7 +132,7 @@ class MangaDetails extends StatelessWidget {
                           )
                         ]),
                   ),
-                  Rating(rate:manga.rating)
+                  Rating(rate: manga.rating)
                 ],
               ),
             ),

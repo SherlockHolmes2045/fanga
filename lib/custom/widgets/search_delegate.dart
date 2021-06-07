@@ -1,26 +1,27 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/networking/services/search_service.dart';
-import 'package:manga_reader/screens/Lelscan/manga_details.dart';
-import 'package:manga_reader/screens/readmangatoday/readmangatoday_manga_details.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/networking/services/search_service.dart';
+import 'package:Fanga/screens/Lelscan/manga_details.dart';
+import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
+import 'package:Fanga/utils/size_config.dart';
 
 class SearchManga extends SearchDelegate {
   String source;
   SearchManga(this.source);
 
-
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
-      primaryColor: Color.fromRGBO(28, 28, 28, 1),
-      textTheme: TextTheme(
-        title: TextStyle( color: Colors.white, fontSize: 18,),
-      )
-    );
+        primaryColor: Color.fromRGBO(28, 28, 28, 1),
+        textTheme: TextTheme(
+          title: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ));
   }
 
   @override
@@ -58,28 +59,24 @@ class SearchManga extends SearchDelegate {
                 child: Center(
                   child: Text(
                     '${snapshot.error} occured',
-                    style: TextStyle(fontSize: 18,color: Colors.white),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
                 ),
               );
 
               // if we got our data
             } else if (snapshot.hasData) {
-              print(snapshot.data);
-              if(snapshot.data.isEmpty){
+              if (snapshot.data.isEmpty) {
                 return Container(
                   color: Colors.black,
                   child: Center(
                     child: Text(
                       "Pas de résultat pour cette recherche",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18
-                      ),
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
                 );
-              }else{
+              } else {
                 return Container(
                   color: Colors.black,
                   child: GridView.count(
@@ -100,31 +97,34 @@ class SearchManga extends SearchDelegate {
                               Flexible(
                                 child: GestureDetector(
                                   onTap: () {
-                                    switch(source) {
-                                      case Assets.lelscanCatalogName: {
-                                        Navigator.push(
-                                            context,
-                                            ScaleRoute(
-                                                page: LelscanDetail(
-                                                  manga: snapshot.data[index],
-                                                )));
-                                      }
-                                      break;
+                                    switch (source) {
+                                      case Assets.lelscanCatalogName:
+                                        {
+                                          Navigator.push(
+                                              context,
+                                              ScaleRoute(
+                                                  page: LelscanDetail(
+                                                manga: snapshot.data[index],
+                                              )));
+                                        }
+                                        break;
 
-                                      case Assets.readmangatodayCatalogName: {
-                                        Navigator.push(
-                                            context,
-                                            ScaleRoute(
-                                                page: ReadmangatodayDetail(
-                                                  manga: snapshot.data[index],
-                                                )));
-                                      }
-                                      break;
+                                      case Assets.readmangatodayCatalogName:
+                                        {
+                                          Navigator.push(
+                                              context,
+                                              ScaleRoute(
+                                                  page: ReadmangatodayDetail(
+                                                manga: snapshot.data[index],
+                                              )));
+                                        }
+                                        break;
 
-                                      default: {
-                                        //statements;
-                                      }
-                                      break;
+                                      default:
+                                        {
+                                          //statements;
+                                        }
+                                        break;
                                     }
                                   },
                                   child: CachedNetworkImage(
@@ -134,33 +134,40 @@ class SearchManga extends SearchDelegate {
                                     errorWidget: (context, text, data) {
                                       return GestureDetector(
                                         onTap: () {
-                                          switch(source) {
-                                            case Assets.lelscanCatalogName: {
-                                              print("lelscan");
-                                              Navigator.push(
-                                                  context,
-                                                  ScaleRoute(
-                                                      page: LelscanDetail(
-                                                        manga: snapshot.data[index],
-                                                      )));
-                                            }
-                                            break;
+                                          switch (source) {
+                                            case Assets.lelscanCatalogName:
+                                              {
+                                                print("lelscan");
+                                                Navigator.push(
+                                                    context,
+                                                    ScaleRoute(
+                                                        page: LelscanDetail(
+                                                      manga:
+                                                          snapshot.data[index],
+                                                    )));
+                                              }
+                                              break;
 
-                                            case Assets.readmangatodayCatalogName: {
-                                              print("readmangatoday");
-                                              Navigator.push(
-                                                  context,
-                                                  ScaleRoute(
-                                                      page: ReadmangatodayDetail(
-                                                        manga: snapshot.data[index],
-                                                      )));
-                                            }
-                                            break;
+                                            case Assets
+                                                .readmangatodayCatalogName:
+                                              {
+                                                print("readmangatoday");
+                                                Navigator.push(
+                                                    context,
+                                                    ScaleRoute(
+                                                        page:
+                                                            ReadmangatodayDetail(
+                                                      manga:
+                                                          snapshot.data[index],
+                                                    )));
+                                              }
+                                              break;
 
-                                            default: {
-                                              //statements;
-                                            }
-                                            break;
+                                            default:
+                                              {
+                                                //statements;
+                                              }
+                                              break;
                                           }
                                         },
                                         child: Image.asset(

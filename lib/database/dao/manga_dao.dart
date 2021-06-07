@@ -1,9 +1,8 @@
-import 'package:manga_reader/database/app_database.dart';
-import 'package:manga_reader/models/manga.dart';
+import 'package:Fanga/database/app_database.dart';
+import 'package:Fanga/models/manga.dart';
 import 'package:sembast/sembast.dart';
 
 class MangaDao {
-
   static const String MANGA_STORE_NAME = 'mangas';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Fruit objects converted to Map
@@ -29,10 +28,10 @@ class MangaDao {
   }
 
   Future delete(String url) async {
-    final finder = Finder(filter: Filter.and([
-      Filter.equals("url",url),
-    ])
-    );
+    final finder = Finder(
+        filter: Filter.and([
+      Filter.equals("url", url),
+    ]));
     await _mangaStore.delete(
       await _db,
       finder: finder,
@@ -51,32 +50,26 @@ class MangaDao {
       return fruit;
     }).toList();
   }
-  Future<List<Manga>> searchManga(String searchTerm) async{
+
+  Future<List<Manga>> searchManga(String searchTerm) async {
     final finder = Finder(
-      filter: Filter.and([
-        Filter.custom((record) => Manga.fromJson(record.value).title.toLowerCase().contains(searchTerm))
-      ])
-    );
-    final recordSnapshots = await _mangaStore.find(
-        await _db,
-        finder: finder
-    );
+        filter: Filter.and([
+      Filter.custom((record) =>
+          Manga.fromJson(record.value).title.toLowerCase().contains(searchTerm))
+    ]));
+    final recordSnapshots = await _mangaStore.find(await _db, finder: finder);
     return recordSnapshots.map((snapshot) {
       final mangas = Manga.fromJson(snapshot.value);
       return mangas;
     }).toList();
   }
-  Future<List<Manga>> findManga(String url) async {
 
+  Future<List<Manga>> findManga(String url) async {
     final finder = Finder(
         filter: Filter.and([
-          Filter.equals("url",url),
-        ])
-    );
-    final recordSnapshots = await _mangaStore.find(
-        await _db,
-        finder: finder
-    );
+      Filter.equals("url", url),
+    ]));
+    final recordSnapshots = await _mangaStore.find(await _db, finder: finder);
     return recordSnapshots.map((snapshot) {
       final fruit = Manga.fromJson(snapshot.value);
       return fruit;

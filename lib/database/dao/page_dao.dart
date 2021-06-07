@@ -1,11 +1,9 @@
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/database/app_database.dart';
-import 'package:manga_reader/models/page.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/database/app_database.dart';
+import 'package:Fanga/models/page.dart';
 import 'package:sembast/sembast.dart';
 
 class PageDao {
-
-
   final _pageStore = intMapStoreFactory.store(Assets.PAGE_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
@@ -19,10 +17,10 @@ class PageDao {
   Future update(Page page) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.and([
-      Filter.equals("chapter.url",page.chapter.url),
-    ])
-    );
+    final finder = Finder(
+        filter: Filter.and([
+      Filter.equals("chapter.url", page.chapter.url),
+    ]));
     await _pageStore.update(
       await _db,
       page.toMap(),
@@ -31,10 +29,10 @@ class PageDao {
   }
 
   Future delete(String url) async {
-    final finder = Finder(filter: Filter.and([
-      Filter.equals("chapter.url",url),
-    ])
-    );
+    final finder = Finder(
+        filter: Filter.and([
+      Filter.equals("chapter.url", url),
+    ]));
     await _pageStore.delete(
       await _db,
       finder: finder,
@@ -55,16 +53,13 @@ class PageDao {
   Future<Page> findPage(String url) async {
     final finder = Finder(
         filter: Filter.and([
-          Filter.equals("chapter.url",url),
-        ])
-    );
-    final recordSnapshots = await _pageStore.findFirst(
-        await _db,
-        finder: finder
-    );
-    if(recordSnapshots == null){
+      Filter.equals("chapter.url", url),
+    ]));
+    final recordSnapshots =
+        await _pageStore.findFirst(await _db, finder: finder);
+    if (recordSnapshots == null) {
       return null;
-    }else{
+    } else {
       return Page.fromJson(recordSnapshots.value);
     }
   }

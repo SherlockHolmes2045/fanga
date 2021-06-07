@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/models/chapter.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/networking/services/cloudfare_service.dart';
-import 'package:manga_reader/networking/services/lelscan_service.dart';
-import 'package:manga_reader/screens/reader.dart';
-import 'package:manga_reader/state/base_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/models/chapter.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/networking/services/cloudfare_service.dart';
+import 'package:Fanga/networking/services/lelscan_service.dart';
+import 'package:Fanga/screens/reader.dart';
+import 'package:Fanga/state/base_provider.dart';
+import 'package:Fanga/utils/n_exception.dart';
 
 class LelscanReaderProvider extends BaseProvider {
   List<String> pages = [];
