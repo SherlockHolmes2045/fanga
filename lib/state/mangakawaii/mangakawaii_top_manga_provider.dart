@@ -15,7 +15,6 @@ class MangakawaiiTopMangaProvider extends BaseProvider{
       topMangaList = Right(mangas);
     }).catchError((error){
       this.toggleLoadingState();
-      print(error);
       topMangaList = Left(error);
     });
   }
