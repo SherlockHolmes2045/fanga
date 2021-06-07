@@ -178,7 +178,6 @@ class LelscanService {
   Future<String> downloadChapter(
       Chapter chapter, String catalogName, String mangaName) async {
     try {
-      print("on entre ici");
       final String uri = locator<Di>().apiUrl + "/manga/chapterArchive";
       Response response = await locator<Di>().dio.post(
             uri,
@@ -191,7 +190,6 @@ class LelscanService {
               'Content-Type': "application/json",
             }),
           );
-      print(response.data);
       final String items = response.data["file"];
       return items;
     } on DioError catch (e) {
