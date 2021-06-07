@@ -59,7 +59,6 @@ class LelscanReaderProvider extends BaseProvider {
     }else{
        cloudfareService.chapterPages(catalogName, chapter).then((value) {
         toggleLoadingState();
-        print(value);
         List<String> downloadedPages = List<String>();
         final chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${chapter.title}");
         if(chapterDir.existsSync()){
