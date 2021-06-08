@@ -1,3 +1,5 @@
+import 'package:Fanga/screens/readmangatoday/readmangatoday_latest_update.dart';
+import 'package:Fanga/screens/readmangatoday/readmangatoday_top_manga.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,8 +7,6 @@ import 'package:Fanga/constants/assets.dart';
 import 'package:Fanga/custom/widgets/app_drawer.dart';
 import 'package:Fanga/custom/widgets/search_delegate.dart';
 import 'package:Fanga/screens/mangakawaii/all_manga.dart';
-import 'package:Fanga/screens/mangakawaii/latest_update.dart';
-import 'package:Fanga/screens/mangakawaii/top_manga.dart';
 import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_list.dart';
 import 'package:Fanga/utils/size_config.dart';
 import 'package:url_launcher/url_launcher.dart';
