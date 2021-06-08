@@ -1,4 +1,4 @@
-import 'package:Fanga/state/readmangatoday/lelscan_updates_provider.dart';
+import 'package:Fanga/state/readmangatoday/readmangatoday_updates_provider.dart';
 import 'package:Fanga/state/readmangatoday/readmangatoday_manga_list_provider.dart';
 import 'package:Fanga/state/readmangatoday/readmangatody_top_manga_provider.dart';
 import 'package:bot_toast/bot_toast.dart';

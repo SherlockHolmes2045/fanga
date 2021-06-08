@@ -17,11 +17,13 @@ class LelscanReaderProvider extends BaseProvider {
 
 
   getPages(String catalogName,Chapter chapter,BuildContext context,Manga manga,bool forceRefresh) async{
+    print(catalogName);
     toggleLoadingState();
     this.exception = null;
     if(catalogName != Assets.mangakawaiiCatalogName){
       lelscanService.chapterPages(catalogName, chapter,forceRefresh).then((value) {
         toggleLoadingState();
+        print(value);
         List<String> downloadedPages = List<String>();
         Directory chapterDir;
         if(chapter.title.isEmpty){
@@ -53,6 +55,7 @@ class LelscanReaderProvider extends BaseProvider {
         }
       }).catchError((onError){
         toggleLoadingState();
+        print(onError.toString());
         exception = onError;
         notifyListeners();
       });
