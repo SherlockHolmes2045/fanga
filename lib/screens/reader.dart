@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -322,7 +321,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                             leading: Icon(Icons.share,color: Colors.white.withOpacity(0.8),),
                             title: Text("Partager",style: TextStyle(color: Colors.white),),
                             onTap: () async {
-                              if(Uri.parse(widget.pages[currentPage.floor() - 1]).isAbsolute){
+                              /*if(Uri.parse(widget.pages[currentPage.floor() - 1]).isAbsolute){
                                 var request = await HttpClient().getUrl(Uri.parse(widget.pages[currentPage.floor() - 1]));
                                 var response = await request.close();
                                 Uint8List bytes = await consolidateHttpClientResponseBytes(response);
@@ -330,7 +329,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                               }else{
                                 final ByteData bytes =  File(widget.pages[currentPage.floor() - 1]).readAsBytesSync().buffer.asByteData();
                                 await Share.file('fanga', 'fanga.png', bytes.buffer.asUint8List(), 'image/png', text: "${widget.manga.title} \n ${widget.chapter.title} \n page ${currentPage.floor()-1}");
-                              }
+                              }*/
                             },
                           ),
                           ListTile(
@@ -364,10 +363,10 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                   if (fullScreen) {
                     enabledAppBar = !enabledAppBar;
                     if (enabledAppBar) {
-                      SystemChrome.setEnabledSystemUIOverlays(
-                          SystemUiOverlay.values);
+                      SystemChrome.setEnabledSystemUIMode(
+                          SystemUiMode.manual, overlays: SystemUiOverlay.values);
                     } else {
-                      SystemChrome.setEnabledSystemUIOverlays([]);
+                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
                     }
                   }
                 });

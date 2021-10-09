@@ -18,7 +18,7 @@ class SearchManga extends SearchDelegate {
     return ThemeData(
       primaryColor: Color.fromRGBO(28, 28, 28, 1),
       textTheme: TextTheme(
-        title: TextStyle( color: Colors.white, fontSize: 18,),
+        subtitle1: TextStyle( color: Colors.white, fontSize: 18,),
       )
     );
   }

@@ -1,4 +1,4 @@
-package com.sherlockholmes2045.manga_wave
+package com.sherlockholmes2045.fanga
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
