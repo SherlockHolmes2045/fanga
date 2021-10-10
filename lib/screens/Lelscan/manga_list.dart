@@ -22,7 +22,7 @@ class _MangaListState extends State<MangaList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context
           .read<LelscanProvider>()
           .getPopularMangaList(Assets.lelscanCatalogName, 1, false);
@@ -51,7 +51,7 @@ class _MangaListState extends State<MangaList> {
                     },
                     error: error);
               }, (mangaList) {
-                return mangaList.isEmpty
+                return mangaList!.isEmpty
                     ? Empty(
                         reload: () {
                           context.read<LelscanProvider>().getPopularMangaList(
@@ -61,13 +61,13 @@ class _MangaListState extends State<MangaList> {
                     : GridView.count(
                         crossAxisCount: 2,
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          right: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 4,
-                          bottom: SizeConfig.blockSizeVertical * 4,
+                          left: SizeConfig.blockSizeHorizontal! * 2.5,
+                          right: SizeConfig.blockSizeHorizontal! * 2.5,
+                          top: SizeConfig.blockSizeVertical! * 4,
+                          bottom: SizeConfig.blockSizeVertical! * 4,
                         ),
-                        crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-                        mainAxisSpacing: SizeConfig.blockSizeVertical,
+                        crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+                        mainAxisSpacing: SizeConfig.blockSizeVertical!,
                         children: List.generate(mangaList.length, (index) {
                           return MangaItem(
                               detailsNavigation: () {

@@ -6,7 +6,7 @@ import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 
 class MangakawaiiChapterProvider extends BaseProvider {
-  Either<NException,List<Chapter>> mangaChapters = Right([]);
+  Either<NException,List<Chapter>?> mangaChapters = Right([]);
   Manga currentManga = Manga();
 
 

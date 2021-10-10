@@ -9,7 +9,7 @@ import 'package:manga_reader/utils/n_exception.dart';
 
 class BookmarkProvider extends BaseProvider{
 
-  List<Chapter> bookmarked = List<Chapter>();
+  List<Chapter> bookmarked = <Chapter>[];
 
   bool fetched = false;
   ChapterBookmarkDao chapterBookmarkDao = ChapterBookmarkDao();
@@ -50,7 +50,7 @@ class BookmarkProvider extends BaseProvider{
                         height: size.height / 10,
                         child: child,
                       )),
-              title:  chapter.title.isEmpty ? "Chapitre ${chapter.number}" : chapter.title,
+              title:  chapter.title!.isEmpty ? "Chapitre ${chapter.number}" : chapter.title!,
               crossPage: true,
               subTitle: "a été ajouté à votre marque page",
             );
@@ -73,7 +73,7 @@ class BookmarkProvider extends BaseProvider{
                         height: size.height / 10,
                         child: child,
                       )),
-              title:  chapter.title.isEmpty ? "Chapitre ${chapter.number}" : chapter.title,
+              title:  chapter.title!.isEmpty ? "Chapitre ${chapter.number}" : chapter.title!,
               crossPage: true,
               subTitle: "a été retiré de votre marque page",
             );

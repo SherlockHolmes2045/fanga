@@ -11,9 +11,9 @@ import 'package:manga_reader/utils/task_info.dart';
 import 'package:provider/provider.dart';
 
 class DownloadItem extends StatelessWidget {
-  final Download download;
+  final Download? download;
   final DownloadTask downloadTask;
-  const DownloadItem({Key key,@required this.download,@required this.downloadTask})
+  const DownloadItem({Key? key,required this.download,required this.downloadTask})
       : super(key: key);
 
   @override
@@ -24,11 +24,11 @@ class DownloadItem extends StatelessWidget {
     }
     return ListTile(
         leading: Container(
-          height: SizeConfig.blockSizeVertical * 6,
-          width: SizeConfig.blockSizeHorizontal * 12,
+          height: SizeConfig.blockSizeVertical! * 6,
+          width: SizeConfig.blockSizeHorizontal! * 12,
           child: download != null
               ? CachedNetworkImage(
-                  imageUrl: download.manga.thumbnailUrl,
+                  imageUrl: download!.manga!.thumbnailUrl!,
                   width: double.infinity,
                   height: 350,
                   errorWidget: (context, text, data) {
@@ -51,14 +51,14 @@ class DownloadItem extends StatelessWidget {
           children: [
             Text(
                 downloadTask.filename != null
-                    ? downloadTask.filename.split(".")[0]
+                    ? downloadTask.filename!.split(".")[0]
                     : "",
                 style: TextStyle(color: Colors.white)),
             if (downloadTask.status == DownloadTaskStatus.running) ...[
               Padding(
                 padding: EdgeInsets.only(
-                    right: SizeConfig.blockSizeHorizontal * 20,
-                    top: SizeConfig.blockSizeVertical),
+                    right: SizeConfig.blockSizeHorizontal! * 20,
+                    top: SizeConfig.blockSizeVertical!),
                 child: LinearProgressIndicator(
                   backgroundColor: Colors.grey,
                   value: downloadTask.progress / 100,
@@ -85,7 +85,7 @@ class DownloadItem extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "${dirStatSync(downloadTask.savedDir + "/" + downloadTask.filename.split('.')[0])["size"].toStringAsFixed(2)} Mo  ",
+                    "${dirStatSync(downloadTask.savedDir + "/" + downloadTask.filename!.split('.')[0])["size"]!.toStringAsFixed(2)} Mo  ",
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
@@ -158,9 +158,9 @@ class DownloadItem extends StatelessWidget {
                                 context,
                                 ScaleRoute(
                                     page: ReaderLoader(
-                                      manga: download.manga,
-                                      catalog: download.manga.catalog,
-                                      chapter: download.chapter,
+                                      manga: download!.manga,
+                                      catalog: download!.manga!.catalog,
+                                      chapter: download!.chapter,
                                     )));
                           }
                         },

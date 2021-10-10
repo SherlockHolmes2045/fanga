@@ -5,7 +5,7 @@ import 'package:manga_reader/utils/size_config.dart';
 class Error extends StatelessWidget {
   final Function reload;
   final NException error;
-  const Error({Key key, @required this.reload, @required this.error})
+  const Error({Key? key, required this.reload, required this.error})
       : super(key: key);
 
   @override
@@ -23,7 +23,7 @@ class Error extends StatelessWidget {
             height: SizeConfig.blockSizeVertical,
           ),
           RaisedButton(
-            onPressed: reload,
+            onPressed: reload as void Function()?,
             child: Text("Réessayer"),
           )
         ],

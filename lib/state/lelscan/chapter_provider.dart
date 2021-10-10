@@ -17,9 +17,9 @@ import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/extensions.dart';
 
 class ChapterProvider extends BaseProvider {
-  Either<NException, List<Chapter>> mangaChapters = Right([]);
+  Either<NException, List<Chapter>?> mangaChapters = Right([]);
   bool isFiltered = false;
-  List<Chapter> filteredChapters = List<Chapter>();
+  List<Chapter> filteredChapters = <Chapter>[];
   PageDao pageDao = PageDao();
   ChapterBookmarkDao chapterBookmarkDao = ChapterBookmarkDao();
   DownloadDao downloadDao = DownloadDao();
@@ -34,14 +34,14 @@ class ChapterProvider extends BaseProvider {
       isFiltered = true;
       downloaded = value;
       downloadDao.getAll().then((value) {
-        List<Chapter> matchingList =
+        List<Chapter?> matchingList =
             value.map((downloaded) => downloaded.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           filteredChapters.addAll(result);
-          filteredChapters = filteredChapters.unique();
+          filteredChapters = filteredChapters.unique() as List<Chapter>;
         });
         notifyListeners();
       });
@@ -50,12 +50,12 @@ class ChapterProvider extends BaseProvider {
         isFiltered = false;
       }
       downloadDao.getAll().then((value) {
-        List<Chapter> matchingList =
+        List<Chapter?> matchingList =
             value.map((download) => download.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(filteredChapters);
           var set2 = Set.from(result);
           filteredChapters = List.from(set1.difference(set2));
@@ -75,7 +75,7 @@ class ChapterProvider extends BaseProvider {
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(r);
           var set2 = Set.from(result);
           filteredChapters.addAll(List.from(set1.difference(set2)));
@@ -92,7 +92,7 @@ class ChapterProvider extends BaseProvider {
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(r);
           var set2 = Set.from(result);
           var set3 = Set.from(filteredChapters);
@@ -114,9 +114,9 @@ class ChapterProvider extends BaseProvider {
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           filteredChapters.addAll(result);
-          filteredChapters = filteredChapters.unique();
+          filteredChapters = filteredChapters.unique() as List<Chapter>;
         });
         notifyListeners();
       });
@@ -129,7 +129,7 @@ class ChapterProvider extends BaseProvider {
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(filteredChapters);
           var set2 = Set.from(result);
           filteredChapters = List.from(set1.difference(set2));
@@ -147,9 +147,9 @@ class ChapterProvider extends BaseProvider {
       chapterBookmarkDao.loadAllBookMarked().then((bookmarked) {
         final matchingSet = HashSet.from(bookmarked);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           filteredChapters.addAll(result);
-          filteredChapters = filteredChapters.unique();
+          filteredChapters = filteredChapters.unique() as List<Chapter>;
         });
         notifyListeners();
       });
@@ -160,7 +160,7 @@ class ChapterProvider extends BaseProvider {
       chapterBookmarkDao.loadAllBookMarked().then((bookmarked) {
         final matchingSet = HashSet.from(bookmarked);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(filteredChapters);
           var set2 = Set.from(result);
           filteredChapters = List.from(set1.difference(set2));
@@ -194,19 +194,19 @@ class ChapterProvider extends BaseProvider {
     });
   }
 
-  resumeChapter(Manga manga, BuildContext context) {
+  resumeChapter(Manga? manga, BuildContext context) {
     pageDao.getAll().then((value) {
       List<Model.Page> mangaPages =
           value.where((page) => page.manga == manga).toList();
       mangaPages.sort((a, b) =>
-          int.parse(a.chapter.number).compareTo(int.parse(b.chapter.number)));
+          int.parse(a.chapter.number!).compareTo(int.parse(b.chapter.number!)));
       if(mangaPages.isNotEmpty){
         Navigator.push(
             context,
             ScaleRoute(
                 page: ReaderLoader(
                   manga: mangaPages.last.manga,
-                  catalog: mangaPages.last.manga.catalog,
+                  catalog: mangaPages.last.manga!.catalog,
                   chapter: mangaPages.last.chapter,
                 )));
 
@@ -217,7 +217,7 @@ class ChapterProvider extends BaseProvider {
             "Les chapitres ne sont pas encore chargés",
           );
         }, (r){
-          if(r.isEmpty){
+          if(r!.isEmpty){
             BotToast.showText(
               text:
               "Les chapitres ne sont pas encore chargés",
@@ -228,7 +228,7 @@ class ChapterProvider extends BaseProvider {
                 ScaleRoute(
                     page: ReaderLoader(
                       manga: manga,
-                      catalog: manga.catalog,
+                      catalog: manga!.catalog,
                       chapter: r.last,
                     )));
           }

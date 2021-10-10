@@ -32,7 +32,7 @@ class _AllMangaState extends State<AllManga> {
               0.75 * _scrollController.position.maxScrollExtent;
 
           if (_scrollController.position.pixels > triggerFetchMoreSize) {
-            if (context.read<LelscanMangaListProvider>().hasNext)
+            if (context.read<LelscanMangaListProvider>().hasNext!)
               context.read<LelscanMangaListProvider>().getMangaList(
                   Assets.lelscanCatalogName,
                   context.read<LelscanMangaListProvider>().nextPage,
@@ -40,7 +40,7 @@ class _AllMangaState extends State<AllManga> {
           }
         }
       });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<LelscanMangaListProvider>().mangaList.fold((l) => null, (r) {
         if (r.isEmpty) {
           context.read<LelscanMangaListProvider>().getMangaList(
@@ -91,13 +91,13 @@ class _AllMangaState extends State<AllManga> {
                         crossAxisCount: 2,
                         controller: _scrollController,
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          right: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 4,
-                          bottom: SizeConfig.blockSizeVertical * 4,
+                          left: SizeConfig.blockSizeHorizontal! * 2.5,
+                          right: SizeConfig.blockSizeHorizontal! * 2.5,
+                          top: SizeConfig.blockSizeVertical! * 4,
+                          bottom: SizeConfig.blockSizeVertical! * 4,
                         ),
-                        crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-                        mainAxisSpacing: SizeConfig.blockSizeVertical,
+                        crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+                        mainAxisSpacing: SizeConfig.blockSizeVertical!,
                         children: List.generate(mangaList.length, (index) {
                           return MangaItem(
                               detailsNavigation: () {

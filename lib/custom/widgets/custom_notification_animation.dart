@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomOffsetAnimation extends StatefulWidget {
-  final AnimationController controller;
-  final Widget child;
+  final AnimationController? controller;
+  final Widget? child;
   final bool reverse;
 
   const CustomOffsetAnimation(
-      {Key key, this.controller, this.child, this.reverse = false})
+      {Key? key, this.controller, this.child, this.reverse = false})
       : super(key: key);
 
   @override
@@ -14,9 +14,9 @@ class CustomOffsetAnimation extends StatefulWidget {
 }
 
 class _CustomOffsetAnimationState extends State<CustomOffsetAnimation> {
-  Tween<Offset> tweenOffset;
+  late Tween<Offset> tweenOffset;
 
-  Animation<double> animation;
+  late Animation<double> animation;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _CustomOffsetAnimationState extends State<CustomOffsetAnimation> {
       end: Offset.zero,
     );
     animation =
-        CurvedAnimation(parent: widget.controller, curve: Curves.decelerate);
+        CurvedAnimation(parent: widget.controller!, curve: Curves.decelerate);
     super.initState();
   }
 
@@ -33,8 +33,8 @@ class _CustomOffsetAnimationState extends State<CustomOffsetAnimation> {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       child: widget.child,
-      animation: widget.controller,
-      builder: (BuildContext context, Widget child) {
+      animation: widget.controller!,
+      builder: (BuildContext context, Widget? child) {
         return FractionalTranslation(
             translation: tweenOffset.evaluate(animation),
             child: Opacity(

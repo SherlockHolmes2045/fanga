@@ -24,7 +24,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:manga_reader/models/page.dart' as Model;
 
 class LelscanDetail extends StatefulWidget {
-  final Manga manga;
+  final Manga? manga;
   LelscanDetail({this.manga});
   @override
   _LelscanDetailState createState() => _LelscanDetailState();
@@ -41,14 +41,14 @@ class _LelscanDetailState extends State<LelscanDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
           context
               .read<DetailsProvider>()
-              .getMangaDetails(Assets.lelscanCatalogName, widget.manga,false);
+              .getMangaDetails(Assets.lelscanCatalogName, widget.manga!,false);
 
           context
               .read<ChapterProvider>()
-              .getChapters(Assets.lelscanCatalogName, widget.manga,false);
+              .getChapters(Assets.lelscanCatalogName, widget.manga!,false);
     });
   }
 
@@ -75,7 +75,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                   .isNotEmpty
               ? Padding(
                   padding:
-                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 7),
+                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 7),
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
                     height: 65.0,
@@ -84,7 +84,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                       color: Color.fromRGBO(28, 28, 28, 1),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: SizeConfig.blockSizeHorizontal * 7),
+                            horizontal: SizeConfig.blockSizeHorizontal! * 7),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -140,7 +140,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
               ? AppBar(
                   backgroundColor: Color.fromRGBO(28, 28, 28, 1),
                   title: Text(
-                    widget.manga.title,
+                    widget.manga!.title!,
                     style: TextStyle(color: Colors.white, fontSize: 22.0),
                   ),
                 )
@@ -214,12 +214,12 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                             .read<DetailsProvider>()
                                             .getMangaDetails(
                                                 Assets.lelscanCatalogName,
-                                                widget.manga,false);
+                                                widget.manga!,false);
                                         context
                                             .read<ChapterProvider>()
                                             .getChapters(
                                                 Assets.lelscanCatalogName,
-                                                widget.manga,true);
+                                                widget.manga!,true);
                                       },
                                       child: Text("Réessayer"),
                                     )
@@ -240,24 +240,24 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                           Padding(
                                             padding: EdgeInsets.only(
                                                 top:
-                                                    SizeConfig.blockSizeVertical *
+                                                    SizeConfig.blockSizeVertical! *
                                                         3),
                                             child:
                                                 MangaDetails(manga:mangaDetails),
                                           ),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical * 2,
+                                                SizeConfig.blockSizeVertical! * 2,
                                           ),
                                           _builButtons(),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical * 2,
+                                                SizeConfig.blockSizeVertical! * 2,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                        .blockSizeHorizontal! *
                                                     5),
                                             child: ExpandableTheme(
                                               data: ExpandableThemeData(
@@ -274,7 +274,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                           FontWeight.bold),
                                                 ),
                                                 collapsed: Text(
-                                                  mangaDetails.description,
+                                                  mangaDetails.description!,
                                                   softWrap: true,
                                                   maxLines: 1,
                                                   style: TextStyle(
@@ -285,7 +285,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                 ),
                                                 expanded: InkWell(
                                                   child: Text(
-                                                    mangaDetails.description,
+                                                    mangaDetails.description!,
                                                     textAlign: TextAlign.justify,
                                                     style: TextStyle(
                                                         color: Colors.white,
@@ -310,12 +310,12 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                           ),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical * 2,
+                                                SizeConfig.blockSizeVertical! * 2,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                        .blockSizeHorizontal! *
                                                     5),
                                             child: Container(
                                               child: Column(
@@ -362,7 +362,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                             Assets
                                                                                 .lelscanCatalogName,
                                                                             widget
-                                                                                .manga,true);
+                                                                                .manga!,true);
                                                                   },
                                                                   child: Text(
                                                                       "Réessayer"),
@@ -371,7 +371,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                             ),
                                                           );
                                                         }, (mangaChapters) {
-                                                          return mangaChapters
+                                                          return mangaChapters!
                                                                   .isEmpty
                                                               ? Container(
                                                                   child: Center(
@@ -397,7 +397,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                           InkWell(
                                                                             child: Container(
                                                                               height:
-                                                                                  SizeConfig.blockSizeVertical * 4,
+                                                                                  SizeConfig.blockSizeVertical! * 4,
                                                                               padding:
                                                                                   EdgeInsets.symmetric(horizontal: 5.0),
                                                                               decoration:
@@ -417,7 +417,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                     color: Colors.white,
                                                                                   ),
                                                                                   SizedBox(
-                                                                                    width: SizeConfig.blockSizeHorizontal * 2,
+                                                                                    width: SizeConfig.blockSizeHorizontal! * 2,
                                                                                   ),
                                                                                   Text(
                                                                                     "Filtre",
@@ -443,20 +443,20 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                           alignment: Alignment.topCenter,
                                                                                           child: Container(
                                                                                             alignment: Alignment.center,
-                                                                                            height: SizeConfig.blockSizeVertical * 6,
+                                                                                            height: SizeConfig.blockSizeVertical! * 6,
                                                                                             color: Color.fromRGBO(28, 28, 28, 1),
                                                                                             child: Text(
                                                                                               "Filtres",
                                                                                               style: TextStyle(
                                                                                                 color: Colors.white,
                                                                                                 fontWeight: FontWeight.bold,
-                                                                                                fontSize: SizeConfig.blockSizeHorizontal * 4.5
+                                                                                                fontSize: SizeConfig.blockSizeHorizontal! * 4.5
                                                                                               ),
                                                                                             ),
                                                                                           ),
                                                                                         ),
                                                                                         Padding(
-                                                                                          padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 8),
+                                                                                          padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical! * 8),
                                                                                           child: Align(
                                                                                             alignment: Alignment.center,
                                                                                             child: Column(
@@ -472,8 +472,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                       ),
                                                                                                     ),
                                                                                                     value: context.watch<ChapterProvider>().downloaded,
-                                                                                                    onChanged: (bool value) {
-                                                                                                      context.read<ChapterProvider>().filterDownloaded(value);
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      context.read<ChapterProvider>().filterDownloaded(value!);
                                                                                                     },
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
@@ -489,8 +489,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                       ),
                                                                                                     ),
                                                                                                     value: context.watch<ChapterProvider>().nonreaded,
-                                                                                                    onChanged: (bool value) {
-                                                                                                      context.read<ChapterProvider>().filterNonReaded(value);
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      context.read<ChapterProvider>().filterNonReaded(value!);
                                                                                                     },
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
@@ -505,8 +505,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                       ),
                                                                                                     ),
                                                                                                     value: context.watch<ChapterProvider>().readed,
-                                                                                                    onChanged: (bool value) {
-                                                                                                      context.read<ChapterProvider>().filterReaded(value);
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      context.read<ChapterProvider>().filterReaded(value!);
                                                                                                     },
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
@@ -521,8 +521,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                       ),
                                                                                                     ),
                                                                                                     value: context.watch<ChapterProvider>().marked,
-                                                                                                    onChanged: (bool value) {
-                                                                                                      context.read<ChapterProvider>().filterMarked(value);
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      context.read<ChapterProvider>().filterMarked(value!);
                                                                                                     },
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
@@ -570,16 +570,16 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                         color: Colors.cyan,
                                                                                       ),
                                                                                 title: Padding(
-                                                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
+                                                                                  padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5,bottom: SizeConfig.blockSizeVertical!),
                                                                                   child: FutureBuilder(
                                                                                     future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                                    builder: (context, AsyncSnapshot<Model.Page> snapshot){
+                                                                                    builder: (context, AsyncSnapshot<Model.Page?> snapshot){
                                                                                       if(snapshot.hasData){
                                                                                         return Text(
                                                                                           'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
                                                                                           overflow: TextOverflow.clip,
                                                                                           style: TextStyle(
-                                                                                              color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished ? Colors.grey
+                                                                                              color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data!.finished! ? Colors.grey
                                                                                                   : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                                                   ? Colors.white
                                                                                                   : Colors.cyan,
@@ -600,22 +600,22 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                   )
                                                                                 ),
                                                                                 subtitle: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
                                                                                     child: FutureBuilder(
                                                                                         future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                        builder: (context, AsyncSnapshot<Model.Page?> snapshot) {
                                                                                           if (snapshot.hasData) {
                                                                                               return RichText(
                                                                                                 text: TextSpan(
                                                                                                     text: mangaChapters[index].publishedAt,
                                                                                                     style: TextStyle(
-                                                                                                      color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished ? Colors.grey :
+                                                                                                      color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data!.finished! ? Colors.grey :
                                                                                                       !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                                                               ? Colors.white
                                                                                                               : Colors.cyan,
                                                                                                     ),
                                                                                                     children: <TextSpan>[
-                                                                                                      if(!snapshot.data.finished)
+                                                                                                      if(!snapshot.data!.finished!)
                                                                                                       TextSpan(
                                                                                                         text: " \u22C5 ",
                                                                                                         style: TextStyle(
@@ -623,7 +623,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                           fontWeight: FontWeight.bold,
                                                                                                         )
                                                                                                       ),
-                                                                                                      if(!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                                                      if(!snapshot.data!.finished!) TextSpan(text: " Page ${snapshot.data!.page! + 1}", style: TextStyle(color: Colors.grey))
                                                                                                     ])
                                                                                               );
                                                                                           } else {
@@ -644,7 +644,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                         onSelected: (dynamic result) {
                                                                                           print(result);
                                                                                           if (result == 0) {
-                                                                                            context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                                                            context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.lelscanCatalogName, widget.manga!, MediaQuery.of(context).size);
                                                                                           } else if (result == 1) {
                                                                                             context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size,true);
                                                                                           } else if (result == 2) {
@@ -722,16 +722,16 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                   color: Colors.cyan,
                                                                                 ),
                                                                                 title: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5,bottom: SizeConfig.blockSizeVertical!),
                                                                                     child: FutureBuilder(
                                                                                         future: context.read<PageProvider>().findChapter(context.watch<ChapterProvider>().filteredChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot){
+                                                                                        builder: (context, AsyncSnapshot<Model.Page?> snapshot){
                                                                                           if(snapshot.hasData){
                                                                                             return Text(
                                                                                               'Chapitre ${context.watch<ChapterProvider>().filteredChapters[index].number} ${context.watch<ChapterProvider>().filteredChapters[index].title}',
                                                                                               overflow: TextOverflow.clip,
                                                                                               style: TextStyle(
-                                                                                                  color: context.watch<PageProvider>().pages.contains(context.watch<ChapterProvider>().filteredChapters[index]) && snapshot.data.finished ? Colors.grey
+                                                                                                  color: context.watch<PageProvider>().pages.contains(context.watch<ChapterProvider>().filteredChapters[index]) && snapshot.data!.finished! ? Colors.grey
                                                                                                       : !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
                                                                                                       ? Colors.white
                                                                                                       : Colors.cyan,
@@ -752,22 +752,22 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                     )
                                                                                 ),
                                                                                 subtitle: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
                                                                                     child: FutureBuilder(
                                                                                         future: context.read<PageProvider>().findChapter(context.watch<ChapterProvider>().filteredChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                        builder: (context, AsyncSnapshot<Model.Page?> snapshot) {
                                                                                           if (snapshot.hasData) {
                                                                                             return RichText(
                                                                                                 text: TextSpan(
                                                                                                     text: context.watch<ChapterProvider>().filteredChapters[index].publishedAt,
                                                                                                     style: TextStyle(
-                                                                                                      color: context.watch<PageProvider>().pages.contains(context.watch<ChapterProvider>().filteredChapters[index]) && snapshot.data.finished ? Colors.grey :
+                                                                                                      color: context.watch<PageProvider>().pages.contains(context.watch<ChapterProvider>().filteredChapters[index]) && snapshot.data!.finished! ? Colors.grey :
                                                                                                       !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ChapterProvider>().filteredChapters[index])
                                                                                                           ? Colors.white
                                                                                                           : Colors.cyan,
                                                                                                     ),
                                                                                                     children: <TextSpan>[
-                                                                                                      if(!snapshot.data.finished)
+                                                                                                      if(!snapshot.data!.finished!)
                                                                                                         TextSpan(
                                                                                                             text: " \u22C5 ",
                                                                                                             style: TextStyle(
@@ -775,7 +775,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                                               fontWeight: FontWeight.bold,
                                                                                                             )
                                                                                                         ),
-                                                                                                      if(!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                                                      if(!snapshot.data!.finished!) TextSpan(text: " Page ${snapshot.data!.page! + 1}", style: TextStyle(color: Colors.grey))
                                                                                                     ])
                                                                                             );
                                                                                           } else {
@@ -796,7 +796,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                                   onSelected: (dynamic result) {
                                                                                     print(result);
                                                                                     if (result == 0) {
-                                                                                      context.read<ActionProvider>().downloadChapter(context.watch<ChapterProvider>().filteredChapters[index], Assets.lelscanCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                                                      context.read<ActionProvider>().downloadChapter(context.watch<ChapterProvider>().filteredChapters[index], Assets.lelscanCatalogName, widget.manga!, MediaQuery.of(context).size);
                                                                                     } else if (result == 1) {
                                                                                       context.read<BookmarkProvider>().bookmark(context.watch<ChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,true);
                                                                                     } else if (result == 2) {
@@ -874,7 +874,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
   Widget _builButtons() {
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal * 4),
+          EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal! * 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -882,12 +882,12 @@ class _LelscanDetailState extends State<LelscanDetail> {
             onTap: () {
               context
                   .read<LibraryProvider>()
-                  .addToLibrary(widget.manga, MediaQuery.of(context).size);
+                  .addToLibrary(widget.manga!, MediaQuery.of(context).size);
             },
             child: Container(
-              height: SizeConfig.blockSizeVertical * 4.5,
+              height: SizeConfig.blockSizeVertical! * 4.5,
               padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.blockSizeHorizontal),
+                  horizontal: SizeConfig.blockSizeHorizontal!),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.cyan, width: 0.5),
                 color: context
@@ -897,11 +897,11 @@ class _LelscanDetailState extends State<LelscanDetail> {
                     ? Colors.cyan.withOpacity(0.3)
                     : Colors.transparent,
                 borderRadius: BorderRadius.all(
-                    Radius.circular(SizeConfig.blockSizeHorizontal * 10)),
+                    Radius.circular(SizeConfig.blockSizeHorizontal! * 10)),
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal * 1.5),
+                    horizontal: SizeConfig.blockSizeHorizontal! * 1.5),
                 child: Row(
                   children: [
                     Icon(
@@ -936,8 +936,8 @@ class _LelscanDetailState extends State<LelscanDetail> {
                 color: Colors.cyan,
               ),
               onPressed: () async {
-                await canLaunch(widget.manga.url)
-                    ? await launch(widget.manga.url)
+                await canLaunch(widget.manga!.url!)
+                    ? await launch(widget.manga!.url!)
                     : BotToast.showText(text: "Impossible d'ouvrir ce lien");
               })
         ],
@@ -949,9 +949,9 @@ class _LelscanDetailState extends State<LelscanDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<DetailsProvider>()
-        .getMangaDetails(Assets.lelscanCatalogName, widget.manga,true);
+        .getMangaDetails(Assets.lelscanCatalogName, widget.manga!,true);
     context
         .read<ChapterProvider>()
-        .getChapters(Assets.lelscanCatalogName, widget.manga,true);
+        .getChapters(Assets.lelscanCatalogName, widget.manga!,true);
   }
 }

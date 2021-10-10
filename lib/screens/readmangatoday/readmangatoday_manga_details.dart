@@ -25,7 +25,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:manga_reader/models/page.dart' as Model;
 
 class ReadmangatodayDetail extends StatefulWidget {
-  final Manga manga;
+  final Manga? manga;
   ReadmangatodayDetail({this.manga});
   @override
   _ReadmangatodayDetailState createState() => _ReadmangatodayDetailState();
@@ -42,13 +42,13 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<ReadmangatodayDetailsProvider>().getMangaDetails(
-          Assets.readmangatodayCatalogName, widget.manga, false);
+          Assets.readmangatodayCatalogName, widget.manga!, false);
 
       context
           .read<ReadmangatodayChapterProvider>()
-          .getChapters(Assets.readmangatodayCatalogName, widget.manga, false);
+          .getChapters(Assets.readmangatodayCatalogName, widget.manga!, false);
     });
   }
 
@@ -75,7 +75,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                   .isNotEmpty
               ? Padding(
                   padding:
-                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 7),
+                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 7),
                   child: SizedBox(
                     width: SizeConfig.screenWidth,
                     height: 65.0,
@@ -84,7 +84,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                       color: Color.fromRGBO(28, 28, 28, 1),
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                            horizontal: SizeConfig.blockSizeHorizontal * 7),
+                            horizontal: SizeConfig.blockSizeHorizontal! * 7),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -140,7 +140,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
               ? AppBar(
                   backgroundColor: Color.fromRGBO(28, 28, 28, 1),
                   title: Text(
-                    widget.manga.title,
+                    widget.manga!.title!,
                     style: TextStyle(color: Colors.white, fontSize: 22.0),
                   ),
                 )
@@ -221,7 +221,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                             .getMangaDetails(
                                                 Assets
                                                     .readmangatodayCatalogName,
-                                                widget.manga,
+                                                widget.manga!,
                                                 true);
                                         context
                                             .read<
@@ -229,7 +229,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                             .getChapters(
                                                 Assets
                                                     .readmangatodayCatalogName,
-                                                widget.manga,
+                                                widget.manga!,
                                                 true);
                                       },
                                       child: Text("Réessayer"),
@@ -251,26 +251,26 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                           Padding(
                                             padding: EdgeInsets.only(
                                                 top: SizeConfig
-                                                        .blockSizeVertical *
+                                                        .blockSizeVertical! *
                                                     3),
                                             child: MangaDetails(
                                                 manga: mangaDetails),
                                           ),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical *
+                                                SizeConfig.blockSizeVertical! *
                                                     2,
                                           ),
                                           _builButtons(),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical *
+                                                SizeConfig.blockSizeVertical! *
                                                     2,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                        .blockSizeHorizontal! *
                                                     5),
                                             child: ExpandableTheme(
                                               data: ExpandableThemeData(
@@ -287,7 +287,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                           FontWeight.bold),
                                                 ),
                                                 collapsed: Text(
-                                                  mangaDetails.description,
+                                                  mangaDetails.description!,
                                                   softWrap: true,
                                                   maxLines: 1,
                                                   style: TextStyle(
@@ -299,7 +299,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                 ),
                                                 expanded: InkWell(
                                                   child: Text(
-                                                    mangaDetails.description,
+                                                    mangaDetails.description!,
                                                     textAlign:
                                                         TextAlign.justify,
                                                     style: TextStyle(
@@ -325,13 +325,13 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                           ),
                                           SizedBox(
                                             height:
-                                                SizeConfig.blockSizeVertical *
+                                                SizeConfig.blockSizeVertical! *
                                                     2,
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: SizeConfig
-                                                        .blockSizeHorizontal *
+                                                        .blockSizeHorizontal! *
                                                     5),
                                             child: Container(
                                               child: Column(
@@ -378,7 +378,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                         Assets
                                                                             .readmangatodayCatalogName,
                                                                         widget
-                                                                            .manga,
+                                                                            .manga!,
                                                                         true);
                                                                   },
                                                                   child: Text(
@@ -388,7 +388,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                             ),
                                                           );
                                                         }, (mangaChapters) {
-                                                          return mangaChapters
+                                                          return mangaChapters!
                                                                   .isEmpty
                                                               ? Container(
                                                                   child: Center(
@@ -412,7 +412,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                           InkWell(
                                                                             child:
                                                                                 Container(
-                                                                              height: SizeConfig.blockSizeVertical * 4,
+                                                                              height: SizeConfig.blockSizeVertical! * 4,
                                                                               padding: EdgeInsets.symmetric(horizontal: 5.0),
                                                                               decoration: BoxDecoration(
                                                                                 border: Border.all(color: Colors.grey.withOpacity(0.5)),
@@ -426,7 +426,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                     color: Colors.white,
                                                                                   ),
                                                                                   SizedBox(
-                                                                                    width: SizeConfig.blockSizeHorizontal * 2,
+                                                                                    width: SizeConfig.blockSizeHorizontal! * 2,
                                                                                   ),
                                                                                   Text(
                                                                                     "Filtre",
@@ -453,16 +453,16 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                           alignment: Alignment.topCenter,
                                                                                           child: Container(
                                                                                             alignment: Alignment.center,
-                                                                                            height: SizeConfig.blockSizeVertical * 6,
+                                                                                            height: SizeConfig.blockSizeVertical! * 6,
                                                                                             color: Color.fromRGBO(28, 28, 28, 1),
                                                                                             child: Text(
                                                                                               "Filtres",
-                                                                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: SizeConfig.blockSizeHorizontal * 4.5),
+                                                                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: SizeConfig.blockSizeHorizontal! * 4.5),
                                                                                             ),
                                                                                           ),
                                                                                         ),
                                                                                         Padding(
-                                                                                          padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 8),
+                                                                                          padding: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical! * 8),
                                                                                           child: Align(
                                                                                             alignment: Alignment.center,
                                                                                             child: Column(
@@ -476,8 +476,8 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                                       style: TextStyle(color: Colors.white),
                                                                                                     ),
                                                                                                     value: context.watch<ReadmangatodayChapterProvider>().downloaded,
-                                                                                                    onChanged: (bool value) {
-                                                                                                      context.read<ReadmangatodayChapterProvider>().filterDownloaded(value);
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      context.read<ReadmangatodayChapterProvider>().filterDownloaded(value!);
                                                                                                     },
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
@@ -490,8 +490,8 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                                       style: TextStyle(color: Colors.white),
                                                                                                     ),
                                                                                                     value: context.watch<ReadmangatodayChapterProvider>().nonreaded,
-                                                                                                    onChanged: (bool value) {
-                                                                                                      context.read<ReadmangatodayChapterProvider>().filterNonReaded(value);
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      context.read<ReadmangatodayChapterProvider>().filterNonReaded(value!);
                                                                                                     },
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
@@ -504,8 +504,8 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                                       style: TextStyle(color: Colors.white),
                                                                                                     ),
                                                                                                     value: context.watch<ReadmangatodayChapterProvider>().readed,
-                                                                                                    onChanged: (bool value) {
-                                                                                                      context.read<ReadmangatodayChapterProvider>().filterReaded(value);
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      context.read<ReadmangatodayChapterProvider>().filterReaded(value!);
                                                                                                     },
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
@@ -518,8 +518,8 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                                       style: TextStyle(color: Colors.white),
                                                                                                     ),
                                                                                                     value: context.watch<ReadmangatodayChapterProvider>().marked,
-                                                                                                    onChanged: (bool value) {
-                                                                                                      context.read<ReadmangatodayChapterProvider>().filterMarked(value);
+                                                                                                    onChanged: (bool? value) {
+                                                                                                      context.read<ReadmangatodayChapterProvider>().filterMarked(value!);
                                                                                                     },
                                                                                                     controlAffinity: ListTileControlAffinity.leading,
                                                                                                   ),
@@ -564,16 +564,16 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                         color: Colors.cyan,
                                                                                       ),
                                                                                 title: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, bottom: SizeConfig.blockSizeVertical),
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5, bottom: SizeConfig.blockSizeVertical!),
                                                                                     child: FutureBuilder(
                                                                                         future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                        builder: (context, AsyncSnapshot<Model.Page?> snapshot) {
                                                                                           if (snapshot.hasData) {
                                                                                             return Text(
                                                                                               'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
                                                                                               overflow: TextOverflow.clip,
                                                                                               style: TextStyle(
-                                                                                                  color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished
+                                                                                                  color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data!.finished!
                                                                                                       ? Colors.grey
                                                                                                       : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                                                           ? Colors.white
@@ -589,35 +589,35 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                           }
                                                                                         })),
                                                                                 subtitle: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
                                                                                     child: FutureBuilder(
                                                                                         future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                        builder: (context, AsyncSnapshot<Model.Page?> snapshot) {
                                                                                           if (snapshot.hasData) {
                                                                                             return RichText(
                                                                                                 text: TextSpan(
-                                                                                                    text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(mangaChapters[index].publishedAt)),
+                                                                                                    text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(mangaChapters[index].publishedAt!)),
                                                                                                     style: TextStyle(
-                                                                                                      color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished
+                                                                                                      color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data!.finished!
                                                                                                           ? Colors.grey
                                                                                                           : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                                                               ? Colors.white
                                                                                                               : Colors.cyan,
                                                                                                     ),
                                                                                                     children: <TextSpan>[
-                                                                                                  if (!snapshot.data.finished)
+                                                                                                  if (!snapshot.data!.finished!)
                                                                                                     TextSpan(
                                                                                                         text: " \u22C5 ",
                                                                                                         style: TextStyle(
                                                                                                           color: Colors.white,
                                                                                                           fontWeight: FontWeight.bold,
                                                                                                         )),
-                                                                                                  if (!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                                                  if (!snapshot.data!.finished!) TextSpan(text: " Page ${snapshot.data!.page! + 1}", style: TextStyle(color: Colors.grey))
                                                                                                 ]));
                                                                                           } else {
                                                                                             return RichText(
                                                                                                 text: TextSpan(
-                                                                                              text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(mangaChapters[index].publishedAt)),
+                                                                                              text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(mangaChapters[index].publishedAt!)),
                                                                                               style: TextStyle(
                                                                                                 color: !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index]) ? Colors.white : Colors.cyan,
                                                                                               ),
@@ -629,7 +629,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                         onSelected: (dynamic result) {
                                                                                           print(result);
                                                                                           if (result == 0) {
-                                                                                            context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.readmangatodayCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                                                            context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.readmangatodayCatalogName, widget.manga!, MediaQuery.of(context).size);
                                                                                           } else if (result == 1) {
                                                                                             context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size,true);
                                                                                           } else if (result == 2) {
@@ -703,16 +703,16 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                   color: Colors.cyan,
                                                                                 ),
                                                                                 title: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5, bottom: SizeConfig.blockSizeVertical),
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5, bottom: SizeConfig.blockSizeVertical!),
                                                                                     child: FutureBuilder(
                                                                                         future: context.read<PageProvider>().findChapter(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                        builder: (context, AsyncSnapshot<Model.Page?> snapshot) {
                                                                                           if (snapshot.hasData) {
                                                                                             return Text(
                                                                                               'Chapitre ${context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].number} ${context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].title}',
                                                                                               overflow: TextOverflow.clip,
                                                                                               style: TextStyle(
-                                                                                                  color: context.watch<PageProvider>().pages.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) && snapshot.data.finished
+                                                                                                  color: context.watch<PageProvider>().pages.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) && snapshot.data!.finished!
                                                                                                       ? Colors.grey
                                                                                                       : !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index])
                                                                                                       ? Colors.white
@@ -728,35 +728,35 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                           }
                                                                                         })),
                                                                                 subtitle: Padding(
-                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                                                    padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
                                                                                     child: FutureBuilder(
                                                                                         future: context.read<PageProvider>().findChapter(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]),
-                                                                                        builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                                        builder: (context, AsyncSnapshot<Model.Page?> snapshot) {
                                                                                           if (snapshot.hasData) {
                                                                                             return RichText(
                                                                                                 text: TextSpan(
-                                                                                                    text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].publishedAt)),
+                                                                                                    text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].publishedAt!)),
                                                                                                     style: TextStyle(
-                                                                                                      color: context.watch<PageProvider>().pages.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) && snapshot.data.finished
+                                                                                                      color: context.watch<PageProvider>().pages.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) && snapshot.data!.finished!
                                                                                                           ? Colors.grey
                                                                                                           : !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index])
                                                                                                           ? Colors.white
                                                                                                           : Colors.cyan,
                                                                                                     ),
                                                                                                     children: <TextSpan>[
-                                                                                                      if (!snapshot.data.finished)
+                                                                                                      if (!snapshot.data!.finished!)
                                                                                                         TextSpan(
                                                                                                             text: " \u22C5 ",
                                                                                                             style: TextStyle(
                                                                                                               color: Colors.white,
                                                                                                               fontWeight: FontWeight.bold,
                                                                                                             )),
-                                                                                                      if (!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                                                      if (!snapshot.data!.finished!) TextSpan(text: " Page ${snapshot.data!.page! + 1}", style: TextStyle(color: Colors.grey))
                                                                                                     ]));
                                                                                           } else {
                                                                                             return RichText(
                                                                                                 text: TextSpan(
-                                                                                                  text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].publishedAt)),
+                                                                                                  text: DateFormat.yMMMMEEEEd('fr_FR').format(DateTime.parse(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index].publishedAt!)),
                                                                                                   style: TextStyle(
                                                                                                     color: !context.watch<BookmarkProvider>().bookmarked.contains(context.watch<ReadmangatodayChapterProvider>().filteredChapters[index]) ? Colors.white : Colors.cyan,
                                                                                                   ),
@@ -768,7 +768,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                                   onSelected: (dynamic result) {
                                                                                     print(result);
                                                                                     if (result == 0) {
-                                                                                      context.read<ActionProvider>().downloadChapter(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], Assets.readmangatodayCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                                                      context.read<ActionProvider>().downloadChapter(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], Assets.readmangatodayCatalogName, widget.manga!, MediaQuery.of(context).size);
                                                                                     } else if (result == 1) {
                                                                                       context.read<BookmarkProvider>().bookmark(context.read<ReadmangatodayChapterProvider>().filteredChapters[index], MediaQuery.of(context).size,true);
                                                                                     } else if (result == 2) {
@@ -845,7 +845,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
   Widget _builButtons() {
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal * 4),
+          EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal! * 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -853,12 +853,12 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
             onTap: () {
               context
                   .read<LibraryProvider>()
-                  .addToLibrary(widget.manga, MediaQuery.of(context).size);
+                  .addToLibrary(widget.manga!, MediaQuery.of(context).size);
             },
             child: Container(
-              height: SizeConfig.blockSizeVertical * 4.5,
+              height: SizeConfig.blockSizeVertical! * 4.5,
               padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.blockSizeHorizontal),
+                  horizontal: SizeConfig.blockSizeHorizontal!),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.cyan, width: 0.5),
                 color: context
@@ -868,11 +868,11 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                     ? Colors.cyan.withOpacity(0.3)
                     : Colors.transparent,
                 borderRadius: BorderRadius.all(
-                    Radius.circular(SizeConfig.blockSizeHorizontal * 10)),
+                    Radius.circular(SizeConfig.blockSizeHorizontal! * 10)),
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal * 1.5),
+                    horizontal: SizeConfig.blockSizeHorizontal! * 1.5),
                 child: Row(
                   children: [
                     Icon(
@@ -907,8 +907,8 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                 color: Colors.cyan,
               ),
               onPressed: () async {
-                await canLaunch(widget.manga.url)
-                    ? await launch(widget.manga.url)
+                await canLaunch(widget.manga!.url!)
+                    ? await launch(widget.manga!.url!)
                     : BotToast.showText(text: "Impossible d'ouvrir ce lien");
               })
         ],
@@ -920,9 +920,9 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<ReadmangatodayDetailsProvider>()
-        .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga, true);
+        .getMangaDetails(Assets.readmangatodayCatalogName, widget.manga!, true);
     context
         .read<ReadmangatodayChapterProvider>()
-        .getChapters(Assets.readmangatodayCatalogName, widget.manga, true);
+        .getChapters(Assets.readmangatodayCatalogName, widget.manga!, true);
   }
 }

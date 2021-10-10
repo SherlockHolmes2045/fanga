@@ -45,11 +45,11 @@ class SearchManga extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    print(ModalRoute.of(context).settings.name);
+    print(ModalRoute.of(context)!.settings.name);
     SizeConfig().init(context);
     return FutureBuilder(
         future: searchService.searchManga(source, query, 1),
-        builder: (context, AsyncSnapshot<List<Manga>> snapshot) {
+        builder: (context, AsyncSnapshot<List<Manga>?> snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             // If we got an error
             if (snapshot.hasError) {
@@ -66,7 +66,7 @@ class SearchManga extends SearchDelegate {
               // if we got our data
             } else if (snapshot.hasData) {
               print(snapshot.data);
-              if(snapshot.data.isEmpty){
+              if(snapshot.data!.isEmpty){
                 return Container(
                   color: Colors.black,
                   child: Center(
@@ -85,14 +85,14 @@ class SearchManga extends SearchDelegate {
                   child: GridView.count(
                       crossAxisCount: 2,
                       padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 2.5,
-                        right: SizeConfig.blockSizeHorizontal * 2.5,
-                        top: SizeConfig.blockSizeVertical * 4,
-                        bottom: SizeConfig.blockSizeVertical * 4,
+                        left: SizeConfig.blockSizeHorizontal! * 2.5,
+                        right: SizeConfig.blockSizeHorizontal! * 2.5,
+                        top: SizeConfig.blockSizeVertical! * 4,
+                        bottom: SizeConfig.blockSizeVertical! * 4,
                       ),
-                      crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-                      mainAxisSpacing: SizeConfig.blockSizeVertical,
-                      children: List.generate(snapshot.data.length, (index) {
+                      crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+                      mainAxisSpacing: SizeConfig.blockSizeVertical!,
+                      children: List.generate(snapshot.data!.length, (index) {
                         return Container(
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -106,7 +106,7 @@ class SearchManga extends SearchDelegate {
                                             context,
                                             ScaleRoute(
                                                 page: LelscanDetail(
-                                                  manga: snapshot.data[index],
+                                                  manga: snapshot.data![index],
                                                 )));
                                       }
                                       break;
@@ -116,7 +116,7 @@ class SearchManga extends SearchDelegate {
                                             context,
                                             ScaleRoute(
                                                 page: ReadmangatodayDetail(
-                                                  manga: snapshot.data[index],
+                                                  manga: snapshot.data![index],
                                                 )));
                                       }
                                       break;
@@ -128,7 +128,7 @@ class SearchManga extends SearchDelegate {
                                     }
                                   },
                                   child: CachedNetworkImage(
-                                    imageUrl: snapshot.data[index].thumbnailUrl,
+                                    imageUrl: snapshot.data![index].thumbnailUrl!,
                                     width: double.infinity,
                                     height: 350,
                                     errorWidget: (context, text, data) {
@@ -141,7 +141,7 @@ class SearchManga extends SearchDelegate {
                                                   context,
                                                   ScaleRoute(
                                                       page: LelscanDetail(
-                                                        manga: snapshot.data[index],
+                                                        manga: snapshot.data![index],
                                                       )));
                                             }
                                             break;
@@ -152,7 +152,7 @@ class SearchManga extends SearchDelegate {
                                                   context,
                                                   ScaleRoute(
                                                       page: ReadmangatodayDetail(
-                                                        manga: snapshot.data[index],
+                                                        manga: snapshot.data![index],
                                                       )));
                                             }
                                             break;
@@ -176,9 +176,9 @@ class SearchManga extends SearchDelegate {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical),
+                                    top: SizeConfig.blockSizeVertical!),
                                 child: Text(
-                                  snapshot.data[index].title,
+                                  snapshot.data![index].title!,
                                   overflow: TextOverflow.clip,
                                   style: TextStyle(
                                     color: Colors.white,

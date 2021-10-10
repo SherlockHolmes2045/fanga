@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Empty extends StatelessWidget {
   final Function reload;
-  const Empty({Key key, @required this.reload}) : super(key: key);
+  const Empty({Key? key, required this.reload}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class Empty extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
           RaisedButton(
-            onPressed: reload,
+            onPressed: reload as void Function()?,
             child: Text("Réessayer"),
           )
         ],

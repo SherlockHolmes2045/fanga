@@ -6,7 +6,7 @@ import 'package:manga_reader/utils/n_exception.dart';
 
 class MangakawaiiTopMangaProvider extends BaseProvider{
 
-  Either<NException,List<Manga>> topMangaList = Right([]);
+  Either<NException,List<Manga>?> topMangaList = Right([]);
 
   getTopMangaList(String catalogName,int page){
     this.toggleLoadingState();

@@ -40,13 +40,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_moment/simple_moment.dart';
-
 import 'di.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   locator<Di>().dio.interceptors.add(locator<Di>().dioCacheManager.interceptor);
-  WidgetsFlutterBinding.ensureInitialized();
   createDb();
   await createFolders(Assets.appName);
   await FlutterDownloader.initialize(
@@ -96,7 +95,7 @@ void main() async {
 }
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    var state = context.findAncestorStateOfType<_MyAppState>();
+    var state = context.findAncestorStateOfType<_MyAppState>()!;
     state.setLocale(newLocale);
   }
   @override
@@ -104,7 +103,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale;
+  Locale? _locale;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -146,12 +145,12 @@ class _MyAppState extends State<MyApp> {
       ],
       localeResolutionCallback: (locale, supportedLocales) {
         for (var supportedLocale in supportedLocales) {
-          if (supportedLocale?.languageCode == locale?.languageCode &&
-              supportedLocale?.countryCode == locale?.countryCode) {
+          if (supportedLocale.languageCode == locale?.languageCode &&
+              supportedLocale.countryCode == locale?.countryCode) {
             return supportedLocale;
           }
         }
-        return supportedLocales?.first;
+        return supportedLocales.first;
       },
     );
   }

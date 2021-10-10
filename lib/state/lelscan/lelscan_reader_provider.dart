@@ -12,22 +12,22 @@ import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 
 class LelscanReaderProvider extends BaseProvider {
-  List<String> pages = [];
-  NException exception;
+  List<String?> pages = [];
+  NException? exception;
 
 
-  getPages(String catalogName,Chapter chapter,BuildContext context,Manga manga,bool forceRefresh) async{
+  getPages(String? catalogName,Chapter? chapter,BuildContext context,Manga? manga,bool forceRefresh) async{
     toggleLoadingState();
     this.exception = null;
     if(catalogName != Assets.mangakawaiiCatalogName){
-      lelscanService.chapterPages(catalogName, chapter,forceRefresh).then((value) {
+      lelscanService.chapterPages(catalogName, chapter!,forceRefresh).then((value) {
         toggleLoadingState();
-        List<String> downloadedPages = List<String>();
+        List<String> downloadedPages = <String>[];
         Directory chapterDir;
-        if(chapter.title.isEmpty){
-          chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/Chapitre ${chapter.number}");
+        if(chapter.title!.isEmpty){
+          chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga!.title}/Chapitre ${chapter.number}");
         }else{
-          chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${chapter.title}");
+          chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga!.title}/${chapter.title}");
         }
         // should only check for image file
         if(chapterDir.existsSync()){
@@ -40,7 +40,7 @@ class LelscanReaderProvider extends BaseProvider {
             Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(downloadedPages,manga,chapter)));
           }else if(chapterDir.listSync().length == 0){
             this.pages = value;
-            precacheImage(NetworkImage(pages[0]), context);
+            precacheImage(NetworkImage(pages[0]!), context);
             Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages,manga,chapter)));
           }else{
             //To Do
@@ -48,7 +48,7 @@ class LelscanReaderProvider extends BaseProvider {
           }
         }else{
           this.pages = value;
-          precacheImage(NetworkImage(pages[0]), context);
+          precacheImage(NetworkImage(pages[0]!), context);
           Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages,manga,chapter)));
         }
       }).catchError((onError){
@@ -57,11 +57,11 @@ class LelscanReaderProvider extends BaseProvider {
         notifyListeners();
       });
     }else{
-       cloudfareService.chapterPages(catalogName, chapter).then((value) {
+       cloudfareService.chapterPages(catalogName, chapter!).then((value) {
         toggleLoadingState();
         print(value);
-        List<String> downloadedPages = List<String>();
-        final chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${chapter.title}");
+        List<String> downloadedPages = <String>[];
+        final chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga!.title}/${chapter.title}");
         if(chapterDir.existsSync()){
           if(chapterDir.listSync().length == value.length){
             chapterDir.listSync().forEach((element) {
@@ -71,7 +71,7 @@ class LelscanReaderProvider extends BaseProvider {
             Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(downloadedPages,manga,chapter)));
           }else if(chapterDir.listSync().length == 0){
             this.pages = value;
-            precacheImage(NetworkImage(pages[0]), context);
+            precacheImage(NetworkImage(pages[0]!), context);
             Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages,manga,chapter)));
           }else{
             //To Do
@@ -79,7 +79,7 @@ class LelscanReaderProvider extends BaseProvider {
           }
         }else{
           this.pages = value;
-          precacheImage(NetworkImage(pages[0]), context);
+          precacheImage(NetworkImage(pages[0]!), context);
           Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages,manga,chapter)));
         }
       }).catchError((onError){

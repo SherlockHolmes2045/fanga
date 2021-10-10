@@ -21,7 +21,7 @@ class _MangaListState extends State<MangaList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
           context
               .read<MangahereProvider>()
               .getPopularMangaList(Assets.mangahereCatalogName, 1,false);
@@ -66,7 +66,7 @@ class _MangaListState extends State<MangaList> {
             ),
           );
         }, (mangaList) {
-          return mangaList.isEmpty
+          return mangaList!.isEmpty
               ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -88,13 +88,13 @@ class _MangaListState extends State<MangaList> {
               : GridView.count(
             crossAxisCount: 2,
             padding: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal * 2.5,
-              right: SizeConfig.blockSizeHorizontal * 2.5,
-              top: SizeConfig.blockSizeVertical * 4,
-              bottom: SizeConfig.blockSizeVertical * 4,
+              left: SizeConfig.blockSizeHorizontal! * 2.5,
+              right: SizeConfig.blockSizeHorizontal! * 2.5,
+              top: SizeConfig.blockSizeVertical! * 4,
+              bottom: SizeConfig.blockSizeVertical! * 4,
             ),
-            crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-            mainAxisSpacing: SizeConfig.blockSizeVertical,
+            crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+            mainAxisSpacing: SizeConfig.blockSizeVertical!,
             children: List.generate(mangaList.length, (index) {
               return Container(
                 child: Column(
@@ -122,7 +122,7 @@ class _MangaListState extends State<MangaList> {
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
                             imageUrl: mangaList[index]
-                                .thumbnailUrl
+                                .thumbnailUrl!
                                 .replaceAll('http', "https"),
                             width: double.infinity,
                             height: 350,
@@ -155,7 +155,7 @@ class _MangaListState extends State<MangaList> {
                                 child: Container(
                                     child: CachedNetworkImage(
                                       imageUrl: mangaList[index]
-                                          .thumbnailUrl
+                                          .thumbnailUrl!
                                           .replaceAll(
                                           'http', "https"),
                                       width: double.infinity,
@@ -189,9 +189,9 @@ class _MangaListState extends State<MangaList> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical),
+                          top: SizeConfig.blockSizeVertical!),
                       child: Text(
-                        mangaList[index].title,
+                        mangaList[index].title!,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
                           color: Colors.white,

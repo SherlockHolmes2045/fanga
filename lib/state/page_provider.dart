@@ -21,18 +21,18 @@ class PageProvider extends BaseProvider {
     });
   }
 
-  Future<Model.Page> findChapter(Chapter chapter) async {
+  Future<Model.Page?> findChapter(Chapter chapter) async {
     return await pageDao.findPage(chapter.url);
   }
 
-  updatePage(Chapter chapter, int page, bool finished,Manga manga) {
+  updatePage(Chapter chapter, int page, bool finished,Manga? manga) {
     pageDao.findPage(chapter.url).then((value) async {
       if (value == null) {
         await pageDao.insert(
             Model.Page(chapter: chapter, finished: finished, page: page,manga: manga));
         loadAllPages();
       } else {
-        if(value.page < page){
+        if(value.page! < page){
           await pageDao.update(
               Model.Page(chapter: chapter, finished: finished, page: page,manga: manga));
           loadAllPages();
@@ -41,7 +41,7 @@ class PageProvider extends BaseProvider {
     });
   }
 
-  markAsRead(Chapter chapter, Size size,Manga manga,bool notify) {
+  markAsRead(Chapter chapter, Size size,Manga? manga,bool notify) {
     pageDao.findPage(chapter.url).then((value) {
       if (value == null) {
         pageDao
@@ -62,7 +62,7 @@ class PageProvider extends BaseProvider {
                         height: size.height / 10,
                         child: child,
                       )),
-              title: chapter.title.isEmpty ? "Chapitre ${chapter.number}" : chapter.title,
+              title: chapter.title!.isEmpty ? "Chapitre ${chapter.number}" : chapter.title!,
               crossPage: true,
               subTitle: "a été marqué comme lu",
             );
@@ -84,7 +84,7 @@ class PageProvider extends BaseProvider {
                         height: size.height / 10,
                         child: child,
                       )),
-              title: chapter.title.isEmpty ? "Chapitre ${chapter.number}" : chapter.title,
+              title: chapter.title!.isEmpty ? "Chapitre ${chapter.number}" : chapter.title!,
               crossPage: true,
               subTitle: "a été marqué comme non lu",
             );
@@ -93,7 +93,7 @@ class PageProvider extends BaseProvider {
       }
     });
   }
-  markAsReadSelected(List<Chapter> chapters,Manga manga,Size size){
+  markAsReadSelected(List<Chapter> chapters,Manga? manga,Size size){
     chapters.forEach((element) {
       markAsRead(element, size, manga,false);
       BotToast.showSimpleNotification(

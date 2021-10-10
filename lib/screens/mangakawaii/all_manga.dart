@@ -39,14 +39,14 @@ class _AllMangaState extends State<AllManga> {
 
           if (_scrollController.position.pixels >
               triggerFetchMoreSize) {
-            if(context.read<MangakawaiiMangaListProvider>().hasNext)
+            if(context.read<MangakawaiiMangaListProvider>().hasNext!)
               context
                   .read<MangakawaiiMangaListProvider>()
                   .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().nextPage);
           }
         }
       });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<MangakawaiiMangaListProvider>().mangaList.fold((l) => null, (r) {
         if (r.isEmpty) {
           context
@@ -118,13 +118,13 @@ class _AllMangaState extends State<AllManga> {
             crossAxisCount: 2,
             controller: _scrollController,
             padding: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal * 2.5,
-              right: SizeConfig.blockSizeHorizontal * 2.5,
-              top: SizeConfig.blockSizeVertical * 4,
-              bottom: SizeConfig.blockSizeVertical * 4,
+              left: SizeConfig.blockSizeHorizontal! * 2.5,
+              right: SizeConfig.blockSizeHorizontal! * 2.5,
+              top: SizeConfig.blockSizeVertical! * 4,
+              bottom: SizeConfig.blockSizeVertical! * 4,
             ),
-            crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-            mainAxisSpacing: SizeConfig.blockSizeVertical,
+            crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+            mainAxisSpacing: SizeConfig.blockSizeVertical!,
             children: List.generate(mangaList.length, (index) {
               return Container(
                 child: Column(
@@ -152,7 +152,7 @@ class _AllMangaState extends State<AllManga> {
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
                             imageUrl: mangaList[index]
-                                .thumbnailUrl,
+                                .thumbnailUrl!,
                             width: double.infinity,
                             height: 350,
                             errorWidget:
@@ -184,7 +184,7 @@ class _AllMangaState extends State<AllManga> {
                                 child: Container(
                                     child: CachedNetworkImage(
                                       imageUrl: mangaList[index]
-                                          .thumbnailUrl,
+                                          .thumbnailUrl!,
                                       width: double.infinity,
                                       height: 350,
                                       errorWidget:
@@ -216,9 +216,9 @@ class _AllMangaState extends State<AllManga> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical),
+                          top: SizeConfig.blockSizeVertical!),
                       child: Text(
-                        mangaList[index].title,
+                        mangaList[index].title!,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
                           color: Colors.white,
