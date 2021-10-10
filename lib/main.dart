@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/localization/locale_constant.dart';
 import 'package:manga_reader/localization/localizations_delegate.dart';
+import 'package:manga_reader/models/download.dart';
 import 'package:manga_reader/routes.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/action_provider.dart';
@@ -48,9 +49,11 @@ void main() async {
   locator<Di>().dio.interceptors.add(locator<Di>().dioCacheManager.interceptor);
   createDb();
   await createFolders(Assets.appName);
+
   await FlutterDownloader.initialize(
       debug: true // optional: set false to disable printing logs to console
   );
+  FlutterDownloader.registerCallback(Download.callback);
   Moment.setLocaleGlobally(new LocaleFr());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.black,
@@ -93,6 +96,8 @@ void main() async {
     );
   });
 }
+
+
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
     var state = context.findAncestorStateOfType<_MyAppState>()!;
@@ -164,8 +169,13 @@ Future<void> createFolders(String folderName) async {
     final mangaHerePath = Directory(
         "storage/emulated/0/$folderName/${Assets.lelscanCatalogName}");
     var status = await Permission.storage.status;
+    var external = await Permission.manageExternalStorage.status;
+    await getExternalStorageDirectory();
     if (!status.isGranted) {
       await Permission.storage.request();
+    }
+    if(!external.isGranted){
+      await Permission.manageExternalStorage.request();
     }
     if ((await path.exists())) {} else {
       path.create();

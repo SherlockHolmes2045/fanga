@@ -35,7 +35,7 @@ class Download extends StatelessWidget {
                   future: context.read<ActionProvider>().findDownload(context
                       .watch<ActionProvider>()
                       .downloadTasks[index]
-                      .taskId),
+                      !.taskId),
                   builder: (context, AsyncSnapshot<Model.Download?> snapshot) {
                     if (snapshot.hasData) {
                       return DownloadItem(

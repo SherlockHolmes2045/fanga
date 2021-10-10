@@ -1,3 +1,4 @@
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/models/manga.dart';
 
@@ -22,6 +23,7 @@ class Download {
       taskId: json['taskId'],
     );
   }
+  static void callback(String id, DownloadTaskStatus status, int progress) {}
   Map<String, dynamic> toMap() {
     return {
       'chapter': chapter!.toMap(),

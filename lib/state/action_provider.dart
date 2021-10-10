@@ -19,13 +19,17 @@ import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 
 class ActionProvider extends BaseProvider {
+
+  static void downloadCallback(String id, DownloadTaskStatus status, int progress) {
+    print(progress);
+  }
   List<Chapter> selectedItems = <Chapter>[];
-  List<DownloadTask> downloadTasks = <DownloadTask>[];
+  List<DownloadTask?> downloadTasks = <DownloadTask?>[];
   DownloadDao downloadDao = DownloadDao();
 
   getAllDownloads() async {
-    final tasks = await (FlutterDownloader.loadTasks() as FutureOr<List<DownloadTask>>);
-    downloadTasks = tasks.reversed.toList();
+    final tasks = await FlutterDownloader.loadTasks();
+    downloadTasks = tasks!.reversed.toList();
     notifyListeners();
   }
   
@@ -54,6 +58,7 @@ class ActionProvider extends BaseProvider {
               true, // show download progress in status bar (for Android)
           openFileFromNotification:
               true, // click on notification to open downloaded file (for Android)
+          saveInPublicStorage: true,
           requiresStorageNotLow: false);
       try {
         lelscanService.chapterPages(catalogName, chapter, false);
@@ -78,8 +83,8 @@ class ActionProvider extends BaseProvider {
         subTitle: "vient de commencer",
       );
       Timer.periodic(Duration(seconds: 1), (timer) async {
-        final tasks = await (FlutterDownloader.loadTasks() as FutureOr<List<DownloadTask>>);
-        final task = tasks.where((element) => element.taskId == taskId).first;
+        final tasks = await FlutterDownloader.loadTasks();
+        final task = tasks!.where((element) => element.taskId == taskId).first;
         if (task.status == DownloadTaskStatus.complete) {
           final File zipFile = File(
               "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename}");
@@ -143,6 +148,7 @@ class ActionProvider extends BaseProvider {
                 true, // show download progress in status bar (for Android)
             openFileFromNotification:
                 true, // click on notification to open downloaded file (for Android)
+            saveInPublicStorage: true,
             requiresStorageNotLow: false);
 
         try{
@@ -169,8 +175,8 @@ class ActionProvider extends BaseProvider {
           subTitle: "vient de commencer.",
         );
         Timer.periodic(Duration(seconds: 1), (timer) async {
-          final tasks = await (FlutterDownloader.loadTasks() as FutureOr<List<DownloadTask>>);
-          final task = tasks.where((element) => element.taskId == taskId).first;
+          final tasks = await FlutterDownloader.loadTasks();
+          final task = tasks!.where((element) => element.taskId == taskId).first;
           if (task.status == DownloadTaskStatus.complete) {
             final File zipFile = File(
                 "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename}");
