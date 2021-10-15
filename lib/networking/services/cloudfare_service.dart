@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:manga_reader/di.dart';
-import 'package:manga_reader/models/chapter.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/service_locator.dart';
-import 'package:manga_reader/utils/n_exception.dart';
+import 'package:Fanga/di.dart';
+import 'package:Fanga/models/chapter.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/service_locator.dart';
+import 'package:Fanga/utils/n_exception.dart';
 
 class CloudfareService {
 

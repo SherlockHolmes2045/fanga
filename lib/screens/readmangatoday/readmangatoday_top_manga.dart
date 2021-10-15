@@ -1,59 +1,31 @@
 import 'dart:ui';
 
+import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
+import 'package:Fanga/state/readmangatoday/readmangatody_top_manga_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:Fanga/constants/assets.dart';
 import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/screens/mangakawaii/manga_details.dart';
 import 'package:Fanga/state/LoadingState.dart';
 import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_manga_list_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_manga_list_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_manga_list_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_manga_list_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_manga_list_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_manga_list_provider.dart';
 import 'package:Fanga/utils/n_exception.dart';
 import 'package:Fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
-class AllManga extends StatefulWidget {
+class TopManga extends StatefulWidget {
   @override
-  _AllMangaState createState() => _AllMangaState();
+  _TopMangaState createState() => _TopMangaState();
 }
 
-class _AllMangaState extends State<AllManga> {
-
-  ScrollController _scrollController = new ScrollController();
-
+class _TopMangaState extends State<TopManga> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _scrollController
-      ..addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
-          var triggerFetchMoreSize =
-              0.75 * _scrollController.position.maxScrollExtent;
-
-          if (_scrollController.position.pixels >
-              triggerFetchMoreSize) {
-            if(context.read<MangakawaiiMangaListProvider>().hasNext!)
-              context
-                  .read<MangakawaiiMangaListProvider>()
-                  .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().nextPage);
-          }
-        }
-      });
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      context.read<MangakawaiiMangaListProvider>().mangaList.fold((l) => null, (r) {
-        if (r.isEmpty) {
-          context
-              .read<MangakawaiiMangaListProvider>()
-              .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().currentPage);
-        }
-      });
+              context
+                  .read<ReadmangatodayTopMangaProvider>()
+                  .getTopMangaList(Assets.readmangatodayCatalogName, 1,false);
     });
   }
 
@@ -61,7 +33,7 @@ class _AllMangaState extends State<AllManga> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return RefreshIndicator(
-        child: context.watch<MangakawaiiMangaListProvider>().loadingState ==
+        child: context.watch<ReadmangatodayTopMangaProvider>().loadingState ==
             LoadingState.loading
             ? Center(
           child: CircularProgressIndicator(
@@ -69,8 +41,8 @@ class _AllMangaState extends State<AllManga> {
           ),
         )
             : context
-            .select((MangakawaiiMangaListProvider provider) => provider)
-            .mangaList
+            .select((ReadmangatodayTopMangaProvider provider) => provider)
+            .topMangaList
             .fold((NException error) {
           return Center(
             child: Column(
@@ -84,10 +56,11 @@ class _AllMangaState extends State<AllManga> {
                   height: SizeConfig.blockSizeVertical,
                 ),
                 RaisedButton(
-                  onPressed: (){
+                  onPressed: () {
                     context
-                        .read<MangakawaiiMangaListProvider>()
-                        .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().currentPage);
+                        .read<ReadmangatodayTopMangaProvider>()
+                        .getTopMangaList(
+                        Assets.readmangatodayCatalogName, 1,true);
                   },
                   child: Text("Réessayer"),
                 )
@@ -104,19 +77,20 @@ class _AllMangaState extends State<AllManga> {
                   "Une erreur est survenue.",
                   style: TextStyle(color: Colors.white),
                 ),
-                RaisedButton(onPressed: (){
-                  context.read<MangakawaiiMangaListProvider>().getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().currentPage);
-                },
-                  child: Text(
-                      "Réessayer"
-                  ),
+                RaisedButton(
+                  onPressed: () {
+                    context
+                        .read<ReadmangatodayTopMangaProvider>()
+                        .getTopMangaList(
+                        Assets.readmangatodayCatalogName, 1,true);
+                  },
+                  child: Text("Réessayer"),
                 )
               ],
             ),
           )
               : GridView.count(
             crossAxisCount: 2,
-            controller: _scrollController,
             padding: EdgeInsets.only(
               left: SizeConfig.blockSizeHorizontal! * 2.5,
               right: SizeConfig.blockSizeHorizontal! * 2.5,
@@ -136,7 +110,7 @@ class _AllMangaState extends State<AllManga> {
                             Navigator.push(
                                 context,
                                 ScaleRoute(
-                                    page: MangakawaiiDetail(
+                                    page: ReadmangatodayDetail(
                                       manga: mangaList[index],
                                     )));
                           },
@@ -151,8 +125,8 @@ class _AllMangaState extends State<AllManga> {
                               .libraryList
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
-                            imageUrl: mangaList[index]
-                                .thumbnailUrl!,
+                            imageUrl:
+                            mangaList[index].thumbnailUrl!,
                             width: double.infinity,
                             height: 350,
                             errorWidget:
@@ -162,7 +136,8 @@ class _AllMangaState extends State<AllManga> {
                                   Navigator.push(
                                       context,
                                       ScaleRoute(
-                                          page: MangakawaiiDetail(
+                                          page:
+                                          ReadmangatodayDetail(
                                             manga:
                                             mangaList[index],
                                           )));
@@ -183,8 +158,7 @@ class _AllMangaState extends State<AllManga> {
                                     sigmaY: 10.0),
                                 child: Container(
                                     child: CachedNetworkImage(
-                                      imageUrl: mangaList[index]
-                                          .thumbnailUrl!,
+                                      imageUrl: mangaList[index].thumbnailUrl!,
                                       width: double.infinity,
                                       height: 350,
                                       errorWidget:
@@ -195,7 +169,7 @@ class _AllMangaState extends State<AllManga> {
                                                 context,
                                                 ScaleRoute(
                                                     page:
-                                                    MangakawaiiDetail(
+                                                    ReadmangatodayDetail(
                                                       manga:
                                                       mangaList[
                                                       index],
@@ -210,8 +184,7 @@ class _AllMangaState extends State<AllManga> {
                                         );
                                       },
                                       //fit: BoxFit.fill,
-                                    )
-                                )),
+                                    ))),
                           )),
                     ),
                     Padding(
@@ -237,9 +210,8 @@ class _AllMangaState extends State<AllManga> {
 
   Future _refreshData() async {
     await Future.delayed(Duration(seconds: 1));
-    context.read<MangakawaiiMangaListProvider>().clearList();
     context
-        .read<MangakawaiiMangaListProvider>()
-        .getMangaList(Assets.mangakawaiiCatalogName, context.read<MangakawaiiMangaListProvider>().currentPage);
+        .read<ReadmangatodayTopMangaProvider>()
+        .getTopMangaList(Assets.readmangatodayCatalogName, 1,true);
   }
 }

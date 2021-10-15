@@ -1,14 +1,14 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/app_drawer.dart';
-import 'package:manga_reader/custom/widgets/search_delegate.dart';
-import 'package:manga_reader/screens/mangakawaii/all_manga.dart';
-import 'package:manga_reader/screens/mangakawaii/latest_update.dart';
-import 'package:manga_reader/screens/mangakawaii/top_manga.dart';
-import 'package:manga_reader/screens/readmangatoday/readmangatoday_manga_list.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/app_drawer.dart';
+import 'package:Fanga/custom/widgets/search_delegate.dart';
+import 'package:Fanga/screens/mangakawaii/all_manga.dart';
+import 'package:Fanga/screens/mangakawaii/latest_update.dart';
+import 'package:Fanga/screens/mangakawaii/top_manga.dart';
+import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_list.dart';
+import 'package:Fanga/utils/size_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Readmangatoday extends StatefulWidget {

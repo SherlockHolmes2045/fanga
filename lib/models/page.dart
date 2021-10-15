@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:manga_reader/models/chapter.dart';
+import 'package:Fanga/models/chapter.dart';
 
 import 'manga.dart';
 
@@ -21,10 +21,10 @@ class Page {
 
   factory Page.fromJson(Map<String, dynamic> json) {
     return Page(
-      chapter: Chapter.fromJson(json['chapter']),
-      page: json['page'],
-      finished: json['finished'],
-      manga: Manga.fromJson(json['manga'])
+        chapter: Chapter.fromJson(json['chapter']),
+        page: json['page'],
+        finished: json['finished'],
+        manga: Manga.fromJson(json['manga'])
     );
   }
   Map<String, dynamic> toMap() {

@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/state/library_provider.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/state/library_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:manga_reader/screens/Lelscan/manga_details.dart';
-import 'package:manga_reader/screens/readmangatoday/readmangatoday_manga_details.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/screens/Lelscan/manga_details.dart';
+import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
+import 'package:Fanga/utils/size_config.dart';
 
 class LibrarySearch extends SearchDelegate {
   @override

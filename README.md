@@ -1,6 +1,6 @@
 # ![app icon](readme/fanga_readme.png)Fanga
 Fanga is a free manga reader and downloader made with Flutter for Android and ios.
-The purpuse behind this project was just learning Flutter in the first place and also give a starting point for members of FlutterCM community for a flutter project with multiples functionnalities.
+The purpuse behind this project was just learning Flutter in the first place and also give a starting point for members of [@FlutterCM](https://github.com/Fluttercm) for a flutter project with multiples functionnalities.
 
 ![screenshots of app](readme/screenshots.png)
 

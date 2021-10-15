@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:manga_reader/localization/language/language_en.dart';
-import 'package:manga_reader/localization/language/language_fr.dart';
+import 'package:Fanga/localization/language/language_en.dart';
+import 'package:Fanga/localization/language/language_fr.dart';
 
 import 'language/languages.dart';
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {
-
   const AppLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) =>
-      ['fr', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['fr', 'en'].contains(locale.languageCode);
 
   @override
   Future<Languages> load(Locale locale) => _load(locale);

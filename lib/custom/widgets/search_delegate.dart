@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/networking/services/search_service.dart';
-import 'package:manga_reader/screens/Lelscan/manga_details.dart';
-import 'package:manga_reader/screens/readmangatoday/readmangatoday_manga_details.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/networking/services/search_service.dart';
+import 'package:Fanga/screens/Lelscan/manga_details.dart';
+import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
+import 'package:Fanga/utils/size_config.dart';
 
 class SearchManga extends SearchDelegate {
   String source;
@@ -16,10 +16,10 @@ class SearchManga extends SearchDelegate {
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
-      primaryColor: Color.fromRGBO(28, 28, 28, 1),
-      textTheme: TextTheme(
-        subtitle1: TextStyle( color: Colors.white, fontSize: 18,),
-      )
+        primaryColor: Color.fromRGBO(28, 28, 28, 1),
+        textTheme: TextTheme(
+          subtitle1: TextStyle( color: Colors.white, fontSize: 18,),
+        )
     );
   }
 
@@ -73,8 +73,8 @@ class SearchManga extends SearchDelegate {
                     child: Text(
                       "Pas de résultat pour cette recherche",
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18
+                          color: Colors.white,
+                          fontSize: 18
                       ),
                     ),
                   ),

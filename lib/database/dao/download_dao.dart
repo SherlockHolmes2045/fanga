@@ -1,5 +1,5 @@
-import 'package:manga_reader/database/app_database.dart';
-import 'package:manga_reader/models/download.dart';
+import 'package:Fanga/database/app_database.dart';
+import 'package:Fanga/models/download.dart';
 import 'package:sembast/sembast.dart';
 
 class DownloadDao {

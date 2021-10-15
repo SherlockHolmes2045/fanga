@@ -1,6 +1,6 @@
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/database/app_database.dart';
-import 'package:manga_reader/models/page.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/database/app_database.dart';
+import 'package:Fanga/models/page.dart';
 import 'package:sembast/sembast.dart';
 
 class PageDao {

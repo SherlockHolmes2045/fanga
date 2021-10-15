@@ -4,18 +4,20 @@ import 'package:Fanga/networking/services/lelscan_service.dart';
 import 'package:Fanga/state/base_provider.dart';
 import 'package:Fanga/utils/n_exception.dart';
 
-class ReadmangatodayTopMangaProvider extends BaseProvider {
-  Either<NException, List<Manga>> topMangaList = Right([]);
+class ReadmangatodayUpdatesProvider extends BaseProvider {
+  Either<NException, List<Manga>> updatedMangaList = Right([]);
 
-  getTopMangaList(String catalogName, int page, bool forceRefresh) {
+  getUpdatedMangaList(String catalogName, int page, bool forceRefresh) {
     this.toggleLoadingState();
-    lelscanService.topMangaList(catalogName, page, forceRefresh).then((mangas) {
+    lelscanService
+        .updatedMangaList(catalogName, page, forceRefresh)
+        .then((mangas) {
       this.toggleLoadingState();
-      topMangaList = Right(mangas!);
+      updatedMangaList = Right(mangas!);
     }).catchError((error) {
       this.toggleLoadingState();
       print(error);
-      topMangaList = Left(error);
+      updatedMangaList = Left(error);
     });
   }
 }

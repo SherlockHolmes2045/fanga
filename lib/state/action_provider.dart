@@ -6,16 +6,16 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/custom_notification_animation.dart';
-import 'package:manga_reader/database/dao/download_dao.dart';
-import 'package:manga_reader/di.dart';
-import 'package:manga_reader/models/chapter.dart';
-import 'package:manga_reader/models/download.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/networking/services/lelscan_service.dart';
-import 'package:manga_reader/service_locator.dart';
-import 'package:manga_reader/state/base_provider.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/custom_notification_animation.dart';
+import 'package:Fanga/database/dao/download_dao.dart';
+import 'package:Fanga/di.dart';
+import 'package:Fanga/models/chapter.dart';
+import 'package:Fanga/models/download.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/networking/services/lelscan_service.dart';
+import 'package:Fanga/service_locator.dart';
+import 'package:Fanga/state/base_provider.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ActionProvider extends BaseProvider {
@@ -32,7 +32,7 @@ class ActionProvider extends BaseProvider {
     downloadTasks = tasks!.reversed.toList();
     notifyListeners();
   }
-  
+
   Future<Download?> findDownload(String taskId) async{
     return await downloadDao.findDownload(taskId);
   }
@@ -47,7 +47,7 @@ class ActionProvider extends BaseProvider {
         .downloadChapter(chapter, catalogName, manga.title)
         .then((value) async {
       final lelscanPath =
-          Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}");
+      Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}");
       if (!lelscanPath.existsSync()) {
         await lelscanPath.create(recursive: true);
       }
@@ -55,9 +55,9 @@ class ActionProvider extends BaseProvider {
           url: locator<Di>().apiUrl + value!,
           savedDir: lelscanPath.path,
           showNotification:
-              true, // show download progress in status bar (for Android)
+          true, // show download progress in status bar (for Android)
           openFileFromNotification:
-              true, // click on notification to open downloaded file (for Android)
+          true, // click on notification to open downloaded file (for Android)
           requiresStorageNotLow: false);
       // prevent loading the pages again before reading the chapter
       try {
@@ -93,7 +93,7 @@ class ActionProvider extends BaseProvider {
               .create(recursive: true);
           try {
             ZipFile.extractToDirectory(
-                    zipFile: zipFile, destinationDir: destinationDir)
+                zipFile: zipFile, destinationDir: destinationDir)
                 .then((value) async {
               await zipFile.delete();
             });
@@ -139,9 +139,9 @@ class ActionProvider extends BaseProvider {
             url: locator<Di>().apiUrl + value!,
             savedDir: lelscanPath.path,
             showNotification:
-                true, // show download progress in status bar (for Android)
+            true, // show download progress in status bar (for Android)
             openFileFromNotification:
-                true, // click on notification to open downloaded file (for Android)
+            true, // click on notification to open downloaded file (for Android)
             requiresStorageNotLow: false);
         try {
           lelscanService.chapterPages(catalogName, element, false);
@@ -181,9 +181,9 @@ class ActionProvider extends BaseProvider {
                 .create(recursive: true);
             try {
               ZipFile.extractToDirectory(
-                      zipFile: zipFile, destinationDir: destinationDir)
+                  zipFile: zipFile, destinationDir: destinationDir)
                   .then((value) async {
-                    await zipFile.delete();
+                await zipFile.delete();
               });
             } catch (e) {
               print(e);

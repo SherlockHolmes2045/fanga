@@ -1,4 +1,4 @@
-import 'package:manga_reader/models/chapter.dart';
+import 'package:Fanga/models/chapter.dart';
 
 extension UnifyList on List<Chapter>{
   List unique(){

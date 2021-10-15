@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:manga_reader/utils/n_exception.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/utils/n_exception.dart';
+import 'package:Fanga/utils/size_config.dart';
 
 class Error extends StatelessWidget {
   final Function reload;

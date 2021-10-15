@@ -1,12 +1,12 @@
 import 'dart:math';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/custom/widgets/custom_notification_animation.dart';
-import 'package:manga_reader/database/dao/page_dao.dart';
-import 'package:manga_reader/models/chapter.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/models/page.dart' as Model;
-import 'package:manga_reader/state/base_provider.dart';
+import 'package:Fanga/custom/widgets/custom_notification_animation.dart';
+import 'package:Fanga/database/dao/page_dao.dart';
+import 'package:Fanga/models/chapter.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/models/page.dart' as Model;
+import 'package:Fanga/state/base_provider.dart';
 
 class PageProvider extends BaseProvider {
   List<Model.Page> pages = [];
@@ -46,7 +46,7 @@ class PageProvider extends BaseProvider {
       if (value == null) {
         pageDao
             .insert(Model.Page(
-                chapter: chapter, finished: true, page: Random().nextInt(100),manga: manga))
+            chapter: chapter, finished: true, page: Random().nextInt(100),manga: manga))
             .then((value) {
           loadAllPages();
           if(notify){
