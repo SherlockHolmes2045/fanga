@@ -97,7 +97,7 @@ class _LibraryState extends State<Library> {
                                   SizedBox(
                                     height: SizeConfig.blockSizeVertical,
                                   ),
-                                  RaisedButton(
+                                  ElevatedButton(
                                     onPressed: () {
                                       context
                                           .read<LibraryProvider>()

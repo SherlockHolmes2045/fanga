@@ -195,7 +195,7 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical,
                               ),
-                              RaisedButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   context
                                       .read<MangafoxDetailsProvider>()
@@ -341,7 +341,7 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
                                                     height: SizeConfig
                                                         .blockSizeVertical,
                                                   ),
-                                                  RaisedButton(
+                                                  ElevatedButton(
                                                     onPressed: () {
                                                       context
                                                           .read<

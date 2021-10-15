@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:Fanga/models/chapter.dart';
-
+import 'package:manga_reader/models/chapter.dart';
 import 'manga.dart';
 
 class Page {

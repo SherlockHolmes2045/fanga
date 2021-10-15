@@ -2,20 +2,14 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/screens/mangakawaii/manga_details.dart';
-import 'package:Fanga/state/LoadingState.dart';
-import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:manga_reader/constants/assets.dart';
+import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
+import 'package:manga_reader/screens/mangakawaii/manga_details.dart';
+import 'package:manga_reader/state/LoadingState.dart';
+import 'package:manga_reader/state/library_provider.dart';
+import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
+import 'package:manga_reader/utils/n_exception.dart';
+import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 class TopManga extends StatefulWidget {
@@ -65,7 +59,7 @@ class _TopMangaState extends State<TopManga> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: (){
                     context
                         .read<MangakawaiiTopMangaProvider>()
@@ -86,7 +80,7 @@ class _TopMangaState extends State<TopManga> {
                   "Une erreur est survenue.",
                   style: TextStyle(color: Colors.white),
                 ),
-                RaisedButton(onPressed: (){
+                ElevatedButton(onPressed: (){
                   context.read<MangakawaiiTopMangaProvider>().getTopMangaList(Assets.mangakawaiiCatalogName, 1);
                 },
                   child: Text(

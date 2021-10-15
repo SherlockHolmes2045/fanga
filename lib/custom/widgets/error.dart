@@ -22,7 +22,7 @@ class Error extends StatelessWidget {
           SizedBox(
             height: SizeConfig.blockSizeVertical,
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: reload as void Function()?,
             child: Text("Réessayer"),
           )

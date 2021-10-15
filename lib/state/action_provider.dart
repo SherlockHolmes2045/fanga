@@ -6,17 +6,17 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/custom_notification_animation.dart';
-import 'package:Fanga/database/dao/download_dao.dart';
-import 'package:Fanga/di.dart';
-import 'package:Fanga/models/chapter.dart';
-import 'package:Fanga/models/download.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/networking/services/lelscan_service.dart';
-import 'package:Fanga/service_locator.dart';
-import 'package:Fanga/state/base_provider.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:manga_reader/constants/assets.dart';
+import 'package:manga_reader/custom/widgets/custom_notification_animation.dart';
+import 'package:manga_reader/database/dao/download_dao.dart';
+import 'package:manga_reader/di.dart';
+import 'package:manga_reader/models/chapter.dart';
+import 'package:manga_reader/models/download.dart';
+import 'package:manga_reader/models/manga.dart';
+import 'package:manga_reader/networking/services/lelscan_service.dart';
+import 'package:manga_reader/service_locator.dart';
+import 'package:manga_reader/state/base_provider.dart';
+
 
 class ActionProvider extends BaseProvider {
 

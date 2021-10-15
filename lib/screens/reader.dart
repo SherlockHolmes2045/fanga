@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -52,7 +50,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
   @override
   void initState() {
     // TODO: implement initState
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     _appbarController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
@@ -70,7 +68,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     super.dispose();
   }
 
@@ -234,13 +232,13 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                   fullScreen = value;
                                                   if (value) {
                                                     SystemChrome
-                                                        .setEnabledSystemUIOverlays(
-                                                        []);
+                                                        .setEnabledSystemUIMode(
+                                                            SystemUiMode.manual, overlays: []);
                                                   } else {
                                                     SystemChrome
-                                                        .setEnabledSystemUIOverlays(
-                                                        SystemUiOverlay
-                                                            .values);
+                                                        .setEnabledSystemUIMode(
+                                                            SystemUiMode.manual, overlays: SystemUiOverlay
+                                                                .values);
                                                   }
                                                 });
                                               })
@@ -403,41 +401,52 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                         ),
                         items: widget.pages
                             .map((item) => Container(
-                          child: Center(
-                              child: InteractiveViewer(
-                                child: Uri.parse(item!).isAbsolute ? Image.network(
-                                  item,
-                                  height: height,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (BuildContext context,
-                                      Widget child,
-                                      ImageChunkEvent? loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                            .expectedTotalBytes !=
-                                            null
-                                            ? loadingProgress
-                                            .cumulativeBytesLoaded /
-                                            loadingProgress
-                                                .expectedTotalBytes!
-                                            : null,
-                                      ),
-                                    );
-                                  },
-                                  errorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Une erreur est survenue",
-                                            style: TextStyle(
-                                                color: Colors.white),
+                                  child: Center(
+                                      child: InteractiveViewer(
+                                    child: Uri.parse(item!).isAbsolute ? Image.network(
+                                      item,
+                                      height: height,
+                                      fit: BoxFit.cover,
+                                      loadingBuilder: (BuildContext context,
+                                          Widget child,
+                                          ImageChunkEvent? loadingProgress) {
+                                        if (loadingProgress == null) return child;
+                                        return Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    loadingProgress
+                                                        .expectedTotalBytes!
+                                                : null,
+                                          ),
+                                        );
+                                      },
+                                      errorBuilder: (BuildContext context,
+                                          Object exception,
+                                          StackTrace? stackTrace) {
+                                        return Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Une erreur est survenue",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  precacheImage(
+                                                      NetworkImage(item),
+                                                      context);
+                                                  setState(() {});
+                                                },
+                                                child: Text("Recharger"),
+                                              )
+                                            ],
                                           ),
                                           RaisedButton(
                                             onPressed: () {
