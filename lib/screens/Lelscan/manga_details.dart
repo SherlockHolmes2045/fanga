@@ -208,7 +208,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                     SizedBox(
                                       height: SizeConfig.blockSizeVertical,
                                     ),
-                                    RaisedButton(
+                                    ElevatedButton(
                                       onPressed: () {
                                         context
                                             .read<DetailsProvider>()
@@ -353,7 +353,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                                   height: SizeConfig
                                                                       .blockSizeVertical,
                                                                 ),
-                                                                RaisedButton(
+                                                                ElevatedButton(
                                                                   onPressed: () {
                                                                     context
                                                                         .read<

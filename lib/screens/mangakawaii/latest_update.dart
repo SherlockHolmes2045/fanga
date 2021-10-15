@@ -59,7 +59,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: (){
                     context
                         .read<MangakawaiiUpdatesProvider>()
@@ -80,7 +80,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                   "Une erreur est survenue.",
                   style: TextStyle(color: Colors.white),
                 ),
-                RaisedButton(onPressed: (){
+                ElevatedButton(onPressed: (){
                   context.read<MangakawaiiUpdatesProvider>().getUpdatedMangaList(Assets.mangakawaiiCatalogName, 1);
                 },
                   child: Text(

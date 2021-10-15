@@ -16,7 +16,6 @@ import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/networking/services/lelscan_service.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/base_provider.dart';
-import 'package:path_provider/path_provider.dart';
 
 class ActionProvider extends BaseProvider {
 

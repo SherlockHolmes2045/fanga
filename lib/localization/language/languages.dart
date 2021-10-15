@@ -15,7 +15,7 @@ abstract class Languages {
   String get labelSelectLanguage;
 
   String get appAccount;
-  String get update_number;
+  String get updateNumber;
   String get select;
   String get numphone;
   String get entersim;

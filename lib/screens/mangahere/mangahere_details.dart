@@ -195,7 +195,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical,
                               ),
-                              RaisedButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   context
                                       .read<MangahereDetailsProvider>()
@@ -340,7 +340,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                     height: SizeConfig
                                                         .blockSizeVertical,
                                                   ),
-                                                  RaisedButton(
+                                                  ElevatedButton(
                                                     onPressed: () {
                                                       context
                                                           .read<

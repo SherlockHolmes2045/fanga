@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:manga_reader/models/chapter.dart';
 
 import 'manga.dart';

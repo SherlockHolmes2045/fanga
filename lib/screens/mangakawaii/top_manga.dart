@@ -8,12 +8,6 @@ import 'package:manga_reader/screens/mangakawaii/manga_details.dart';
 import 'package:manga_reader/state/LoadingState.dart';
 import 'package:manga_reader/state/library_provider.dart';
 import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
-import 'package:manga_reader/state/mangakawaii/mangakawaii_top_manga_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +59,7 @@ class _TopMangaState extends State<TopManga> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: (){
                     context
                         .read<MangakawaiiTopMangaProvider>()
@@ -86,7 +80,7 @@ class _TopMangaState extends State<TopManga> {
                   "Une erreur est survenue.",
                   style: TextStyle(color: Colors.white),
                 ),
-                RaisedButton(onPressed: (){
+                ElevatedButton(onPressed: (){
                   context.read<MangakawaiiTopMangaProvider>().getTopMangaList(Assets.mangakawaiiCatalogName, 1);
                 },
                   child: Text(

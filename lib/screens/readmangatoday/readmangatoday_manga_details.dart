@@ -213,7 +213,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                     SizedBox(
                                       height: SizeConfig.blockSizeVertical,
                                     ),
-                                    RaisedButton(
+                                    ElevatedButton(
                                       onPressed: () {
                                         context
                                             .read<
@@ -371,7 +371,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                                                   height: SizeConfig
                                                                       .blockSizeVertical,
                                                                 ),
-                                                                RaisedButton(
+                                                                ElevatedButton(
                                                                   onPressed:
                                                                       () {
                                                                     context.read<ReadmangatodayChapterProvider>().getChapters(

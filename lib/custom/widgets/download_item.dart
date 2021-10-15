@@ -5,10 +5,8 @@ import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
 import 'package:manga_reader/models/download.dart';
 import 'package:manga_reader/screens/reader_loader.dart';
-import 'package:manga_reader/state/action_provider.dart';
 import 'package:manga_reader/utils/size_config.dart';
 import 'package:manga_reader/utils/task_info.dart';
-import 'package:provider/provider.dart';
 
 class DownloadItem extends StatelessWidget {
   final Download? download;

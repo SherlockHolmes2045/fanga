@@ -58,7 +58,7 @@ class _MangaListState extends State<MangaList> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: (){
                     context
                         .read<MangakawaiiProvider>()
@@ -79,7 +79,7 @@ class _MangaListState extends State<MangaList> {
                   "Une erreur est survenue.",
                   style: TextStyle(color: Colors.white),
                 ),
-                RaisedButton(onPressed: (){
+                ElevatedButton(onPressed: (){
                   context.read<MangakawaiiProvider>().getPopularMangaList(Assets.mangakawaiiCatalogName, 1);
                 },
                   child: Text(

@@ -206,7 +206,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical,
                               ),
-                              RaisedButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   context
                                       .read<MangakawaiiDetailsProvider>()
@@ -351,7 +351,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                     height: SizeConfig
                                                         .blockSizeVertical,
                                                   ),
-                                                  RaisedButton(
+                                                  ElevatedButton(
                                                     onPressed: () {
                                                       context
                                                           .read<

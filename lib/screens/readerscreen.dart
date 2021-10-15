@@ -88,7 +88,6 @@ class CarouselDemoHome extends StatelessWidget {
 class BasicDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<int> list = [1,2,3,4,5];
     return Scaffold(
       appBar: AppBar(title: Text('Basic demo')),
       body: Container(

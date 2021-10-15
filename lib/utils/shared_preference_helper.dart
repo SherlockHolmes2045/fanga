@@ -105,20 +105,16 @@ class SharedPreferenceHelper {
         return _sharedPreference.then((prefs) {
           return prefs.setString(key, value);
         });
-        break;
       
       case "int" :
         return _sharedPreference.then((prefs) {
           return prefs.setInt(key, value);
         });
-        break;
   
       case "bool" :
         return _sharedPreference.then((prefs) {
           return prefs.setBool(key, value);
         });
-        break;
-  
       default:
         return _sharedPreference.then((prefs) {
           return prefs.setString(key, value);
@@ -133,20 +129,16 @@ class SharedPreferenceHelper {
           return _sharedPreference.then((prefs) {
             return prefs.getString(key);
           });
-          break;
         
         case "int" :
           return _sharedPreference.then((prefs) {
             return prefs.getInt(key);
           });
-          break;
     
         case "bool" :
           return _sharedPreference.then((prefs) {
             return prefs.getBool(key);
           });
-          break;
-    
         default:
           return _sharedPreference.then((prefs) {
             return prefs.getString(key);

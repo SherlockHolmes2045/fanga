@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -52,7 +50,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
   @override
   void initState() {
     // TODO: implement initState
-    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     _appbarController = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 400),
@@ -70,7 +68,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
     super.dispose();
   }
 
@@ -234,12 +232,12 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                   fullScreen = value;
                                                   if (value) {
                                                     SystemChrome
-                                                        .setEnabledSystemUIOverlays(
-                                                            []);
+                                                        .setEnabledSystemUIMode(
+                                                            SystemUiMode.manual, overlays: []);
                                                   } else {
                                                     SystemChrome
-                                                        .setEnabledSystemUIOverlays(
-                                                            SystemUiOverlay
+                                                        .setEnabledSystemUIMode(
+                                                            SystemUiMode.manual, overlays: SystemUiOverlay
                                                                 .values);
                                                   }
                                                 });
@@ -439,7 +437,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                 style: TextStyle(
                                                     color: Colors.white),
                                               ),
-                                              RaisedButton(
+                                              ElevatedButton(
                                                 onPressed: () {
                                                   precacheImage(
                                                       NetworkImage(item),
