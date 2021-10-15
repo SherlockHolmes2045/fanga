@@ -16,7 +16,6 @@ import 'package:manga_reader/models/manga.dart';
 import 'package:manga_reader/networking/services/lelscan_service.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/base_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ActionProvider extends BaseProvider {
@@ -49,7 +48,6 @@ class ActionProvider extends BaseProvider {
         .then((value) async {
       final lelscanPath =
           Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}");
-       getExternalStorageDirectory().then((value) => print(value!.path));
       if (!lelscanPath.existsSync()) {
         await lelscanPath.create(recursive: true);
       }
@@ -61,6 +59,7 @@ class ActionProvider extends BaseProvider {
           openFileFromNotification:
               true, // click on notification to open downloaded file (for Android)
           requiresStorageNotLow: false);
+      // prevent loading the pages again before reading the chapter
       try {
         lelscanService.chapterPages(catalogName, chapter, false);
       } catch (e) {}
@@ -195,8 +194,6 @@ class ActionProvider extends BaseProvider {
           }
         });
       }).catchError((error) {
-        print(error);
-        NException exception = NException(error);
       });
     });
   }
