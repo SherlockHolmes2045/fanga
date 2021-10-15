@@ -127,26 +127,25 @@ class SharedPreferenceHelper {
   }
 
   Future<dynamic> getData(String key, String type) {
-    switch (type) {
-      case "string":
-        return _sharedPreference.then((prefs) {
-          return prefs.getString(key);
-        });
-
-      case "int":
-        return _sharedPreference.then((prefs) {
-          return prefs.getInt(key);
-        });
-
-      case "bool":
-        return _sharedPreference.then((prefs) {
-          return prefs.getBool(key);
-        });
-
-      default:
-        return _sharedPreference.then((prefs) {
-          return prefs.getString(key);
-        });
-    }
+      switch(type){
+        case "string" :
+          return _sharedPreference.then((prefs) {
+            return prefs.getString(key);
+          });
+        
+        case "int" :
+          return _sharedPreference.then((prefs) {
+            return prefs.getInt(key);
+          });
+    
+        case "bool" :
+          return _sharedPreference.then((prefs) {
+            return prefs.getBool(key);
+          });
+        default:
+          return _sharedPreference.then((prefs) {
+            return prefs.getString(key);
+          });
+     }
   }
 }

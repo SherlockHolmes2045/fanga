@@ -8,6 +8,7 @@ import 'package:fanga/screens/reader_loader.dart';
 import 'package:fanga/utils/size_config.dart';
 import 'package:fanga/utils/task_info.dart';
 
+
 class DownloadItem extends StatelessWidget {
   final Download? download;
   final DownloadTask? downloadTask;

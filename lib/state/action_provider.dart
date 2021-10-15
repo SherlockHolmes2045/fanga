@@ -16,6 +16,7 @@ import 'package:fanga/networking/services/lelscan_service.dart';
 import 'package:fanga/service_locator.dart';
 import 'package:fanga/state/base_provider.dart';
 
+
 class ActionProvider extends BaseProvider {
 
   static void downloadCallback(String id, DownloadTaskStatus status, int progress) {

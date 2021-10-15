@@ -1,5 +1,4 @@
 import 'package:fanga/models/chapter.dart';
-
 import 'manga.dart';
 
 class Page {

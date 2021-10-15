@@ -55,6 +55,7 @@ dependencies:
   url_launcher: ^6.0.12
   wakelock: ^0.5.6
   dio_http_cache: ^0.3.0
+  flutter_share: ^2.0.0
 
 dev_dependencies:
   flutter_test:
