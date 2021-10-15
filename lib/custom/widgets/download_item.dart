@@ -11,24 +11,24 @@ import 'package:manga_reader/utils/task_info.dart';
 import 'package:provider/provider.dart';
 
 class DownloadItem extends StatelessWidget {
-  final Download download;
-  final DownloadTask downloadTask;
-  const DownloadItem({Key key,@required this.download,@required this.downloadTask})
+  final Download? download;
+  final DownloadTask? downloadTask;
+  const DownloadItem({Key? key,required this.download,required this.downloadTask})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    if(downloadTask.status == DownloadTaskStatus.running){
-      print(downloadTask.progress);
+    if(downloadTask!.status == DownloadTaskStatus.running){
+      print(downloadTask!.progress);
     }
     return ListTile(
         leading: Container(
-          height: SizeConfig.blockSizeVertical * 6,
-          width: SizeConfig.blockSizeHorizontal * 12,
+          height: SizeConfig.blockSizeVertical! * 6,
+          width: SizeConfig.blockSizeHorizontal! * 12,
           child: download != null
               ? CachedNetworkImage(
-                  imageUrl: download.manga.thumbnailUrl,
+                  imageUrl: download!.manga!.thumbnailUrl!,
                   width: double.infinity,
                   height: 350,
                   errorWidget: (context, text, data) {
@@ -43,25 +43,25 @@ class DownloadItem extends StatelessWidget {
               : Image.asset(Assets.errorImage),
         ),
         title: Text(
-          downloadTask.url.split("/")[5],
+          downloadTask!.url.split("/")[5],
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-                downloadTask.filename != null
-                    ? downloadTask.filename.split(".")[0]
+                downloadTask!.filename != null
+                    ? downloadTask!.filename!.split(".")[0]
                     : "",
                 style: TextStyle(color: Colors.white)),
-            if (downloadTask.status == DownloadTaskStatus.running) ...[
+            if (downloadTask!.status == DownloadTaskStatus.running) ...[
               Padding(
                 padding: EdgeInsets.only(
-                    right: SizeConfig.blockSizeHorizontal * 20,
-                    top: SizeConfig.blockSizeVertical),
+                    right: SizeConfig.blockSizeHorizontal! * 20,
+                    top: SizeConfig.blockSizeVertical!),
                 child: LinearProgressIndicator(
                   backgroundColor: Colors.grey,
-                  value: downloadTask.progress / 100,
+                  value: downloadTask!.progress / 100,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     Colors.cyan,
                   ),
@@ -73,34 +73,34 @@ class DownloadItem extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "${downloadTask.progress.toString()} %",
+                    "${downloadTask!.progress.toString()} %",
                     style: TextStyle(color: Colors.white),
                   )
                 ],
               )
-            ] else if (downloadTask.status == DownloadTaskStatus.complete) ...[
+            ] else if (downloadTask!.status == DownloadTaskStatus.complete) ...[
               SizedBox(
                 height: SizeConfig.blockSizeVertical,
               ),
               Row(
                 children: [
                   Text(
-                    "${dirStatSync(downloadTask.savedDir + "/" + downloadTask.filename.split('.')[0])["size"].toStringAsFixed(2)} Mo  ",
+                    "${dirStatSync(downloadTask!.savedDir + "/" + downloadTask!.filename!.split('.')[0])["size"]!.toStringAsFixed(2)} Mo  ",
                     style: TextStyle(color: Colors.white),
                   ),
                   Text(
                     DateTime.fromMillisecondsSinceEpoch(
-                                downloadTask.timeCreated)
+                                downloadTask!.timeCreated)
                             .year
                             .toString() +
                         "/" +
                         DateTime.fromMillisecondsSinceEpoch(
-                                downloadTask.timeCreated)
+                                downloadTask!.timeCreated)
                             .day
                             .toString() +
                         "/" +
                         DateTime.fromMillisecondsSinceEpoch(
-                                downloadTask.timeCreated)
+                                downloadTask!.timeCreated)
                             .month
                             .toString(),
                     style: TextStyle(color: Colors.white),
@@ -110,7 +110,7 @@ class DownloadItem extends StatelessWidget {
             ]
           ],
         ),
-        trailing: downloadTask.status == DownloadTaskStatus.running
+        trailing: downloadTask!.status == DownloadTaskStatus.running
             ? IconButton(
                 icon: Icon(
                   Icons.pause,
@@ -119,7 +119,7 @@ class DownloadItem extends StatelessWidget {
                 onPressed: () {
                   //FlutterDownloader.pause(taskId: downloadTask.taskId);
                 })
-            : downloadTask.status == DownloadTaskStatus.paused
+            : downloadTask!.status == DownloadTaskStatus.paused
                 ? IconButton(
                     icon: Icon(
                       Icons.play_arrow,
@@ -133,7 +133,7 @@ class DownloadItem extends StatelessWidget {
                         }
                       });*/
                     })
-                : downloadTask.status == DownloadTaskStatus.failed
+                : downloadTask!.status == DownloadTaskStatus.failed
                     ? IconButton(
                         icon: Icon(
                           Icons.refresh,
@@ -158,9 +158,9 @@ class DownloadItem extends StatelessWidget {
                                 context,
                                 ScaleRoute(
                                     page: ReaderLoader(
-                                      manga: download.manga,
-                                      catalog: download.manga.catalog,
-                                      chapter: download.chapter,
+                                      manga: download!.manga,
+                                      catalog: download!.manga!.catalog,
+                                      chapter: download!.chapter,
                                     )));
                           }
                         },

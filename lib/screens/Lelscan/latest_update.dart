@@ -22,7 +22,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context
           .read<LelscanUpdatesProvider>()
           .getUpdatedMangaList(Assets.lelscanCatalogName, 1, false);
@@ -53,7 +53,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                     },
                     error: error);
               }, (mangaList) {
-                return mangaList.isEmpty
+                return mangaList!.isEmpty
                     ? Empty(
                         reload: () {
                           context
@@ -65,13 +65,13 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                     : GridView.count(
                         crossAxisCount: 2,
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          right: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 4,
-                          bottom: SizeConfig.blockSizeVertical * 4,
+                          left: SizeConfig.blockSizeHorizontal! * 2.5,
+                          right: SizeConfig.blockSizeHorizontal! * 2.5,
+                          top: SizeConfig.blockSizeVertical! * 4,
+                          bottom: SizeConfig.blockSizeVertical! * 4,
                         ),
-                        crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-                        mainAxisSpacing: SizeConfig.blockSizeVertical,
+                        crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+                        mainAxisSpacing: SizeConfig.blockSizeVertical!,
                         children: List.generate(mangaList.length, (index) {
                           return MangaItem(
                               detailsNavigation: () {

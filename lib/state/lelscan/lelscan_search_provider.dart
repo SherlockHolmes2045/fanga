@@ -5,7 +5,7 @@ import 'package:manga_reader/state/base_provider.dart';
 import 'package:manga_reader/utils/n_exception.dart';
 
 class LelscanSearchProvider extends BaseProvider{
-  Either<NException,List<Manga>> searchResults = Right([]);
+  Either<NException,List<Manga>?> searchResults = Right([]);
 
   getSearchResults(String catalogName,String searchTerms,int page){
     this.toggleLoadingState();

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,9 +20,9 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wakelock/wakelock.dart';
 
 class Reader extends StatefulWidget {
-  final List<String> pages;
-  final Manga manga;
-  final Chapter chapter;
+  final List<String?> pages;
+  final Manga? manga;
+  final Chapter? chapter;
   Reader(this.pages, this.manga, this.chapter);
   @override
   _ReaderState createState() => _ReaderState();
@@ -33,17 +32,17 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
   final CarouselController _controller = CarouselController();
   List<int> pages = [];
   bool enabledAppBar = false;
-  AnimationController _appbarController;
+  AnimationController? _appbarController;
   bool showPagesNumber = true;
   bool fullScreen = true;
   bool keepScreenOn = false;
   bool contextualMenu = true;
   double currentPage = 1;
-  ReadingDirectionModel readingDirection = directions[0];
+  ReadingDirectionModel? readingDirection = directions[0];
   @override
   void didChangeDependencies() {
     widget.pages.forEach((imageUrl) {
-      if(Uri.parse(imageUrl).isAbsolute){
+      if(Uri.parse(imageUrl!).isAbsolute){
         precacheImage(NetworkImage(imageUrl), context);
       }
     });
@@ -58,10 +57,10 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
       vsync: this,
       duration: Duration(milliseconds: 400),
     );
-    context.read<PageProvider>().findChapter(widget.chapter).then((value){
+    context.read<PageProvider>().findChapter(widget.chapter!).then((value){
       if(value != null){
-        if(!value.finished){
-          _controller.jumpToPage(value.page);
+        if(!value.finished!){
+          _controller.jumpToPage(value.page!);
         }
       }
     });
@@ -81,13 +80,13 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
     return WillPopScope(
       onWillPop: () async{
         if(pages.isEmpty){
-          context.read<PageProvider>().updatePage(widget.chapter,0, false,widget.manga);
+          context.read<PageProvider>().updatePage(widget.chapter!,0, false,widget.manga);
         }else{
           List<int> distinctIds = pages.toSet().toList();
           if(distinctIds.reduce(max) == widget.pages.length-1){
-            context.read<PageProvider>().updatePage(widget.chapter,distinctIds.reduce(max), true,widget.manga);
+            context.read<PageProvider>().updatePage(widget.chapter!,distinctIds.reduce(max), true,widget.manga);
           }else{
-            context.read<PageProvider>().updatePage(widget.chapter,distinctIds.reduce(max), false,widget.manga);
+            context.read<PageProvider>().updatePage(widget.chapter!,distinctIds.reduce(max), false,widget.manga);
           }
         }
         return true;
@@ -102,11 +101,11 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
             title: Column(
               children: [
                 Text(
-                  widget.manga.title,
+                  widget.manga!.title!,
                   style: TextStyle(fontSize: height / 42),
                 ),
                 Text(
-                  widget.chapter.title.isEmpty ? "Chapitre ${widget.chapter.number}" : widget.chapter.title,
+                  widget.chapter!.title!.isEmpty ? "Chapitre ${widget.chapter!.number}" : widget.chapter!.title!,
                   style: TextStyle(
                       fontSize: height / 50,
                       color: Colors.white.withOpacity(0.5)),
@@ -116,19 +115,19 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
             actions: [
               Padding(
                 padding:
-                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
                 child: IconButton(
                     icon: Icon(
                       !context.read<BookmarkProvider>().bookmarked.contains(widget.chapter) ? Icons.bookmark_border : Icons.bookmark,
                       color: !context.read<BookmarkProvider>().bookmarked.contains(widget.chapter) ? Colors.white : Colors.cyan,
                     ),
                     onPressed: () {
-                      context.read<BookmarkProvider>().bookmark(widget.chapter,MediaQuery.of(context).size,true);
+                      context.read<BookmarkProvider>().bookmark(widget.chapter!,MediaQuery.of(context).size,true);
                     }),
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 3),
+                    EdgeInsets.only(right: SizeConfig.blockSizeHorizontal! * 3),
                 child: IconButton(
                     icon: Icon(
                       Icons.settings_outlined,
@@ -146,9 +145,9 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                 color: Colors.black,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 5,
-                                      right: SizeConfig.blockSizeHorizontal * 5,
-                                      top: SizeConfig.blockSizeVertical * 4),
+                                      left: SizeConfig.blockSizeHorizontal! * 5,
+                                      right: SizeConfig.blockSizeHorizontal! * 5,
+                                      top: SizeConfig.blockSizeVertical! * 4),
                                   child: Column(
                                     children: [
                                       Row(
@@ -161,7 +160,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                 color:
                                                     Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical *
+                                                    SizeConfig.blockSizeVertical! *
                                                         1.7),
                                           ),
                                           DropdownButton<ReadingDirectionModel>(
@@ -170,7 +169,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                             underline: SizedBox(),
                                             value: readingDirection,
                                             onChanged:
-                                                (ReadingDirectionModel value) {
+                                                (ReadingDirectionModel? value) {
                                               setState(() {
                                                 readingDirection = value;
                                               });
@@ -201,7 +200,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                 color:
                                                     Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical *
+                                                    SizeConfig.blockSizeVertical! *
                                                         1.7),
                                           ),
                                           Switch(
@@ -224,7 +223,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                 color:
                                                     Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical *
+                                                    SizeConfig.blockSizeVertical! *
                                                         1.7),
                                           ),
                                           Switch(
@@ -257,7 +256,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                 color:
                                                     Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical *
+                                                    SizeConfig.blockSizeVertical! *
                                                         1.7),
                                           ),
                                           Switch(
@@ -281,7 +280,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                 color:
                                                     Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical *
+                                                    SizeConfig.blockSizeVertical! *
                                                         1.7),
                                           ),
                                           Switch(
@@ -315,14 +314,14 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                     height: SizeConfig.screenHeight / 6,
                     color: Colors.black,
                     child: Padding(
-                      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+                      padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical! * 2),
                       child: Column(
                         children: [
                           ListTile(
                             leading: Icon(Icons.share,color: Colors.white.withOpacity(0.8),),
                             title: Text("Partager",style: TextStyle(color: Colors.white),),
                             onTap: () async {
-                              if(Uri.parse(widget.pages[currentPage.floor() - 1]).isAbsolute){
+                              /*if(Uri.parse(widget.pages[currentPage.floor() - 1]).isAbsolute){
                                 var request = await HttpClient().getUrl(Uri.parse(widget.pages[currentPage.floor() - 1]));
                                 var response = await request.close();
                                 Uint8List bytes = await consolidateHttpClientResponseBytes(response);
@@ -330,17 +329,17 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                               }else{
                                 final ByteData bytes =  File(widget.pages[currentPage.floor() - 1]).readAsBytesSync().buffer.asByteData();
                                 await Share.file('fanga', 'fanga.png', bytes.buffer.asUint8List(), 'image/png', text: "${widget.manga.title} \n ${widget.chapter.title} \n page ${currentPage.floor()-1}");
-                              }
+                              }*/
                             },
                           ),
                           ListTile(
                             leading: Icon(Icons.download_outlined,color: Colors.white.withOpacity(0.8),),
                             title: Text("Télécharger la Page",style: TextStyle(color: Colors.white),),
                             onTap: () async {
-                              if(Uri.parse(widget.pages[currentPage.floor() - 1]).isAbsolute){
+                              if(Uri.parse(widget.pages[currentPage.floor() - 1]!).isAbsolute){
                                 if(Platform.isAndroid){
                                   final taskId = await FlutterDownloader.enqueue(
-                                    url: widget.pages[currentPage.floor() - 1],
+                                    url: widget.pages[currentPage.floor() - 1]!,
                                     savedDir: "storage/emulated/0/Download",
                                     showNotification: true, // show download progress in status bar (for Android)
                                     openFileFromNotification: true, // click on notification to open downloaded file (for Android)
@@ -364,10 +363,10 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                   if (fullScreen) {
                     enabledAppBar = !enabledAppBar;
                     if (enabledAppBar) {
-                      SystemChrome.setEnabledSystemUIOverlays(
-                          SystemUiOverlay.values);
+                      SystemChrome.setEnabledSystemUIMode(
+                          SystemUiMode.manual, overlays: SystemUiOverlay.values);
                     } else {
-                      SystemChrome.setEnabledSystemUIOverlays([]);
+                      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
                     }
                   }
                 });
@@ -375,7 +374,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
               child: Stack(children: [
                 Padding(
                   padding:
-                      EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 10),
+                      EdgeInsets.only(bottom: SizeConfig.blockSizeVertical! * 10),
                   child: Align(
                     alignment: Alignment.center,
                     child: Container(
@@ -384,7 +383,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                       child: CarouselSlider(
                         carouselController: _controller,
                         options: CarouselOptions(
-                          scrollDirection: readingDirection.readingDirection ==
+                          scrollDirection: readingDirection!.readingDirection ==
                                   ReadingDirection.HORIZONTAL
                               ? Axis.horizontal
                               : Axis.vertical,
@@ -406,13 +405,13 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                             .map((item) => Container(
                                   child: Center(
                                       child: InteractiveViewer(
-                                    child: Uri.parse(item).isAbsolute ? Image.network(
+                                    child: Uri.parse(item!).isAbsolute ? Image.network(
                                       item,
                                       height: height,
                                       fit: BoxFit.cover,
                                       loadingBuilder: (BuildContext context,
                                           Widget child,
-                                          ImageChunkEvent loadingProgress) {
+                                          ImageChunkEvent? loadingProgress) {
                                         if (loadingProgress == null) return child;
                                         return Center(
                                           child: CircularProgressIndicator(
@@ -422,14 +421,14 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                                 ? loadingProgress
                                                         .cumulativeBytesLoaded /
                                                     loadingProgress
-                                                        .expectedTotalBytes
+                                                        .expectedTotalBytes!
                                                 : null,
                                           ),
                                         );
                                       },
                                       errorBuilder: (BuildContext context,
                                           Object exception,
-                                          StackTrace stackTrace) {
+                                          StackTrace? stackTrace) {
                                         return Center(
                                           child: Column(
                                             mainAxisAlignment:
@@ -471,7 +470,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 5),
+                      EdgeInsets.only(bottom: SizeConfig.blockSizeVertical! * 5),
                   child: Align(
                       alignment: Alignment.bottomCenter,
                       child: showPagesNumber
@@ -479,7 +478,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                               "${currentPage.toInt().toString()}/${widget.pages.length.toString()}",
                               style: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: SizeConfig.blockSizeHorizontal * 4,
+                                  fontSize: SizeConfig.blockSizeHorizontal! * 4,
                                   fontWeight: FontWeight.bold),
                             )
                           : SizedBox()),
@@ -489,12 +488,12 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                   child: enabledAppBar
                       ? Container(
                           width: SizeConfig.screenWidth,
-                          height: SizeConfig.blockSizeVertical * 7,
+                          height: SizeConfig.blockSizeVertical! * 7,
                           color: Color.fromRGBO(28, 28, 28, 1),
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal * 2,
-                                right: SizeConfig.blockSizeHorizontal * 2),
+                                left: SizeConfig.blockSizeHorizontal! * 2,
+                                right: SizeConfig.blockSizeHorizontal! * 2),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -509,7 +508,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                   },
                                 ),
                                 Container(
-                                    width: SizeConfig.blockSizeHorizontal * 70,
+                                    width: SizeConfig.blockSizeHorizontal! * 70,
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
@@ -518,7 +517,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                           style: TextStyle(
                                               color: Colors.grey,
                                               fontSize:
-                                                  SizeConfig.blockSizeHorizontal *
+                                                  SizeConfig.blockSizeHorizontal! *
                                                       4),
                                         ),
                                         Slider(
@@ -541,7 +540,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                           style: TextStyle(
                                               color: Colors.grey,
                                               fontSize:
-                                                  SizeConfig.blockSizeHorizontal *
+                                                  SizeConfig.blockSizeHorizontal! *
                                                       4),
                                         ),
                                       ],

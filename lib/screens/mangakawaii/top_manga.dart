@@ -28,9 +28,9 @@ class _TopMangaState extends State<TopManga> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<MangakawaiiTopMangaProvider>().topMangaList.fold((l) => null, (r) {
-        if (r.isEmpty) {
+        if (r!.isEmpty) {
           context
               .read<MangakawaiiTopMangaProvider>()
               .getTopMangaList(Assets.mangakawaiiCatalogName, 1);
@@ -77,7 +77,7 @@ class _TopMangaState extends State<TopManga> {
             ),
           );
         }, (mangaList) {
-          return mangaList.isEmpty
+          return mangaList!.isEmpty
               ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -99,13 +99,13 @@ class _TopMangaState extends State<TopManga> {
               : GridView.count(
             crossAxisCount: 2,
             padding: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal * 2.5,
-              right: SizeConfig.blockSizeHorizontal * 2.5,
-              top: SizeConfig.blockSizeVertical * 4,
-              bottom: SizeConfig.blockSizeVertical * 4,
+              left: SizeConfig.blockSizeHorizontal! * 2.5,
+              right: SizeConfig.blockSizeHorizontal! * 2.5,
+              top: SizeConfig.blockSizeVertical! * 4,
+              bottom: SizeConfig.blockSizeVertical! * 4,
             ),
-            crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-            mainAxisSpacing: SizeConfig.blockSizeVertical,
+            crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+            mainAxisSpacing: SizeConfig.blockSizeVertical!,
             children: List.generate(mangaList.length, (index) {
               return Container(
                 child: Column(
@@ -132,7 +132,7 @@ class _TopMangaState extends State<TopManga> {
                               .libraryList
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
-                            imageUrl: mangaList[index].thumbnailUrl,
+                            imageUrl: mangaList[index].thumbnailUrl!,
                             width: double.infinity,
                             height: 350,
                             errorWidget:
@@ -163,7 +163,7 @@ class _TopMangaState extends State<TopManga> {
                                     sigmaY: 10.0),
                                 child: Container(
                                     child: CachedNetworkImage(
-                                      imageUrl: mangaList[index].thumbnailUrl,
+                                      imageUrl: mangaList[index].thumbnailUrl!,
                                       width: double.infinity,
                                       height: 350,
                                       errorWidget:
@@ -195,9 +195,9 @@ class _TopMangaState extends State<TopManga> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical),
+                          top: SizeConfig.blockSizeVertical!),
                       child: Text(
-                        mangaList[index].title,
+                        mangaList[index].title!,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
                           color: Colors.white,

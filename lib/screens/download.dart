@@ -9,7 +9,7 @@ class Download extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<ActionProvider>().getAllDownloads();
     });
     return Scaffold(
@@ -27,16 +27,16 @@ class Download extends StatelessWidget {
             shrinkWrap: true,
             separatorBuilder: (context, int index) => Divider(
                   color: Colors.grey.withOpacity(0.3),
-                  endIndent: SizeConfig.blockSizeHorizontal * 5,
-                  indent: SizeConfig.blockSizeHorizontal * 5,
+                  endIndent: SizeConfig.blockSizeHorizontal! * 5,
+                  indent: SizeConfig.blockSizeHorizontal! * 5,
                 ),
             itemBuilder: (context, int index) {
               return FutureBuilder(
                   future: context.read<ActionProvider>().findDownload(context
                       .watch<ActionProvider>()
                       .downloadTasks[index]
-                      .taskId),
-                  builder: (context, AsyncSnapshot<Model.Download> snapshot) {
+                      !.taskId),
+                  builder: (context, AsyncSnapshot<Model.Download?> snapshot) {
                     if (snapshot.hasData) {
                       return DownloadItem(
                           download: snapshot.data,

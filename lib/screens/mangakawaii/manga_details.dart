@@ -23,7 +23,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:manga_reader/models/page.dart' as Model;
 
 class MangakawaiiDetail extends StatefulWidget {
-  final Manga manga;
+  final Manga? manga;
   MangakawaiiDetail({this.manga});
   @override
   _MangakawaiiDetailState createState() => _MangakawaiiDetailState();
@@ -40,21 +40,21 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<MangakawaiiDetailsProvider>().mangaDetails.fold((l) => null, (r) {
-        if (r.url == null || r.url != widget.manga.url) {
+        if (r.url == null || r.url != widget.manga!.url) {
           context
               .read<MangakawaiiDetailsProvider>()
-              .getMangaDetails(Assets.mangakawaiiCatalogName, widget.manga);
+              .getMangaDetails(Assets.mangakawaiiCatalogName, widget.manga!);
         }
       });
       context.read<MangakawaiiChapterProvider>().mangaChapters.fold((l) => null, (r) {
         print(context.read<MangakawaiiChapterProvider>().currentManga.url);
-        if (r.isEmpty ||
+        if (r!.isEmpty ||
             widget.manga != context.read<MangakawaiiChapterProvider>().currentManga) {
           context
               .read<MangakawaiiChapterProvider>()
-              .getChapters(Assets.mangakawaiiCatalogName, widget.manga);
+              .getChapters(Assets.mangakawaiiCatalogName, widget.manga!);
         }
       });
     });
@@ -77,7 +77,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
               .isNotEmpty
               ? Padding(
             padding:
-            EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 7),
+            EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 7),
             child: SizedBox(
               width: SizeConfig.screenWidth,
               height: 65.0,
@@ -86,7 +86,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                 color: Color.fromRGBO(28, 28, 28, 1),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.blockSizeHorizontal * 7),
+                      horizontal: SizeConfig.blockSizeHorizontal! * 7),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -138,7 +138,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
               ? AppBar(
             backgroundColor: Color.fromRGBO(28, 28, 28, 1),
             title: Text(
-              widget.manga.title,
+              widget.manga!.title!,
               style: TextStyle(color: Colors.white, fontSize: 22.0),
             ),
           )
@@ -212,12 +212,12 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                       .read<MangakawaiiDetailsProvider>()
                                       .getMangaDetails(
                                       Assets.mangakawaiiCatalogName,
-                                      widget.manga);
+                                      widget.manga!);
                                   context
                                       .read<MangakawaiiChapterProvider>()
                                       .getChapters(
                                       Assets.mangakawaiiCatalogName,
-                                      widget.manga);
+                                      widget.manga!);
                                 },
                                 child: Text("Réessayer"),
                               )
@@ -238,24 +238,24 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                               Padding(
                                 padding: EdgeInsets.only(
                                     top:
-                                    SizeConfig.blockSizeVertical *
+                                    SizeConfig.blockSizeVertical! *
                                         3),
                                 child:
                                 MangaDetails(manga:mangaDetails),
                               ),
                               SizedBox(
                                 height:
-                                SizeConfig.blockSizeVertical * 2,
+                                SizeConfig.blockSizeVertical! * 2,
                               ),
                               _builButtons(),
                               SizedBox(
                                 height:
-                                SizeConfig.blockSizeVertical * 2,
+                                SizeConfig.blockSizeVertical! * 2,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: SizeConfig
-                                        .blockSizeHorizontal *
+                                        .blockSizeHorizontal! *
                                         5),
                                 child: ExpandableTheme(
                                   data: ExpandableThemeData(
@@ -272,7 +272,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                           FontWeight.bold),
                                     ),
                                     collapsed: Text(
-                                      mangaDetails.description,
+                                      mangaDetails.description!,
                                       softWrap: true,
                                       maxLines: 1,
                                       style: TextStyle(
@@ -283,7 +283,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                     ),
                                     expanded: InkWell(
                                       child: Text(
-                                        mangaDetails.description,
+                                        mangaDetails.description!,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -308,12 +308,12 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                               ),
                               SizedBox(
                                 height:
-                                SizeConfig.blockSizeVertical * 2,
+                                SizeConfig.blockSizeVertical! * 2,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: SizeConfig
-                                        .blockSizeHorizontal *
+                                        .blockSizeHorizontal! *
                                         5),
                                 child: Container(
                                   child: Column(
@@ -360,7 +360,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                           Assets
                                                               .mangakawaiiCatalogName,
                                                           widget
-                                                              .manga);
+                                                              .manga!);
                                                     },
                                                     child: Text(
                                                         "Réessayer"),
@@ -369,7 +369,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                               ),
                                             );
                                           }, (mangaChapters) {
-                                        return mangaChapters
+                                        return mangaChapters!
                                             .isEmpty
                                             ? Container(
                                           child: Center(
@@ -394,7 +394,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                   ),
                                                   Container(
                                                     height:
-                                                    SizeConfig.blockSizeVertical * 4,
+                                                    SizeConfig.blockSizeVertical! * 4,
                                                     padding:
                                                     EdgeInsets.symmetric(horizontal: 5.0),
                                                     decoration:
@@ -414,7 +414,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                           color: Colors.white,
                                                         ),
                                                         SizedBox(
-                                                          width: SizeConfig.blockSizeHorizontal * 2,
+                                                          width: SizeConfig.blockSizeHorizontal! * 2,
                                                         ),
                                                         Text(
                                                           "Filtre",
@@ -456,16 +456,16 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                           color: Colors.cyan,
                                                         ),
                                                         title: Padding(
-                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
+                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5,bottom: SizeConfig.blockSizeVertical!),
                                                             child: FutureBuilder(
                                                                 future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                builder: (context, AsyncSnapshot<Model.Page> snapshot){
+                                                                builder: (context, AsyncSnapshot<Model.Page?> snapshot){
                                                                   if(snapshot.hasData){
                                                                     return Text(
                                                                       'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
                                                                       overflow: TextOverflow.clip,
                                                                       style: TextStyle(
-                                                                          color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished ? Colors.grey
+                                                                          color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data!.finished! ? Colors.grey
                                                                               : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                               ? Colors.white
                                                                               : Colors.cyan,
@@ -486,22 +486,22 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                             )
                                                         ),
                                                         subtitle: Padding(
-                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
                                                             child: FutureBuilder(
                                                                 future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                builder: (context, AsyncSnapshot<Model.Page?> snapshot) {
                                                                   if (snapshot.hasData) {
                                                                     return RichText(
                                                                         text: TextSpan(
                                                                             text: mangaChapters[index].publishedAt,
                                                                             style: TextStyle(
-                                                                              color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished ? Colors.grey :
+                                                                              color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data!.finished! ? Colors.grey :
                                                                               !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                                   ? Colors.white
                                                                                   : Colors.cyan,
                                                                             ),
                                                                             children: <TextSpan>[
-                                                                              if(!snapshot.data.finished)
+                                                                              if(!snapshot.data!.finished!)
                                                                                 TextSpan(
                                                                                     text: " \u22C5 ",
                                                                                     style: TextStyle(
@@ -509,7 +509,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                                                       fontWeight: FontWeight.bold,
                                                                                     )
                                                                                 ),
-                                                                              if(!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                              if(!snapshot.data!.finished!) TextSpan(text: " Page ${snapshot.data!.page! + 1}", style: TextStyle(color: Colors.grey))
                                                                             ])
                                                                     );
                                                                   } else {
@@ -530,7 +530,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                                                           onSelected: (dynamic result) {
                                                             print(result);
                                                             if (result == 0) {
-                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangakawaiiCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangakawaiiCatalogName, widget.manga!, MediaQuery.of(context).size);
                                                             } else if (result == 1) {
                                                               context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size,true);
                                                             } else if (result == 2) {
@@ -607,7 +607,7 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
   Widget _builButtons() {
     return Padding(
       padding:
-      EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal * 4),
+      EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal! * 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -615,12 +615,12 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
             onTap: () {
               context
                   .read<LibraryProvider>()
-                  .addToLibrary(widget.manga, MediaQuery.of(context).size);
+                  .addToLibrary(widget.manga!, MediaQuery.of(context).size);
             },
             child: Container(
-              height: SizeConfig.blockSizeVertical * 4.5,
+              height: SizeConfig.blockSizeVertical! * 4.5,
               padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.blockSizeHorizontal),
+                  horizontal: SizeConfig.blockSizeHorizontal!),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.cyan, width: 0.5),
                 color: context
@@ -630,11 +630,11 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                     ? Colors.cyan.withOpacity(0.3)
                     : Colors.transparent,
                 borderRadius: BorderRadius.all(
-                    Radius.circular(SizeConfig.blockSizeHorizontal * 10)),
+                    Radius.circular(SizeConfig.blockSizeHorizontal! * 10)),
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal * 1.5),
+                    horizontal: SizeConfig.blockSizeHorizontal! * 1.5),
                 child: Row(
                   children: [
                     Icon(
@@ -669,8 +669,8 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
                 color: Colors.cyan,
               ),
               onPressed: () async {
-                await canLaunch(widget.manga.url)
-                    ? await launch(widget.manga.url)
+                await canLaunch(widget.manga!.url!)
+                    ? await launch(widget.manga!.url!)
                     : BotToast.showText(text: "Impossible d'ouvrir ce lien");
               })
         ],
@@ -682,9 +682,9 @@ class _MangakawaiiDetailState extends State<MangakawaiiDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<MangakawaiiDetailsProvider>()
-        .getMangaDetails(Assets.mangakawaiiCatalogName, widget.manga);
+        .getMangaDetails(Assets.mangakawaiiCatalogName, widget.manga!);
     context
         .read<MangakawaiiChapterProvider>()
-        .getChapters(Assets.mangakawaiiCatalogName, widget.manga);
+        .getChapters(Assets.mangakawaiiCatalogName, widget.manga!);
   }
 }

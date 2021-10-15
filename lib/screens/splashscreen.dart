@@ -17,8 +17,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin{
-  Animation<double> iconAnimation;
-  AnimationController iconAnimationController;
+  Animation<double>? iconAnimation;
+  late AnimationController iconAnimationController;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         Tween<double>(begin: 2, end: 4).animate(iconAnimationController);
     iconAnimationController.repeat(reverse: true);
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<LibraryProvider>().loadLibrary();
       context.read<BookmarkProvider>().loadBookmarked();
       context.read<PageProvider>().loadAllPages();
@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
         child: Center(
             child: AnimatedBuilder(
               animation: iconAnimationController,
-              builder: (BuildContext context, Widget child) {
+              builder: (BuildContext context, Widget? child) {
                 return AppIconWidget(
                     scale: iconAnimationController.value, image: Assets.appLogo);
               },

@@ -30,7 +30,7 @@ class PageDao {
     );
   }
 
-  Future delete(String url) async {
+  Future delete(String? url) async {
     final finder = Finder(filter: Filter.and([
       Filter.equals("chapter.url",url),
     ])
@@ -52,7 +52,7 @@ class PageDao {
     }).toList();
   }
 
-  Future<Page> findPage(String url) async {
+  Future<Page?> findPage(String? url) async {
     final finder = Finder(
         filter: Filter.and([
           Filter.equals("chapter.url",url),

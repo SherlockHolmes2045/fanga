@@ -7,9 +7,9 @@ import 'package:manga_reader/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 class ReaderLoader extends StatefulWidget {
-  final Manga manga;
-  final Chapter chapter;
-  final String catalog;
+  final Manga? manga;
+  final Chapter? chapter;
+  final String? catalog;
 
   ReaderLoader({this.manga, this.chapter, this.catalog});
 
@@ -22,7 +22,7 @@ class _ReaderLoaderState extends State<ReaderLoader> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context
           .read<LelscanReaderProvider>()
           .getPages(widget.catalog, widget.chapter, context, widget.manga,false);
@@ -46,7 +46,7 @@ class _ReaderLoaderState extends State<ReaderLoader> {
                         Text(
                           context
                               .watch<LelscanReaderProvider>()
-                              .exception
+                              .exception!
                               .message,
                           style: TextStyle(color: Colors.white),
                         ),

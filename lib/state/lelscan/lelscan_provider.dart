@@ -6,7 +6,7 @@ import 'package:dartz/dartz.dart';
 
 class LelscanProvider extends BaseProvider{
 
-  Either<NException,List<Manga>> popularMangaList = Right([]);
+  Either<NException,List<Manga>?> popularMangaList = Right([]);
 
   getPopularMangaList(String catalogName,int page,bool forceRefresh){
      this.toggleLoadingState();

@@ -5,7 +5,7 @@ class AppIconWidget extends StatefulWidget {
   final scale;
 
   const AppIconWidget({
-    Key key,
+    Key? key,
     this.image,
     this.scale,
   }) : super(key: key);

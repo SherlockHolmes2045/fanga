@@ -63,11 +63,11 @@ class _ReadmangatodayState extends State<Readmangatoday> {
                   },
                 ),
                 IconButton(
-                  iconSize: SizeConfig.blockSizeHorizontal * 4.75,
+                  iconSize: SizeConfig.blockSizeHorizontal! * 4.75,
                   icon: FaIcon(
                     FontAwesomeIcons.globe,
                     color: Colors.white,
-                    size: SizeConfig.blockSizeHorizontal * 4.75,
+                    size: SizeConfig.blockSizeHorizontal! * 4.75,
                   ),
                   onPressed: () async {
                     await canLaunch("https://www.readmng.com/")

@@ -7,7 +7,7 @@ class RetryOnAuthFailInterceptor extends Interceptor{
 
   RetryOnAuthFailInterceptor(this.requestRetrier);
 
-  @override
+  /*@override
   Future onError(DioError err) async {
     if(_shouldRefresh(err)){
       try {
@@ -22,5 +22,5 @@ class RetryOnAuthFailInterceptor extends Interceptor{
     return err.type  == DioErrorType.DEFAULT &&
     err.error != null &&
     err.error is SocketException;
-  }
+  }*/
 }

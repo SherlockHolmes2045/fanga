@@ -9,7 +9,7 @@ import 'package:manga_reader/utils/n_exception.dart';
 class LelscanService {
 
 
-  Future<List<Manga>> popularMangaList(
+  Future<List<Manga>?> popularMangaList(
       String catalogName, int page, bool forceRefresh) async {
     try {
       final String uri =
@@ -25,7 +25,7 @@ class LelscanService {
           );
       final items =
           response.data["data"]["mangas"].cast<Map<String, dynamic>>();
-      List<Manga> mangas = items.map<Manga>((json) {
+      List<Manga>? mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
       return mangas;
@@ -35,7 +35,7 @@ class LelscanService {
     }
   }
 
-  Future<List<Manga>> topMangaList(
+  Future<List<Manga>?> topMangaList(
       String catalogName, int page, bool forceRefresh) async {
     try {
       final String uri = locator<Di>().apiUrl + "/manga/$catalogName/top/$page";
@@ -50,7 +50,7 @@ class LelscanService {
           );
       final items =
           response.data["data"]["mangas"].cast<Map<String, dynamic>>();
-      List<Manga> mangas = items.map<Manga>((json) {
+      List<Manga>? mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
       return mangas;
@@ -60,7 +60,7 @@ class LelscanService {
     }
   }
 
-  Future<Response> mangaList(String catalogName, int page,bool forceRefresh) async {
+  Future<Response> mangaList(String catalogName, int? page,bool forceRefresh) async {
     try {
       final String uri =
           locator<Di>().apiUrl + "/manga/$catalogName/mangalist/$page";
@@ -80,7 +80,7 @@ class LelscanService {
     }
   }
 
-  Future<List<Manga>> updatedMangaList(String catalogName, int page, bool forceRefresh) async {
+  Future<List<Manga>?> updatedMangaList(String catalogName, int page, bool forceRefresh) async {
     try {
       final String uri =
           locator<Di>().apiUrl + "/manga/$catalogName/latest/$page";
@@ -95,7 +95,7 @@ class LelscanService {
           );
       final items =
           response.data["mangas"]["mangas"].cast<Map<String, dynamic>>();
-      List<Manga> mangas = items.map<Manga>((json) {
+      List<Manga>? mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
       return mangas;
@@ -126,7 +126,7 @@ class LelscanService {
     }
   }
 
-  Future<List<Chapter>> mangaChapters(Manga manga, String catalogName,bool forceRefresh) async {
+  Future<List<Chapter>?> mangaChapters(Manga manga, String catalogName,bool forceRefresh) async {
     try {
       final String uri = locator<Di>().apiUrl + "/manga/chapters";
       Response response = await locator<Di>().dio.post(
@@ -140,7 +140,7 @@ class LelscanService {
                 })),
           );
       final items = response.data["chapters"].cast<Map<String, dynamic>>();
-      List<Chapter> result = items.map<Chapter>((json) {
+      List<Chapter>? result = items.map<Chapter>((json) {
         return Chapter.fromJson(json);
       }).toList();
       return result;
@@ -151,7 +151,7 @@ class LelscanService {
     }
   }
 
-  Future<List<String>> chapterPages(String catalogName, Chapter chapter, bool forceRefresh) async {
+  Future<List<String?>> chapterPages(String? catalogName, Chapter chapter, bool forceRefresh) async {
     try {
       final String uri = locator<Di>().apiUrl + "/manga/pages";
       Response response = await locator<Di>().dio.post(
@@ -164,7 +164,7 @@ class LelscanService {
                   'Content-Type': "application/json",
                 })),
           );
-      List<String> result = [];
+      List<String?> result = [];
       for (int i = 0; i < response.data["images"].length; i++) {
         result.add(response.data["images"][i]);
       }
@@ -175,8 +175,8 @@ class LelscanService {
     }
   }
 
-  Future<String> downloadChapter(
-      Chapter chapter, String catalogName, String mangaName) async {
+  Future<String?> downloadChapter(
+      Chapter chapter, String catalogName, String? mangaName) async {
     try {
       print("on entre ici");
       final String uri = locator<Di>().apiUrl + "/manga/chapterArchive";
@@ -192,7 +192,7 @@ class LelscanService {
             }),
           );
       print(response.data);
-      final String items = response.data["file"];
+      final String? items = response.data["file"];
       return items;
     } on DioError catch (e) {
       print("erreur api");

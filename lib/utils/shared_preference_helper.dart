@@ -12,13 +12,13 @@ class SharedPreferenceHelper {
   // General Methods: ----------------------------------------------------------
   Future<String> get authToken async {
     return _sharedPreference.then((preference) {
-      return preference.getString(Preferences.auth_token);
+      return preference.getString(Preferences.auth_token)!;
     });
   }
 
   Future<String> get refreshToken async {
     return _sharedPreference.then((preference) {
-      return preference.getString(Preferences.refresh_token);
+      return preference.getString(Preferences.refresh_token)!;
     });
   }
 
@@ -89,7 +89,7 @@ class SharedPreferenceHelper {
   // Language:---------------------------------------------------
   Future<String> get currentLanguage {
     return _sharedPreference.then((prefs) {
-      return prefs.getString(Preferences.current_language);
+      return prefs.getString(Preferences.current_language)!;
     });
   }
 

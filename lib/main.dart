@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:manga_reader/constants/assets.dart';
 import 'package:manga_reader/localization/locale_constant.dart';
 import 'package:manga_reader/localization/localizations_delegate.dart';
+import 'package:manga_reader/models/download.dart';
 import 'package:manga_reader/routes.dart';
 import 'package:manga_reader/service_locator.dart';
 import 'package:manga_reader/state/action_provider.dart';
@@ -40,18 +41,19 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_moment/simple_moment.dart';
-
 import 'di.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
   locator<Di>().dio.interceptors.add(locator<Di>().dioCacheManager.interceptor);
-  WidgetsFlutterBinding.ensureInitialized();
   createDb();
   await createFolders(Assets.appName);
+
   await FlutterDownloader.initialize(
       debug: true // optional: set false to disable printing logs to console
   );
+  FlutterDownloader.registerCallback(Download.callback);
   Moment.setLocaleGlobally(new LocaleFr());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.black,
@@ -94,9 +96,11 @@ void main() async {
     );
   });
 }
+
+
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
-    var state = context.findAncestorStateOfType<_MyAppState>();
+    var state = context.findAncestorStateOfType<_MyAppState>()!;
     state.setLocale(newLocale);
   }
   @override
@@ -104,7 +108,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale;
+  Locale? _locale;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -146,12 +150,12 @@ class _MyAppState extends State<MyApp> {
       ],
       localeResolutionCallback: (locale, supportedLocales) {
         for (var supportedLocale in supportedLocales) {
-          if (supportedLocale?.languageCode == locale?.languageCode &&
-              supportedLocale?.countryCode == locale?.countryCode) {
+          if (supportedLocale.languageCode == locale?.languageCode &&
+              supportedLocale.countryCode == locale?.countryCode) {
             return supportedLocale;
           }
         }
-        return supportedLocales?.first;
+        return supportedLocales.first;
       },
     );
   }
@@ -165,8 +169,13 @@ Future<void> createFolders(String folderName) async {
     final mangaHerePath = Directory(
         "storage/emulated/0/$folderName/${Assets.lelscanCatalogName}");
     var status = await Permission.storage.status;
+    var external = await Permission.manageExternalStorage.status;
+    await getExternalStorageDirectory();
     if (!status.isGranted) {
       await Permission.storage.request();
+    }
+    if(!external.isGranted){
+      await Permission.manageExternalStorage.request();
     }
     if ((await path.exists())) {} else {
       path.create();

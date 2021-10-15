@@ -9,9 +9,10 @@ class DioConnectivityRequestRetrier {
   //final Connectivity connectivity;
 
   DioConnectivityRequestRetrier(
-      {@required this.dio, /*@required this.connectivity*/});
+      {required this.dio, /*@required this.connectivity*/});
 
   Future<Response> scheduleRequestRetry(RequestOptions requestOptions) async {
+    return new Response(requestOptions: RequestOptions(path: ''));
     /*StreamSubscription streamSubscription;
     final responseCompleter = Completer<Response>();
     streamSubscription =

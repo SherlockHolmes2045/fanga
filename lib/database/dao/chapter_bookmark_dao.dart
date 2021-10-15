@@ -28,7 +28,7 @@ class ChapterBookmarkDao {
     );
   }
 
-  Future delete(String url) async {
+  Future delete(String? url) async {
     final finder = Finder(filter: Filter.and([
       Filter.equals("url",url),
     ])
@@ -47,7 +47,7 @@ class ChapterBookmarkDao {
     }).toList();
   }
 
-  Future<Chapter> findChapter(String url) async {
+  Future<Chapter?> findChapter(String? url) async {
     final finder = Finder(
         filter: Filter.and([
           Filter.equals("url",url),

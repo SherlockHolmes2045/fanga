@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Genres extends StatelessWidget {
-  final String genres;
-  const Genres({Key key,this.genres}) : super(key: key);
+  final String? genres;
+  const Genres({Key? key,this.genres}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var data;
-    if(genres.contains(",")){
-      data = genres.split(",");
+    if(genres!.contains(",")){
+      data = genres!.split(",");
     }else{
-      data = genres.split("\n");
+      data = genres!.split("\n");
     }
     return Wrap(
         runSpacing: 5.0,

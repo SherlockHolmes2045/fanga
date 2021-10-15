@@ -23,7 +23,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:manga_reader/models/page.dart' as Model;
 
 class MangahereDetail extends StatefulWidget {
-  final Manga manga;
+  final Manga? manga;
   MangahereDetail({this.manga});
   @override
   _MangahereDetailState createState() => _MangahereDetailState();
@@ -40,14 +40,14 @@ class _MangahereDetailState extends State<MangahereDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
           context
               .read<MangahereDetailsProvider>()
-              .getMangaDetails(Assets.mangahereCatalogName, widget.manga,false);
+              .getMangaDetails(Assets.mangahereCatalogName, widget.manga!,false);
 
           context
               .read<MangahereChapterProvider>()
-              .getChapters(Assets.mangahereCatalogName, widget.manga,false);
+              .getChapters(Assets.mangahereCatalogName, widget.manga!,false);
     });
   }
 
@@ -68,7 +68,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
               .isNotEmpty
               ? Padding(
             padding:
-            EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 7),
+            EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 7),
             child: SizedBox(
               width: SizeConfig.screenWidth,
               height: 65.0,
@@ -77,7 +77,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                 color: Color.fromRGBO(28, 28, 28, 1),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.blockSizeHorizontal * 7),
+                      horizontal: SizeConfig.blockSizeHorizontal! * 7),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -127,7 +127,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
               ? AppBar(
             backgroundColor: Color.fromRGBO(28, 28, 28, 1),
             title: Text(
-              widget.manga.title,
+              widget.manga!.title!,
               style: TextStyle(color: Colors.white, fontSize: 22.0),
             ),
           )
@@ -201,12 +201,12 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                       .read<MangahereDetailsProvider>()
                                       .getMangaDetails(
                                       Assets.mangahereCatalogName,
-                                      widget.manga,true);
+                                      widget.manga!,true);
                                   context
                                       .read<MangahereChapterProvider>()
                                       .getChapters(
                                       Assets.mangahereCatalogName,
-                                      widget.manga,true);
+                                      widget.manga!,true);
                                 },
                                 child: Text("Réessayer"),
                               )
@@ -227,24 +227,24 @@ class _MangahereDetailState extends State<MangahereDetail> {
                               Padding(
                                 padding: EdgeInsets.only(
                                     top:
-                                    SizeConfig.blockSizeVertical *
+                                    SizeConfig.blockSizeVertical! *
                                         3),
                                 child:
                                 MangaDetails(manga:mangaDetails),
                               ),
                               SizedBox(
                                 height:
-                                SizeConfig.blockSizeVertical * 2,
+                                SizeConfig.blockSizeVertical! * 2,
                               ),
                               _builButtons(),
                               SizedBox(
                                 height:
-                                SizeConfig.blockSizeVertical * 2,
+                                SizeConfig.blockSizeVertical! * 2,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: SizeConfig
-                                        .blockSizeHorizontal *
+                                        .blockSizeHorizontal! *
                                         5),
                                 child: ExpandableTheme(
                                   data: ExpandableThemeData(
@@ -261,7 +261,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                           FontWeight.bold),
                                     ),
                                     collapsed: Text(
-                                      mangaDetails.description,
+                                      mangaDetails.description!,
                                       softWrap: true,
                                       maxLines: 1,
                                       style: TextStyle(
@@ -272,7 +272,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                     ),
                                     expanded: InkWell(
                                       child: Text(
-                                        mangaDetails.description,
+                                        mangaDetails.description!,
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -297,12 +297,12 @@ class _MangahereDetailState extends State<MangahereDetail> {
                               ),
                               SizedBox(
                                 height:
-                                SizeConfig.blockSizeVertical * 2,
+                                SizeConfig.blockSizeVertical! * 2,
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: SizeConfig
-                                        .blockSizeHorizontal *
+                                        .blockSizeHorizontal! *
                                         5),
                                 child: Container(
                                   child: Column(
@@ -349,7 +349,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                           Assets
                                                               .mangahereCatalogName,
                                                           widget
-                                                              .manga,true);
+                                                              .manga!,true);
                                                     },
                                                     child: Text(
                                                         "Réessayer"),
@@ -358,7 +358,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                               ),
                                             );
                                           }, (mangaChapters) {
-                                        return mangaChapters
+                                        return mangaChapters!
                                             .isEmpty
                                             ? Container(
                                           child: Center(
@@ -383,7 +383,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                   ),
                                                   Container(
                                                     height:
-                                                    SizeConfig.blockSizeVertical * 4,
+                                                    SizeConfig.blockSizeVertical! * 4,
                                                     padding:
                                                     EdgeInsets.symmetric(horizontal: 5.0),
                                                     decoration:
@@ -403,7 +403,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                           color: Colors.white,
                                                         ),
                                                         SizedBox(
-                                                          width: SizeConfig.blockSizeHorizontal * 2,
+                                                          width: SizeConfig.blockSizeHorizontal! * 2,
                                                         ),
                                                         Text(
                                                           "Filtre",
@@ -445,16 +445,16 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                           color: Colors.cyan,
                                                         ),
                                                         title: Padding(
-                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5,bottom: SizeConfig.blockSizeVertical),
+                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5,bottom: SizeConfig.blockSizeVertical!),
                                                             child: FutureBuilder(
                                                                 future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                builder: (context, AsyncSnapshot<Model.Page> snapshot){
+                                                                builder: (context, AsyncSnapshot<Model.Page?> snapshot){
                                                                   if(snapshot.hasData){
                                                                     return Text(
                                                                       'Chapitre ${mangaChapters[index].number} ${mangaChapters[index].title}',
                                                                       overflow: TextOverflow.clip,
                                                                       style: TextStyle(
-                                                                          color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished ? Colors.grey
+                                                                          color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data!.finished! ? Colors.grey
                                                                               : !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                               ? Colors.white
                                                                               : Colors.cyan,
@@ -475,22 +475,22 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                             )
                                                         ),
                                                         subtitle: Padding(
-                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+                                                            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
                                                             child: FutureBuilder(
                                                                 future: context.read<PageProvider>().findChapter(mangaChapters[index]),
-                                                                builder: (context, AsyncSnapshot<Model.Page> snapshot) {
+                                                                builder: (context, AsyncSnapshot<Model.Page?> snapshot) {
                                                                   if (snapshot.hasData) {
                                                                     return RichText(
                                                                         text: TextSpan(
                                                                             text: mangaChapters[index].publishedAt,
                                                                             style: TextStyle(
-                                                                              color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data.finished ? Colors.grey :
+                                                                              color: context.watch<PageProvider>().pages.contains(mangaChapters[index]) && snapshot.data!.finished! ? Colors.grey :
                                                                               !context.watch<BookmarkProvider>().bookmarked.contains(mangaChapters[index])
                                                                                   ? Colors.white
                                                                                   : Colors.cyan,
                                                                             ),
                                                                             children: <TextSpan>[
-                                                                              if(!snapshot.data.finished)
+                                                                              if(!snapshot.data!.finished!)
                                                                                 TextSpan(
                                                                                     text: " \u22C5 ",
                                                                                     style: TextStyle(
@@ -498,7 +498,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                                                       fontWeight: FontWeight.bold,
                                                                                     )
                                                                                 ),
-                                                                              if(!snapshot.data.finished) TextSpan(text: " Page ${snapshot.data.page + 1}", style: TextStyle(color: Colors.grey))
+                                                                              if(!snapshot.data!.finished!) TextSpan(text: " Page ${snapshot.data!.page! + 1}", style: TextStyle(color: Colors.grey))
                                                                             ])
                                                                     );
                                                                   } else {
@@ -519,7 +519,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                                           onSelected: (dynamic result) {
                                                             print(result);
                                                             if (result == 0) {
-                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangahereCatalogName, widget.manga, MediaQuery.of(context).size);
+                                                              context.read<ActionProvider>().downloadChapter(mangaChapters[index], Assets.mangahereCatalogName, widget.manga!, MediaQuery.of(context).size);
                                                             } else if (result == 1) {
                                                               context.read<BookmarkProvider>().bookmark(mangaChapters[index], MediaQuery.of(context).size,true);
                                                             } else if (result == 2) {
@@ -596,7 +596,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
   Widget _builButtons() {
     return Padding(
       padding:
-      EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal * 4),
+      EdgeInsets.symmetric(horizontal: SizeConfig.blockSizeHorizontal! * 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -604,12 +604,12 @@ class _MangahereDetailState extends State<MangahereDetail> {
             onTap: () {
               context
                   .read<LibraryProvider>()
-                  .addToLibrary(widget.manga, MediaQuery.of(context).size);
+                  .addToLibrary(widget.manga!, MediaQuery.of(context).size);
             },
             child: Container(
-              height: SizeConfig.blockSizeVertical * 4.5,
+              height: SizeConfig.blockSizeVertical! * 4.5,
               padding: EdgeInsets.symmetric(
-                  horizontal: SizeConfig.blockSizeHorizontal),
+                  horizontal: SizeConfig.blockSizeHorizontal!),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.cyan, width: 0.5),
                 color: context
@@ -619,11 +619,11 @@ class _MangahereDetailState extends State<MangahereDetail> {
                     ? Colors.cyan.withOpacity(0.3)
                     : Colors.transparent,
                 borderRadius: BorderRadius.all(
-                    Radius.circular(SizeConfig.blockSizeHorizontal * 10)),
+                    Radius.circular(SizeConfig.blockSizeHorizontal! * 10)),
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal * 1.5),
+                    horizontal: SizeConfig.blockSizeHorizontal! * 1.5),
                 child: Row(
                   children: [
                     Icon(
@@ -658,8 +658,8 @@ class _MangahereDetailState extends State<MangahereDetail> {
                 color: Colors.cyan,
               ),
               onPressed: () async {
-                await canLaunch(widget.manga.url)
-                    ? await launch(widget.manga.url)
+                await canLaunch(widget.manga!.url!)
+                    ? await launch(widget.manga!.url!)
                     : BotToast.showText(text: "Impossible d'ouvrir ce lien");
               })
         ],
@@ -671,9 +671,9 @@ class _MangahereDetailState extends State<MangahereDetail> {
     await Future.delayed(Duration(seconds: 1));
     context
         .read<MangahereDetailsProvider>()
-        .getMangaDetails(Assets.mangahereCatalogName, widget.manga,true);
+        .getMangaDetails(Assets.mangahereCatalogName, widget.manga!,true);
     context
         .read<MangahereChapterProvider>()
-        .getChapters(Assets.mangahereCatalogName, widget.manga,true);
+        .getChapters(Assets.mangahereCatalogName, widget.manga!,true);
   }
 }

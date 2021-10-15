@@ -23,7 +23,7 @@ class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context
           .read<ReadmangatodayProvider>()
           .getPopularMangaList(Assets.readmangatodayCatalogName, 1, false);
@@ -54,7 +54,7 @@ class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
                     },
                     error: error);
               }, (mangaList) {
-                return mangaList.isEmpty
+                return mangaList!.isEmpty
                     ? Empty(reload: () {
                         context
                             .read<ReadmangatodayProvider>()
@@ -64,13 +64,13 @@ class _ReadmangatodayMangaListState extends State<ReadmangatodayMangaList> {
                     : GridView.count(
                         crossAxisCount: 2,
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          right: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 4,
-                          bottom: SizeConfig.blockSizeVertical * 4,
+                          left: SizeConfig.blockSizeHorizontal! * 2.5,
+                          right: SizeConfig.blockSizeHorizontal! * 2.5,
+                          top: SizeConfig.blockSizeVertical! * 4,
+                          bottom: SizeConfig.blockSizeVertical! * 4,
                         ),
-                        crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-                        mainAxisSpacing: SizeConfig.blockSizeVertical,
+                        crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+                        mainAxisSpacing: SizeConfig.blockSizeVertical!,
                         children: List.generate(mangaList.length, (index) {
                           return MangaItem(
                               detailsNavigation: () {

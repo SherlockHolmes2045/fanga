@@ -6,7 +6,7 @@ import 'package:manga_reader/utils/n_exception.dart';
 
 class MangakawaiiUpdatesProvider extends BaseProvider{
 
-  Either<NException,List<Manga>> updatedMangaList = Right([]);
+  Either<NException,List<Manga>?> updatedMangaList = Right([]);
 
   getUpdatedMangaList(String catalogName,int page){
     this.toggleLoadingState();

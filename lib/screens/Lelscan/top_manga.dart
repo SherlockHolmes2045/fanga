@@ -23,7 +23,7 @@ class _TopMangaState extends State<TopManga> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context
           .read<LelscanTopMangaProvider>()
           .getTopMangaList(Assets.lelscanCatalogName, 1, false);
@@ -53,7 +53,7 @@ class _TopMangaState extends State<TopManga> {
                     },
                     error: error);
               }, (mangaList) {
-                return mangaList.isEmpty
+                return mangaList!.isEmpty
                     ? Empty(reload: () {
                         context.read<LelscanTopMangaProvider>().getTopMangaList(
                             Assets.lelscanCatalogName, 1, true);
@@ -61,13 +61,13 @@ class _TopMangaState extends State<TopManga> {
                     : GridView.count(
                         crossAxisCount: 2,
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          right: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 4,
-                          bottom: SizeConfig.blockSizeVertical * 4,
+                          left: SizeConfig.blockSizeHorizontal! * 2.5,
+                          right: SizeConfig.blockSizeHorizontal! * 2.5,
+                          top: SizeConfig.blockSizeVertical! * 4,
+                          bottom: SizeConfig.blockSizeVertical! * 4,
                         ),
-                        crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-                        mainAxisSpacing: SizeConfig.blockSizeVertical,
+                        crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+                        mainAxisSpacing: SizeConfig.blockSizeVertical!,
                         children: List.generate(mangaList.length, (index) {
                           return MangaItem(
                             detailsNavigation: () {
@@ -86,34 +86,34 @@ class _TopMangaState extends State<TopManga> {
                             libraryList:
                                 context.watch<LibraryProvider>().libraryList,
                             manga: mangaList[index],
-                            img: (mangaList[index].thumbnailUrl.split("/")[0] +
+                            img: (mangaList[index].thumbnailUrl!.split("/")[0] +
                                     "/" +
                                     mangaList[index]
-                                        .thumbnailUrl
+                                        .thumbnailUrl!
                                         .split("/")[1] +
                                     "/" +
                                     mangaList[index]
-                                        .thumbnailUrl
+                                        .thumbnailUrl!
                                         .split("/")[2] +
                                     "/" +
                                     mangaList[index]
-                                        .thumbnailUrl
+                                        .thumbnailUrl!
                                         .split("/")[3] +
                                     "/" +
                                     mangaList[index]
-                                        .thumbnailUrl
+                                        .thumbnailUrl!
                                         .split("/")[4] +
                                     "/" +
                                     mangaList[index]
-                                        .thumbnailUrl
+                                        .thumbnailUrl!
                                         .split("/")[5] +
                                     "/" +
                                     mangaList[index]
-                                        .thumbnailUrl
+                                        .thumbnailUrl!
                                         .split("/")[6] +
                                     "/cover_250x350." +
                                     mangaList[index]
-                                        .thumbnailUrl
+                                        .thumbnailUrl!
                                         .split("/")[7]
                                         .split(".")[1])
                                 .replaceAll('http', "https"),

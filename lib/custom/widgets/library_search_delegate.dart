@@ -15,7 +15,7 @@ class LibrarySearch extends SearchDelegate {
     return ThemeData(
         primaryColor: Color.fromRGBO(28, 28, 28, 1),
         textTheme: TextTheme(
-          title: TextStyle( color: Colors.white, fontSize: 18,),
+          subtitle1: TextStyle( color: Colors.white, fontSize: 18,),
         )
     );
   }
@@ -42,7 +42,7 @@ class LibrarySearch extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    print(ModalRoute.of(context).settings.name);
+    print(ModalRoute.of(context)!.settings.name);
     SizeConfig().init(context);
     return FutureBuilder(
         future: context.read<LibraryProvider>().findManga(query),
@@ -63,7 +63,7 @@ class LibrarySearch extends SearchDelegate {
               // if we got our data
             } else if (snapshot.hasData) {
               print(snapshot.data);
-              if(snapshot.data.isEmpty){
+              if(snapshot.data!.isEmpty){
                 return Container(
                   color: Colors.black,
                   child: Center(
@@ -82,14 +82,14 @@ class LibrarySearch extends SearchDelegate {
                   child: GridView.count(
                       crossAxisCount: 2,
                       padding: EdgeInsets.only(
-                        left: SizeConfig.blockSizeHorizontal * 2.5,
-                        right: SizeConfig.blockSizeHorizontal * 2.5,
-                        top: SizeConfig.blockSizeVertical * 4,
-                        bottom: SizeConfig.blockSizeVertical * 4,
+                        left: SizeConfig.blockSizeHorizontal! * 2.5,
+                        right: SizeConfig.blockSizeHorizontal! * 2.5,
+                        top: SizeConfig.blockSizeVertical! * 4,
+                        bottom: SizeConfig.blockSizeVertical! * 4,
                       ),
-                      crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-                      mainAxisSpacing: SizeConfig.blockSizeVertical,
-                      children: List.generate(snapshot.data.length, (index) {
+                      crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+                      mainAxisSpacing: SizeConfig.blockSizeVertical!,
+                      children: List.generate(snapshot.data!.length, (index) {
                         return Container(
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -97,13 +97,13 @@ class LibrarySearch extends SearchDelegate {
                               Flexible(
                                 child: GestureDetector(
                                   onTap: () {
-                                    switch(snapshot.data[index].catalog) {
+                                    switch(snapshot.data![index].catalog) {
                                       case Assets.lelscanCatalogName: {
                                         Navigator.push(
                                             context,
                                             ScaleRoute(
                                                 page: LelscanDetail(
-                                                  manga: snapshot.data[index],
+                                                  manga: snapshot.data![index],
                                                 )));
                                       }
                                       break;
@@ -113,7 +113,7 @@ class LibrarySearch extends SearchDelegate {
                                             context,
                                             ScaleRoute(
                                                 page: ReadmangatodayDetail(
-                                                  manga: snapshot.data[index],
+                                                  manga: snapshot.data![index],
                                                 )));
                                       }
                                       break;
@@ -125,19 +125,19 @@ class LibrarySearch extends SearchDelegate {
                                     }
                                   },
                                   child: CachedNetworkImage(
-                                    imageUrl: snapshot.data[index].thumbnailUrl,
+                                    imageUrl: snapshot.data![index].thumbnailUrl!,
                                     width: double.infinity,
                                     height: 350,
                                     errorWidget: (context, text, data) {
                                       return GestureDetector(
                                         onTap: () {
-                                          switch(snapshot.data[index].catalog) {
+                                          switch(snapshot.data![index].catalog) {
                                             case Assets.lelscanCatalogName: {
                                               Navigator.push(
                                                   context,
                                                   ScaleRoute(
                                                       page: LelscanDetail(
-                                                        manga: snapshot.data[index],
+                                                        manga: snapshot.data![index],
                                                       )));
                                             }
                                             break;
@@ -147,7 +147,7 @@ class LibrarySearch extends SearchDelegate {
                                                   context,
                                                   ScaleRoute(
                                                       page: ReadmangatodayDetail(
-                                                        manga: snapshot.data[index],
+                                                        manga: snapshot.data![index],
                                                       )));
                                             }
                                             break;
@@ -171,9 +171,9 @@ class LibrarySearch extends SearchDelegate {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical),
+                                    top: SizeConfig.blockSizeVertical!),
                                 child: Text(
-                                  snapshot.data[index].title,
+                                  snapshot.data![index].title!,
                                   overflow: TextOverflow.clip,
                                   style: TextStyle(
                                     color: Colors.white,

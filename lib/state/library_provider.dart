@@ -11,7 +11,7 @@ import 'package:manga_reader/utils/n_exception.dart';
 class LibraryProvider extends BaseProvider{
 
   Either<NException,List<Manga>> library = Right([]);
-  List<Manga> libraryList = List<Manga>();
+  List<Manga> libraryList = <Manga>[];
 
   bool fetched = false;
   MangaDao mangaDao = MangaDao();
@@ -48,7 +48,7 @@ class LibraryProvider extends BaseProvider{
                       height: size.height / 10,
                       child: child,
                     )),
-            title:  manga.title,
+            title:  manga.title!,
             crossPage: true,
             subTitle: "a été ajouté à votre bibliothèque",
           );
@@ -69,7 +69,7 @@ class LibraryProvider extends BaseProvider{
                       height: size.height / 10,
                       child: child,
                     )),
-            title:  manga.title,
+            title:  manga.title!,
             crossPage: true,
             subTitle: "a été retiré de votre bibliothèque",
           );

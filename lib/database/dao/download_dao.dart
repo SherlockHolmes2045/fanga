@@ -52,7 +52,7 @@ class DownloadDao {
     }).toList();
   }
 
-  Future<Download> findDownload(String value) async {
+  Future<Download?> findDownload(String value) async {
 
     final finder = Finder(
         filter: Filter.and([

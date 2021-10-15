@@ -5,18 +5,18 @@ import 'manga.dart';
 
 class Page {
 
-  Manga manga;
+  Manga? manga;
   Chapter chapter;
-  int page;
-  bool finished;
+  int? page;
+  bool? finished;
 
   bool operator == (o) => o is Chapter && chapter.url == o.url;
 
   Page({
-    @required this.chapter,
-    @required this.page,
-    @required this.finished,
-    @required this.manga
+    required this.chapter,
+    required this.page,
+    required this.finished,
+    required this.manga
   });
 
   factory Page.fromJson(Map<String, dynamic> json) {
@@ -32,7 +32,7 @@ class Page {
       'chapter': chapter.toMap(),
       'page': page,
       'finished': finished,
-      'manga': manga.toMap()
+      'manga': manga!.toMap()
     };
   }
   @override

@@ -1,11 +1,12 @@
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:manga_reader/models/chapter.dart';
 import 'package:manga_reader/models/manga.dart';
 
 class Download {
 
-  Chapter chapter;
-  Manga manga;
-  String taskId;
+  Chapter? chapter;
+  Manga? manga;
+  String? taskId;
 
   bool operator == (o) => o is Download && taskId == taskId;
 
@@ -22,10 +23,11 @@ class Download {
       taskId: json['taskId'],
     );
   }
+  static void callback(String id, DownloadTaskStatus status, int progress) {}
   Map<String, dynamic> toMap() {
     return {
-      'chapter': chapter.toMap(),
-      'manga': manga.toMap(),
+      'chapter': chapter!.toMap(),
+      'manga': manga!.toMap(),
       'taskId': taskId,
     };
   }

@@ -7,7 +7,7 @@ import 'package:manga_reader/utils/n_exception.dart';
 
 class CloudfareService {
 
-  Future<List<Manga>> popularMangaList(String catalogName, int page) async {
+  Future<List<Manga>?> popularMangaList(String catalogName, int page) async {
     try {
       final String uri =
           locator<Di>().apiUrl + "/cloudfare/$catalogName/popularMangaList/$page";
@@ -20,7 +20,7 @@ class CloudfareService {
       );
       final items =
       response.data["data"]["mangas"].cast<Map<String, dynamic>>();
-      List<Manga> mangas = items.map<Manga>((json) {
+      List<Manga>? mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
       return mangas;
@@ -30,7 +30,7 @@ class CloudfareService {
     }
   }
 
-  Future<List<Manga>> topMangaList(String catalogName, int page) async {
+  Future<List<Manga>?> topMangaList(String catalogName, int page) async {
     try {
       final String uri =
           locator<Di>().apiUrl + "/cloudfare/$catalogName/top/$page";
@@ -42,7 +42,7 @@ class CloudfareService {
       );
       final items =
       response.data["data"]["mangas"].cast<Map<String, dynamic>>();
-      List<Manga> mangas = items.map<Manga>((json) {
+      List<Manga>? mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
       return mangas;
@@ -52,7 +52,7 @@ class CloudfareService {
     }
   }
 
-  Future<Response> mangaList(String catalogName, int page) async {
+  Future<Response> mangaList(String catalogName, int? page) async {
     try {
       final String uri =
           locator<Di>().apiUrl + "/cloudfare/$catalogName/mangalist/$page";
@@ -68,7 +68,7 @@ class CloudfareService {
       throw new NException(e);
     }
   }
-  Future<List<Manga>> updatedMangaList(String catalogName, int page) async {
+  Future<List<Manga>?> updatedMangaList(String catalogName, int page) async {
     try {
       final String uri =
           locator<Di>().apiUrl + "/cloudfare/$catalogName/latest/$page";
@@ -81,7 +81,7 @@ class CloudfareService {
       );
       final items =
       response.data["mangas"]["mangas"].cast<Map<String, dynamic>>();
-      List<Manga> mangas = items.map<Manga>((json) {
+      List<Manga>? mangas = items.map<Manga>((json) {
         return Manga.fromJson(json);
       }).toList();
       return mangas;
@@ -109,7 +109,7 @@ class CloudfareService {
     }
   }
 
-  Future<List<Chapter>> mangaChapters(Manga manga,String catalogName) async {
+  Future<List<Chapter>?> mangaChapters(Manga manga,String catalogName) async {
     try {
       final String uri = locator<Di>().apiUrl + "/cloudfare/chapters";
       Response response = await locator<Di>().dio.post(
@@ -121,7 +121,7 @@ class CloudfareService {
       );
       final items = response.data["chapters"].cast<Map<String, dynamic>>();
       print(items);
-      List<Chapter> result = items.map<Chapter>((json) {
+      List<Chapter>? result = items.map<Chapter>((json) {
         return Chapter.fromJson(json);
       }).toList();
       return result;
@@ -132,7 +132,7 @@ class CloudfareService {
     }
   }
 
-  Future<List<String>> chapterPages(String catalogName, Chapter chapter) async{
+  Future<List<String?>> chapterPages(String? catalogName, Chapter chapter) async{
     try {
       final String uri = locator<Di>().apiUrl + "/cloudfare/pages";
       Response response = await locator<Di>().dio.post(
@@ -142,7 +142,7 @@ class CloudfareService {
           'Content-Type': "application/json",
         }),
       );
-      List<String> result = [];
+      List<String?> result = [];
       for(int i = 0; i< response.data["images"].length;i++){
         result.add(response.data["images"][i]);
       }
@@ -153,7 +153,7 @@ class CloudfareService {
     }
   }
 
-  Future<String> downloadChapter(Chapter chapter, String catalogName, String mangaName) async{
+  Future<String?> downloadChapter(Chapter chapter, String catalogName, String mangaName) async{
     try {
       print("on entre ici");
       final String uri = locator<Di>().apiUrl + "/cloudfare/chapterArchive";
@@ -165,7 +165,7 @@ class CloudfareService {
         }),
       );
       print(response.data);
-      final String items = response.data["file"];
+      final String? items = response.data["file"];
       return items;
     }on DioError catch (e) {
       print("erreur api");
