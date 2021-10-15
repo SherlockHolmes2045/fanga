@@ -60,9 +60,9 @@ class ActionProvider extends BaseProvider {
               true, // click on notification to open downloaded file (for Android)
           saveInPublicStorage: true,
           requiresStorageNotLow: false);
-      try {
+      /*try {
         lelscanService.chapterPages(catalogName, chapter, false);
-      } catch (e) {}
+      } catch (e) {}*/
       try{
         downloadDao.insert(Download(chapter: chapter,taskId: taskId,manga: manga));
       }catch(e){}
@@ -85,6 +85,8 @@ class ActionProvider extends BaseProvider {
       Timer.periodic(Duration(seconds: 1), (timer) async {
         final tasks = await FlutterDownloader.loadTasks();
         final task = tasks!.where((element) => element.taskId == taskId).first;
+        print(task.savedDir);
+        print(task.status);
         if (task.status == DownloadTaskStatus.complete) {
           final File zipFile = File(
               "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename}");
@@ -92,17 +94,17 @@ class ActionProvider extends BaseProvider {
               "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename!.split(".")[0]}");
           File("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename!.split(".")[0]}/.nomedia")
               .create(recursive: true);
-          try {
+/*          try {
             ZipFile.extractToDirectory(
                     zipFile: zipFile, destinationDir: destinationDir)
                 .then((value) async {
               final zip = File(
                   "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename}");
-              await zip.delete();
+              *//*await zip.delete();*//*
             });
           } catch (e) {
             print(e);
-          }
+          }*/
           timer.cancel();
         }else if(task.status == DownloadTaskStatus.canceled || task.status == DownloadTaskStatus.paused || task.status == DownloadTaskStatus.failed || task.status == DownloadTaskStatus.undefined){
           timer.cancel();
