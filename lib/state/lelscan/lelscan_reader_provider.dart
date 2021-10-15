@@ -29,7 +29,6 @@ class LelscanReaderProvider extends BaseProvider {
         }else{
           chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga!.title}/${chapter.title}");
         }
-        print(chapterDir.path);
         // should only check for image file
         if(chapterDir.existsSync()){
           if(chapterDir.listSync().length - 1 == value.length){
@@ -38,20 +37,17 @@ class LelscanReaderProvider extends BaseProvider {
             });
             downloadedPages.sort();
             downloadedPages.removeAt(0);
-            print("chapitre téléchargé");
             Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(downloadedPages,manga,chapter)));
           }else if(chapterDir.listSync().length == 0){
-            print("chapitre pas téléchargé");
             this.pages = value;
             precacheImage(NetworkImage(pages[0]!), context);
             Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages,manga,chapter)));
           }else{
-            print("entre les deux ici");
+
             //To Do
             // replace already existing file url with it's path from phone
           }
         }else{
-          print("chapitre pas téléchargé");
           this.pages = value;
           precacheImage(NetworkImage(pages[0]!), context);
           Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages,manga,chapter)));
