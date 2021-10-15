@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:Fanga/models/chapter.dart';
+import 'package:fanga/models/chapter.dart';
 
 import 'manga.dart';
 

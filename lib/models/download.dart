@@ -1,6 +1,6 @@
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:Fanga/models/chapter.dart';
-import 'package:Fanga/models/manga.dart';
+import 'package:fanga/models/chapter.dart';
+import 'package:fanga/models/manga.dart';
 
 class Download {
 

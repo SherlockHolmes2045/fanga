@@ -14,7 +14,7 @@ class Empty extends StatelessWidget {
             "Une erreur est survenue.",
             style: TextStyle(color: Colors.white),
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: reload as void Function()?,
             child: Text("Réessayer"),
           )

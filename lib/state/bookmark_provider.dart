@@ -1,10 +1,10 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:Fanga/custom/widgets/custom_notification_animation.dart';
-import 'package:Fanga/database/dao/chapter_bookmark_dao.dart';
-import 'package:Fanga/models/chapter.dart';
-import 'package:Fanga/state/base_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
+import 'package:fanga/custom/widgets/custom_notification_animation.dart';
+import 'package:fanga/database/dao/chapter_bookmark_dao.dart';
+import 'package:fanga/models/chapter.dart';
+import 'package:fanga/state/base_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
 
 
 class BookmarkProvider extends BaseProvider{

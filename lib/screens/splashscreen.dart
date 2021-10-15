@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/AppIconWidget.dart';
-import 'package:Fanga/routes.dart';
-import 'package:Fanga/state/bookmark_provider.dart';
-import 'package:Fanga/state/lelscan/lelscan_manga_list_provider.dart';
-import 'package:Fanga/state/lelscan/lelscan_provider.dart';
-import 'package:Fanga/state/lelscan/lelscan_top_manga_provider.dart';
-import 'package:Fanga/state/lelscan/lelscan_updates_provider.dart';
-import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/state/page_provider.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/AppIconWidget.dart';
+import 'package:fanga/routes.dart';
+import 'package:fanga/state/bookmark_provider.dart';
+import 'package:fanga/state/lelscan/lelscan_manga_list_provider.dart';
+import 'package:fanga/state/lelscan/lelscan_provider.dart';
+import 'package:fanga/state/lelscan/lelscan_top_manga_provider.dart';
+import 'package:fanga/state/lelscan/lelscan_updates_provider.dart';
+import 'package:fanga/state/library_provider.dart';
+import 'package:fanga/state/page_provider.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -2,14 +2,14 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/screens/mangakawaii/manga_details.dart';
-import 'package:Fanga/state/LoadingState.dart';
-import 'package:Fanga/state/mangakawaii/mangakawaii_updates_provider.dart';
-import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/scale_route_transition.dart';
+import 'package:fanga/screens/mangakawaii/manga_details.dart';
+import 'package:fanga/state/LoadingState.dart';
+import 'package:fanga/state/mangakawaii/mangakawaii_updates_provider.dart';
+import 'package:fanga/state/library_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
+import 'package:fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 class LatestUpdates extends StatefulWidget {
@@ -59,7 +59,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: (){
                     context
                         .read<MangakawaiiUpdatesProvider>()
@@ -80,7 +80,7 @@ class _LatestUpdatesState extends State<LatestUpdates> {
                   "Une erreur est survenue.",
                   style: TextStyle(color: Colors.white),
                 ),
-                RaisedButton(onPressed: (){
+                ElevatedButton(onPressed: (){
                   context.read<MangakawaiiUpdatesProvider>().getUpdatedMangaList(Assets.mangakawaiiCatalogName, 1);
                 },
                   child: Text(

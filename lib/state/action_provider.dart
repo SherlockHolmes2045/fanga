@@ -1,22 +1,20 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/custom_notification_animation.dart';
-import 'package:Fanga/database/dao/download_dao.dart';
-import 'package:Fanga/di.dart';
-import 'package:Fanga/models/chapter.dart';
-import 'package:Fanga/models/download.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/networking/services/lelscan_service.dart';
-import 'package:Fanga/service_locator.dart';
-import 'package:Fanga/state/base_provider.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/custom_notification_animation.dart';
+import 'package:fanga/database/dao/download_dao.dart';
+import 'package:fanga/di.dart';
+import 'package:fanga/models/chapter.dart';
+import 'package:fanga/models/download.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/networking/services/lelscan_service.dart';
+import 'package:fanga/service_locator.dart';
+import 'package:fanga/state/base_provider.dart';
 
 class ActionProvider extends BaseProvider {
 

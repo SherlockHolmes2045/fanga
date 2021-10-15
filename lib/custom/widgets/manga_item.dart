@@ -1,9 +1,9 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/utils/size_config.dart';
 
 class MangaItem extends StatelessWidget {
   final Function detailsNavigation;

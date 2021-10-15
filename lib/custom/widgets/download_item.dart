@@ -1,14 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/models/download.dart';
-import 'package:Fanga/screens/reader_loader.dart';
-import 'package:Fanga/state/action_provider.dart';
-import 'package:Fanga/utils/size_config.dart';
-import 'package:Fanga/utils/task_info.dart';
-import 'package:provider/provider.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/scale_route_transition.dart';
+import 'package:fanga/models/download.dart';
+import 'package:fanga/screens/reader_loader.dart';
+import 'package:fanga/utils/size_config.dart';
+import 'package:fanga/utils/task_info.dart';
 
 class DownloadItem extends StatelessWidget {
   final Download? download;

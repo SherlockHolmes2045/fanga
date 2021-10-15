@@ -1,6 +1,5 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:Fanga/networking/dio_connectivity_reques_retrier.dart';
+import 'package:fanga/networking/dio_connectivity_reques_retrier.dart';
 
 class RetryOnAuthFailInterceptor extends Interceptor{
   final DioConnectivityRequestRetrier requestRetrier;

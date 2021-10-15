@@ -4,24 +4,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/manga_details.dart';
-import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/screens/reader_loader.dart';
-import 'package:Fanga/state/LoadingState.dart';
-import 'package:Fanga/state/action_provider.dart';
-import 'package:Fanga/state/bookmark_provider.dart';
-import 'package:Fanga/state/lelscan/chapter_provider.dart';
-import 'package:Fanga/state/lelscan/details_provider.dart';
-import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/state/page_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/manga_details.dart';
+import 'package:fanga/custom/widgets/scale_route_transition.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/screens/reader_loader.dart';
+import 'package:fanga/state/LoadingState.dart';
+import 'package:fanga/state/action_provider.dart';
+import 'package:fanga/state/bookmark_provider.dart';
+import 'package:fanga/state/lelscan/chapter_provider.dart';
+import 'package:fanga/state/lelscan/details_provider.dart';
+import 'package:fanga/state/library_provider.dart';
+import 'package:fanga/state/page_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
+import 'package:fanga/utils/size_config.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:Fanga/models/page.dart' as Model;
+import 'package:fanga/models/page.dart' as Model;
 
 class LelscanDetail extends StatefulWidget {
   final Manga? manga;
@@ -208,7 +208,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical,
                               ),
-                              RaisedButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   context
                                       .read<DetailsProvider>()
@@ -353,7 +353,7 @@ class _LelscanDetailState extends State<LelscanDetail> {
                                                     height: SizeConfig
                                                         .blockSizeVertical,
                                                   ),
-                                                  RaisedButton(
+                                                  ElevatedButton(
                                                     onPressed: () {
                                                       context
                                                           .read<

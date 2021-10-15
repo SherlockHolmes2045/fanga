@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:Fanga/utils/n_exception.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/utils/n_exception.dart';
+import 'package:fanga/utils/size_config.dart';
 
 class Error extends StatelessWidget {
   final Function reload;
@@ -22,7 +22,7 @@ class Error extends StatelessWidget {
           SizedBox(
             height: SizeConfig.blockSizeVertical,
           ),
-          RaisedButton(
+          ElevatedButton(
             onPressed: reload as void Function()?,
             child: Text("Réessayer"),
           )

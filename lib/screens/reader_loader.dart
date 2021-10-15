@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:Fanga/models/chapter.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/state/LoadingState.dart';
-import 'package:Fanga/state/lelscan/lelscan_reader_provider.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/models/chapter.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/state/LoadingState.dart';
+import 'package:fanga/state/lelscan/lelscan_reader_provider.dart';
+import 'package:fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 class ReaderLoader extends StatefulWidget {

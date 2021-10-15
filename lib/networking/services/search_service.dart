@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/utils/n_exception.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/utils/n_exception.dart';
 import '../../di.dart';
 import '../../service_locator.dart';
 

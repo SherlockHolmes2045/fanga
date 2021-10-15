@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/utils/size_config.dart';
 
 class Rating extends StatelessWidget {
   final String? rate;

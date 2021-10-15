@@ -14,7 +14,7 @@ class LanguageEn extends Languages {
   String get labelInfo => "This is multi-languages demo application";
 
   String get appAccount => "My account";
-  String get update_number => "Change your number";
+  String get updateNumber => "Change your number";
   String get select => "Select ";
   String get numphone => "a phone \nnumber";
   String get entersim => "Please enter a SIM";
@@ -70,4 +70,5 @@ class LanguageEn extends Languages {
   String get mapanepresentation => "Your urban travel assistance application";
   String get closeall => "Close all";
   String get localiser => "Localize";
+
 }

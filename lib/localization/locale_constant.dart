@@ -21,7 +21,7 @@ Future<Locale> getLocale() async {
 }
 
 Locale _locale(String languageCode) {
-  return languageCode != null && languageCode.isNotEmpty
+  return languageCode.isNotEmpty
       ? Locale(languageCode, '')
       : Locale('fr', '');
 }

@@ -1,6 +1,6 @@
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/database/app_database.dart';
-import 'package:Fanga/models/chapter.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/database/app_database.dart';
+import 'package:fanga/models/chapter.dart';
 import 'package:sembast/sembast.dart';
 
 class ChapterBookmarkDao {

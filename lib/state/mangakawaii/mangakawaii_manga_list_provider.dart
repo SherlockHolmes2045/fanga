@@ -1,7 +1,7 @@
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/networking/services/cloudfare_service.dart';
-import 'package:Fanga/state/base_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/networking/services/cloudfare_service.dart';
+import 'package:fanga/state/base_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
 import 'package:dartz/dartz.dart';
 
 class MangakawaiiMangaListProvider extends BaseProvider{

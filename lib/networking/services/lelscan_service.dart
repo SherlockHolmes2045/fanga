@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:Fanga/di.dart';
-import 'package:Fanga/models/chapter.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/service_locator.dart';
-import 'package:Fanga/utils/n_exception.dart';
+import 'package:fanga/di.dart';
+import 'package:fanga/models/chapter.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/service_locator.dart';
+import 'package:fanga/utils/n_exception.dart';
 
 class LelscanService {
 

@@ -1,11 +1,11 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:Fanga/custom/widgets/custom_notification_animation.dart';
-import 'package:Fanga/database/dao/manga_dao.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/state/base_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
+import 'package:fanga/custom/widgets/custom_notification_animation.dart';
+import 'package:fanga/database/dao/manga_dao.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/state/base_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
 
 
 class LibraryProvider extends BaseProvider{

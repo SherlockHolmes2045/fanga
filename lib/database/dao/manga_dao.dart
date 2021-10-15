@@ -1,5 +1,5 @@
-import 'package:Fanga/database/app_database.dart';
-import 'package:Fanga/models/manga.dart';
+import 'package:fanga/database/app_database.dart';
+import 'package:fanga/models/manga.dart';
 import 'package:sembast/sembast.dart';
 
 class MangaDao {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:Fanga/localization/language/language_en.dart';
-import 'package:Fanga/localization/language/language_fr.dart';
+import 'package:fanga/localization/language/language_en.dart';
+import 'package:fanga/localization/language/language_fr.dart';
 
 import 'language/languages.dart';
 
