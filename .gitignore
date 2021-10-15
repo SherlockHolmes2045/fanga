@@ -33,8 +33,6 @@
 
 # Web related
 lib/generated_plugin_registrant.dart
-
-android/key.properties
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 
@@ -43,3 +41,5 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+android/key.properties
