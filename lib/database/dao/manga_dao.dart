@@ -1,5 +1,5 @@
-import 'package:manga_reader/database/app_database.dart';
-import 'package:manga_reader/models/manga.dart';
+import 'package:Fanga/database/app_database.dart';
+import 'package:Fanga/models/manga.dart';
 import 'package:sembast/sembast.dart';
 
 class MangaDao {
@@ -53,9 +53,9 @@ class MangaDao {
   }
   Future<List<Manga>> searchManga(String searchTerm) async{
     final finder = Finder(
-      filter: Filter.and([
-        Filter.custom((record) => Manga.fromJson(record.value).title!.toLowerCase().contains(searchTerm))
-      ])
+        filter: Filter.and([
+          Filter.custom((record) => Manga.fromJson(record.value).title!.toLowerCase().contains(searchTerm))
+        ])
     );
     final recordSnapshots = await _mangaStore.find(
         await _db,

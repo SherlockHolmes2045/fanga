@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:manga_reader/custom/widgets/sliding_appbar.dart';
-import 'package:manga_reader/models/chapter.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/state/page_provider.dart';
+import 'package:Fanga/custom/widgets/sliding_appbar.dart';
+import 'package:Fanga/models/chapter.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/state/page_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:manga_reader/state/bookmark_provider.dart';
-import 'package:manga_reader/utils/reading_direction.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/state/bookmark_provider.dart';
+import 'package:Fanga/utils/reading_direction.dart';
+import 'package:Fanga/utils/size_config.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:wakelock/wakelock.dart';
 
@@ -113,7 +113,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
             actions: [
               Padding(
                 padding:
-                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
+                EdgeInsets.only(left: SizeConfig.blockSizeHorizontal! * 5),
                 child: IconButton(
                     icon: Icon(
                       !context.read<BookmarkProvider>().bookmarked.contains(widget.chapter) ? Icons.bookmark_border : Icons.bookmark,
@@ -125,7 +125,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
               ),
               Padding(
                 padding:
-                    EdgeInsets.only(right: SizeConfig.blockSizeHorizontal! * 3),
+                EdgeInsets.only(right: SizeConfig.blockSizeHorizontal! * 3),
                 child: IconButton(
                     icon: Icon(
                       Icons.settings_outlined,
@@ -150,16 +150,16 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Mode de lecture",
                                             style: TextStyle(
                                                 color:
-                                                    Colors.white.withOpacity(0.7),
+                                                Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical! *
-                                                        1.7),
+                                                SizeConfig.blockSizeVertical! *
+                                                    1.7),
                                           ),
                                           DropdownButton<ReadingDirectionModel>(
                                             hint: Text("Select item"),
@@ -173,33 +173,33 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                               });
                                             },
                                             items: directions.map(
-                                                (ReadingDirectionModel
-                                                    readingDirectionModel) {
-                                              return DropdownMenuItem<
-                                                  ReadingDirectionModel>(
-                                                value: readingDirectionModel,
-                                                child: Text(
-                                                  readingDirectionModel.text,
-                                                  style: TextStyle(
-                                                      color: Colors.grey),
-                                                ),
-                                              );
-                                            }).toList(),
+                                                    (ReadingDirectionModel
+                                                readingDirectionModel) {
+                                                  return DropdownMenuItem<
+                                                      ReadingDirectionModel>(
+                                                    value: readingDirectionModel,
+                                                    child: Text(
+                                                      readingDirectionModel.text,
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    ),
+                                                  );
+                                                }).toList(),
                                           ),
                                         ],
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Afficher le numéro des pages",
                                             style: TextStyle(
                                                 color:
-                                                    Colors.white.withOpacity(0.7),
+                                                Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical! *
-                                                        1.7),
+                                                SizeConfig.blockSizeVertical! *
+                                                    1.7),
                                           ),
                                           Switch(
                                               inactiveTrackColor: Colors.grey,
@@ -213,16 +213,16 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Plein écran",
                                             style: TextStyle(
                                                 color:
-                                                    Colors.white.withOpacity(0.7),
+                                                Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical! *
-                                                        1.7),
+                                                SizeConfig.blockSizeVertical! *
+                                                    1.7),
                                           ),
                                           Switch(
                                               inactiveTrackColor: Colors.grey,
@@ -246,16 +246,16 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Garder l'écran allumé",
                                             style: TextStyle(
                                                 color:
-                                                    Colors.white.withOpacity(0.7),
+                                                Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical! *
-                                                        1.7),
+                                                SizeConfig.blockSizeVertical! *
+                                                    1.7),
                                           ),
                                           Switch(
                                               inactiveTrackColor: Colors.grey,
@@ -270,16 +270,16 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             "Menu contextuel (appui prolongé)",
                                             style: TextStyle(
                                                 color:
-                                                    Colors.white.withOpacity(0.7),
+                                                Colors.white.withOpacity(0.7),
                                                 fontSize:
-                                                    SizeConfig.blockSizeVertical! *
-                                                        1.7),
+                                                SizeConfig.blockSizeVertical! *
+                                                    1.7),
                                           ),
                                           Switch(
                                               inactiveTrackColor: Colors.grey,
@@ -337,12 +337,12 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                               if(Uri.parse(widget.pages[currentPage.floor() - 1]!).isAbsolute){
                                 if(Platform.isAndroid){
                                   final taskId = await FlutterDownloader.enqueue(
-                                    url: widget.pages[currentPage.floor() - 1]!,
-                                    savedDir: "storage/emulated/0/Download",
-                                    showNotification: true, // show download progress in status bar (for Android)
-                                    openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-                                    requiresStorageNotLow: false
-                                );
+                                      url: widget.pages[currentPage.floor() - 1]!,
+                                      savedDir: "storage/emulated/0/Download",
+                                      showNotification: true, // show download progress in status bar (for Android)
+                                      openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+                                      requiresStorageNotLow: false
+                                  );
                                 }
                               }else{
                                 BotToast.showText(text: "Le fichier existe déjà sur votre appareil");
@@ -372,7 +372,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
               child: Stack(children: [
                 Padding(
                   padding:
-                      EdgeInsets.only(bottom: SizeConfig.blockSizeVertical! * 10),
+                  EdgeInsets.only(bottom: SizeConfig.blockSizeVertical! * 10),
                   child: Align(
                     alignment: Alignment.center,
                     child: Container(
@@ -382,14 +382,14 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                         carouselController: _controller,
                         options: CarouselOptions(
                           scrollDirection: readingDirection!.readingDirection ==
-                                  ReadingDirection.HORIZONTAL
+                              ReadingDirection.HORIZONTAL
                               ? Axis.horizontal
                               : Axis.vertical,
                           //reverse: true,
                           enableInfiniteScroll: false,
                           onPageChanged: (int nextPage,
                               CarouselPageChangedReason
-                                  carouselPageChangedReason) {
+                              carouselPageChangedReason) {
                             pages.add(nextPage);
                             setState(() {
                               currentPage = (nextPage + 1).toDouble();
@@ -448,19 +448,30 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                               )
                                             ],
                                           ),
-                                        );
-                                      },
-                                    ) : Image.file(
-                                      File(item),
-                                      height: height,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    minScale: 0.2,
-                                    maxScale: 100.2,
-                                    boundaryMargin:
-                                        const EdgeInsets.all(double.infinity),
-                                  )),
-                                ))
+                                          RaisedButton(
+                                            onPressed: () {
+                                              precacheImage(
+                                                  NetworkImage(item),
+                                                  context);
+                                              setState(() {});
+                                            },
+                                            child: Text("Recharger"),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ) : Image.file(
+                                  File(item),
+                                  height: height,
+                                  fit: BoxFit.cover,
+                                ),
+                                minScale: 0.2,
+                                maxScale: 100.2,
+                                boundaryMargin:
+                                const EdgeInsets.all(double.infinity),
+                              )),
+                        ))
                             .toList(),
                       ),
                     ),
@@ -468,95 +479,95 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.only(bottom: SizeConfig.blockSizeVertical! * 5),
+                  EdgeInsets.only(bottom: SizeConfig.blockSizeVertical! * 5),
                   child: Align(
                       alignment: Alignment.bottomCenter,
                       child: showPagesNumber
                           ? Text(
-                              "${currentPage.toInt().toString()}/${widget.pages.length.toString()}",
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                                  fontWeight: FontWeight.bold),
-                            )
+                        "${currentPage.toInt().toString()}/${widget.pages.length.toString()}",
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: SizeConfig.blockSizeHorizontal! * 4,
+                            fontWeight: FontWeight.bold),
+                      )
                           : SizedBox()),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: enabledAppBar
                       ? Container(
-                          width: SizeConfig.screenWidth,
-                          height: SizeConfig.blockSizeVertical! * 7,
-                          color: Color.fromRGBO(28, 28, 28, 1),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: SizeConfig.blockSizeHorizontal! * 2,
-                                right: SizeConfig.blockSizeHorizontal! * 2),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                IconButton(
-                                  icon: Icon(
-                                    FontAwesomeIcons.fastBackward,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                  onPressed: () {
-                                    _controller.previousPage();
-                                  },
-                                ),
-                                Container(
-                                    width: SizeConfig.blockSizeHorizontal! * 70,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          currentPage.toInt().toString(),
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize:
-                                                  SizeConfig.blockSizeHorizontal! *
-                                                      4),
-                                        ),
-                                        Slider(
-                                          activeColor: Colors.cyan,
-                                          inactiveColor: Colors.grey,
-                                          onChanged: (newValue) {
-                                            setState(() {
-                                              currentPage = newValue;
-                                            });
-                                            _controller
-                                                .jumpToPage(newValue.floor());
-                                          },
-                                          value: currentPage,
-                                          min: 1,
-                                          max: widget.pages.length.toDouble(),
-                                          divisions: widget.pages.length,
-                                        ),
-                                        Text(
-                                          widget.pages.length.toString(),
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize:
-                                                  SizeConfig.blockSizeHorizontal! *
-                                                      4),
-                                        ),
-                                      ],
-                                    )),
-                                IconButton(
-                                  icon: Icon(
-                                    FontAwesomeIcons.fastForward,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                  onPressed: () {
-                                    _controller.nextPage();
-                                  },
-                                ),
-                              ],
+                    width: SizeConfig.screenWidth,
+                    height: SizeConfig.blockSizeVertical! * 7,
+                    color: Color.fromRGBO(28, 28, 28, 1),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal! * 2,
+                          right: SizeConfig.blockSizeHorizontal! * 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              FontAwesomeIcons.fastBackward,
+                              color: Colors.white,
+                              size: 18,
                             ),
+                            onPressed: () {
+                              _controller.previousPage();
+                            },
                           ),
-                        )
+                          Container(
+                              width: SizeConfig.blockSizeHorizontal! * 70,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    currentPage.toInt().toString(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize:
+                                        SizeConfig.blockSizeHorizontal! *
+                                            4),
+                                  ),
+                                  Slider(
+                                    activeColor: Colors.cyan,
+                                    inactiveColor: Colors.grey,
+                                    onChanged: (newValue) {
+                                      setState(() {
+                                        currentPage = newValue;
+                                      });
+                                      _controller
+                                          .jumpToPage(newValue.floor());
+                                    },
+                                    value: currentPage,
+                                    min: 1,
+                                    max: widget.pages.length.toDouble(),
+                                    divisions: widget.pages.length,
+                                  ),
+                                  Text(
+                                    widget.pages.length.toString(),
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize:
+                                        SizeConfig.blockSizeHorizontal! *
+                                            4),
+                                  ),
+                                ],
+                              )),
+                          IconButton(
+                            icon: Icon(
+                              FontAwesomeIcons.fastForward,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                            onPressed: () {
+                              _controller.nextPage();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                       : SizedBox(),
                 )
               ]),

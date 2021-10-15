@@ -2,14 +2,14 @@ import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/screens/mangafox/manga_details.dart';
-import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/library_provider.dart';
-import 'package:manga_reader/state/mangafox/mangafox_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/screens/mangafox/manga_details.dart';
+import 'package:Fanga/state/LoadingState.dart';
+import 'package:Fanga/state/library_provider.dart';
+import 'package:Fanga/state/mangafox/mangafox_provider.dart';
+import 'package:Fanga/utils/n_exception.dart';
+import 'package:Fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 class MangaList extends StatefulWidget {
@@ -23,9 +23,9 @@ class _MangaListState extends State<MangaList> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-         context
-              .read<MangafoxProvider>()
-              .getPopularMangaList(Assets.mangafoxCatalogName, 1,false);
+      context
+          .read<MangafoxProvider>()
+          .getPopularMangaList(Assets.mangafoxCatalogName, 1,false);
     });
   }
 

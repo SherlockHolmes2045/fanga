@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/AppIconWidget.dart';
-import 'package:manga_reader/routes.dart';
-import 'package:manga_reader/state/bookmark_provider.dart';
-import 'package:manga_reader/state/lelscan/lelscan_manga_list_provider.dart';
-import 'package:manga_reader/state/lelscan/lelscan_provider.dart';
-import 'package:manga_reader/state/lelscan/lelscan_top_manga_provider.dart';
-import 'package:manga_reader/state/lelscan/lelscan_updates_provider.dart';
-import 'package:manga_reader/state/library_provider.dart';
-import 'package:manga_reader/state/page_provider.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/AppIconWidget.dart';
+import 'package:Fanga/routes.dart';
+import 'package:Fanga/state/bookmark_provider.dart';
+import 'package:Fanga/state/lelscan/lelscan_manga_list_provider.dart';
+import 'package:Fanga/state/lelscan/lelscan_provider.dart';
+import 'package:Fanga/state/lelscan/lelscan_top_manga_provider.dart';
+import 'package:Fanga/state/lelscan/lelscan_updates_provider.dart';
+import 'package:Fanga/state/library_provider.dart';
+import 'package:Fanga/state/page_provider.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -46,23 +46,23 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void dispose() {
     // TODO: implement dispose
-      iconAnimationController.dispose(); // you need this
-      super.dispose();
+    iconAnimationController.dispose(); // you need this
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        color: Colors.black,
-        child: Center(
-            child: AnimatedBuilder(
-              animation: iconAnimationController,
-              builder: (BuildContext context, Widget? child) {
-                return AppIconWidget(
-                    scale: iconAnimationController.value, image: Assets.appLogo);
-              },
-            )),
-      )
+        child: Container(
+          color: Colors.black,
+          child: Center(
+              child: AnimatedBuilder(
+                animation: iconAnimationController,
+                builder: (BuildContext context, Widget? child) {
+                  return AppIconWidget(
+                      scale: iconAnimationController.value, image: Assets.appLogo);
+                },
+              )),
+        )
     );
   }
 

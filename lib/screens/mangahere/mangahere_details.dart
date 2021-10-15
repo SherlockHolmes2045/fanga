@@ -4,23 +4,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/manga_details.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/screens/reader_loader.dart';
-import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/action_provider.dart';
-import 'package:manga_reader/state/bookmark_provider.dart';
-import 'package:manga_reader/state/library_provider.dart';
-import 'package:manga_reader/state/mangahere/mangahere_chapter_provider.dart';
-import 'package:manga_reader/state/mangahere/mangahere_details_provider.dart';
-import 'package:manga_reader/state/page_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/manga_details.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/screens/reader_loader.dart';
+import 'package:Fanga/state/LoadingState.dart';
+import 'package:Fanga/state/action_provider.dart';
+import 'package:Fanga/state/bookmark_provider.dart';
+import 'package:Fanga/state/library_provider.dart';
+import 'package:Fanga/state/mangahere/mangahere_chapter_provider.dart';
+import 'package:Fanga/state/mangahere/mangahere_details_provider.dart';
+import 'package:Fanga/state/page_provider.dart';
+import 'package:Fanga/utils/n_exception.dart';
+import 'package:Fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:manga_reader/models/page.dart' as Model;
+import 'package:Fanga/models/page.dart' as Model;
 
 class MangahereDetail extends StatefulWidget {
   final Manga? manga;
@@ -41,13 +41,13 @@ class _MangahereDetailState extends State<MangahereDetail> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-          context
-              .read<MangahereDetailsProvider>()
-              .getMangaDetails(Assets.mangahereCatalogName, widget.manga!,false);
+      context
+          .read<MangahereDetailsProvider>()
+          .getMangaDetails(Assets.mangahereCatalogName, widget.manga!,false);
 
-          context
-              .read<MangahereChapterProvider>()
-              .getChapters(Assets.mangahereCatalogName, widget.manga!,false);
+      context
+          .read<MangahereChapterProvider>()
+          .getChapters(Assets.mangahereCatalogName, widget.manga!,false);
     });
   }
 

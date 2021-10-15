@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/empty.dart';
-import 'package:manga_reader/custom/widgets/error.dart';
-import 'package:manga_reader/custom/widgets/manga_item.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/state/LoadingState.dart';
-import 'package:manga_reader/state/lelscan/lelscan_top_manga_provider.dart';
-import 'package:manga_reader/state/library_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/empty.dart';
+import 'package:Fanga/custom/widgets/error.dart';
+import 'package:Fanga/custom/widgets/manga_item.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/state/LoadingState.dart';
+import 'package:Fanga/state/lelscan/lelscan_top_manga_provider.dart';
+import 'package:Fanga/state/library_provider.dart';
+import 'package:Fanga/utils/n_exception.dart';
+import 'package:Fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 import 'manga_details.dart';

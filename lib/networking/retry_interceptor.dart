@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:manga_reader/networking/dio_connectivity_reques_retrier.dart';
+import 'package:Fanga/networking/dio_connectivity_reques_retrier.dart';
 
 class RetryOnAuthFailInterceptor extends Interceptor{
   final DioConnectivityRequestRetrier requestRetrier;
 
   RetryOnAuthFailInterceptor(this.requestRetrier);
 
-  /*@override
+/*@override
   Future onError(DioError err) async {
     if(_shouldRefresh(err)){
       try {

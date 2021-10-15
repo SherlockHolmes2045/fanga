@@ -1,30 +1,31 @@
 import 'dart:ui';
+
+import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
+import 'package:Fanga/state/readmangatoday/readmangatody_top_manga_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:Fanga/constants/assets.dart';
 import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/screens/mangahere/mangahere_details.dart';
 import 'package:Fanga/state/LoadingState.dart';
 import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/state/mangahere/mangahere_provider.dart';
 import 'package:Fanga/utils/n_exception.dart';
 import 'package:Fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
-class MangaList extends StatefulWidget {
+class TopManga extends StatefulWidget {
   @override
-  _MangaListState createState() => _MangaListState();
+  _TopMangaState createState() => _TopMangaState();
 }
 
-class _MangaListState extends State<MangaList> {
+class _TopMangaState extends State<TopManga> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-      context
-          .read<MangahereProvider>()
-          .getPopularMangaList(Assets.mangahereCatalogName, 1,false);
+              context
+                  .read<ReadmangatodayTopMangaProvider>()
+                  .getTopMangaList(Assets.readmangatodayCatalogName, 1,false);
     });
   }
 
@@ -32,7 +33,7 @@ class _MangaListState extends State<MangaList> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return RefreshIndicator(
-        child: context.watch<MangahereProvider>().loadingState ==
+        child: context.watch<ReadmangatodayTopMangaProvider>().loadingState ==
             LoadingState.loading
             ? Center(
           child: CircularProgressIndicator(
@@ -40,8 +41,8 @@ class _MangaListState extends State<MangaList> {
           ),
         )
             : context
-            .select((MangahereProvider provider) => provider)
-            .popularMangaList
+            .select((ReadmangatodayTopMangaProvider provider) => provider)
+            .topMangaList
             .fold((NException error) {
           return Center(
             child: Column(
@@ -54,11 +55,12 @@ class _MangaListState extends State<MangaList> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical,
                 ),
-                ElevatedButton(
-                  onPressed: (){
+                RaisedButton(
+                  onPressed: () {
                     context
-                        .read<MangahereProvider>()
-                        .getPopularMangaList(Assets.mangahereCatalogName, 1,true);
+                        .read<ReadmangatodayTopMangaProvider>()
+                        .getTopMangaList(
+                        Assets.readmangatodayCatalogName, 1,true);
                   },
                   child: Text("Réessayer"),
                 )
@@ -66,7 +68,7 @@ class _MangaListState extends State<MangaList> {
             ),
           );
         }, (mangaList) {
-          return mangaList!.isEmpty
+          return mangaList.isEmpty
               ? Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -75,12 +77,14 @@ class _MangaListState extends State<MangaList> {
                   "Une erreur est survenue.",
                   style: TextStyle(color: Colors.white),
                 ),
-                ElevatedButton(onPressed: (){
-                  context.read<MangahereProvider>().getPopularMangaList(Assets.mangahereCatalogName, 1,true);
-                },
-                  child: Text(
-                      "Réessayer"
-                  ),
+                RaisedButton(
+                  onPressed: () {
+                    context
+                        .read<ReadmangatodayTopMangaProvider>()
+                        .getTopMangaList(
+                        Assets.readmangatodayCatalogName, 1,true);
+                  },
+                  child: Text("Réessayer"),
                 )
               ],
             ),
@@ -106,7 +110,7 @@ class _MangaListState extends State<MangaList> {
                             Navigator.push(
                                 context,
                                 ScaleRoute(
-                                    page: MangahereDetail(
+                                    page: ReadmangatodayDetail(
                                       manga: mangaList[index],
                                     )));
                           },
@@ -121,9 +125,8 @@ class _MangaListState extends State<MangaList> {
                               .libraryList
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
-                            imageUrl: mangaList[index]
-                                .thumbnailUrl!
-                                .replaceAll('http', "https"),
+                            imageUrl:
+                            mangaList[index].thumbnailUrl!,
                             width: double.infinity,
                             height: 350,
                             errorWidget:
@@ -133,7 +136,8 @@ class _MangaListState extends State<MangaList> {
                                   Navigator.push(
                                       context,
                                       ScaleRoute(
-                                          page: MangahereDetail(
+                                          page:
+                                          ReadmangatodayDetail(
                                             manga:
                                             mangaList[index],
                                           )));
@@ -154,10 +158,7 @@ class _MangaListState extends State<MangaList> {
                                     sigmaY: 10.0),
                                 child: Container(
                                     child: CachedNetworkImage(
-                                      imageUrl: mangaList[index]
-                                          .thumbnailUrl!
-                                          .replaceAll(
-                                          'http', "https"),
+                                      imageUrl: mangaList[index].thumbnailUrl!,
                                       width: double.infinity,
                                       height: 350,
                                       errorWidget:
@@ -168,7 +169,7 @@ class _MangaListState extends State<MangaList> {
                                                 context,
                                                 ScaleRoute(
                                                     page:
-                                                    MangahereDetail(
+                                                    ReadmangatodayDetail(
                                                       manga:
                                                       mangaList[
                                                       index],
@@ -183,8 +184,7 @@ class _MangaListState extends State<MangaList> {
                                         );
                                       },
                                       //fit: BoxFit.fill,
-                                    )
-                                )),
+                                    ))),
                           )),
                     ),
                     Padding(
@@ -211,7 +211,7 @@ class _MangaListState extends State<MangaList> {
   Future _refreshData() async {
     await Future.delayed(Duration(seconds: 1));
     context
-        .read<MangahereProvider>()
-        .getPopularMangaList(Assets.mangahereCatalogName, 1,true);
+        .read<ReadmangatodayTopMangaProvider>()
+        .getTopMangaList(Assets.readmangatodayCatalogName, 1,true);
   }
 }

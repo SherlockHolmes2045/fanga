@@ -1,23 +1,24 @@
 import 'package:dartz/dartz.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/networking/services/lelscan_service.dart';
-import 'package:manga_reader/state/base_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/networking/services/lelscan_service.dart';
+import 'package:Fanga/state/base_provider.dart';
+import 'package:Fanga/utils/n_exception.dart';
 
-class DetailsProvider extends BaseProvider{
+class DetailsProvider extends BaseProvider {
+  Either<NException, Manga> mangaDetails = Right(Manga());
 
-  Either<NException,Manga> mangaDetails= Right(Manga());
-
-  getMangaDetails(String catalogName,Manga manga,bool forceRefresh){
+  getMangaDetails(String catalogName, Manga manga, bool forceRefresh) {
     this.toggleLoadingState();
-    if(manga.detailsFetched == true){
+    if (manga.detailsFetched == true) {
       mangaDetails = Right(manga);
       this.toggleLoadingState();
-    }else{
-      lelscanService.mangaDetails(manga, catalogName,forceRefresh).then((value){
+    } else {
+      lelscanService
+          .mangaDetails(manga, catalogName, forceRefresh)
+          .then((value) {
         mangaDetails = Right(value);
         this.toggleLoadingState();
-      }).catchError((error){
+      }).catchError((error) {
         print(error);
         mangaDetails = Left(error);
         this.toggleLoadingState();

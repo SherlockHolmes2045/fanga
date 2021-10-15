@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:manga_reader/screens/Lelscan/manga_details.dart';
-import 'package:manga_reader/screens/download.dart';
-import 'package:manga_reader/screens/library.dart';
-import 'package:manga_reader/screens/mangafox/mangafox_home.dart';
-import 'package:manga_reader/screens/mangahere/mangahere_home.dart';
-import 'package:manga_reader/screens/mangakawaii/mangakawaii_home.dart';
-import 'package:manga_reader/screens/readmangatoday/readmangatoday_home.dart';
-import 'file:///H:/dev/Programmes/AndroidStudioProjects/manga_reader/lib/screens/Lelscan/lelscan_home.dart';
-import 'package:manga_reader/screens/splashscreen.dart';
+import 'package:Fanga/screens/Lelscan/manga_details.dart';
+import 'package:Fanga/screens/download.dart';
+import 'package:Fanga/screens/library.dart';
+import 'package:Fanga/screens/mangafox/mangafox_home.dart';
+import 'package:Fanga/screens/mangahere/mangahere_home.dart';
+import 'package:Fanga/screens/mangakawaii/mangakawaii_home.dart';
+import 'package:Fanga/screens/readmangatoday/readmangatoday_home.dart';
+import 'file:///H:/dev/Programmes/AndroidStudioProjects/Fanga/lib/screens/Lelscan/lelscan_home.dart';
+import 'package:Fanga/screens/splashscreen.dart';
 
 class Routes {
   Routes._();
@@ -35,6 +35,3 @@ class Routes {
     mangafox: (BuildContext context) => Mangafox()
   };
 }
-
-
-

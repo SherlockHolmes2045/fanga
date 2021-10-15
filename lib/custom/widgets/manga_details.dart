@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/constants/assets.dart';
-import 'package:manga_reader/custom/widgets/genre_widget.dart';
-import 'package:manga_reader/custom/widgets/rating_widget.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/utils/size_config.dart';
+import 'package:Fanga/constants/assets.dart';
+import 'package:Fanga/custom/widgets/genre_widget.dart';
+import 'package:Fanga/custom/widgets/rating_widget.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/utils/size_config.dart';
 
 class MangaDetails extends StatelessWidget {
   final Manga? manga;

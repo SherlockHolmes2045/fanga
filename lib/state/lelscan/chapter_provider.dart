@@ -3,18 +3,18 @@ import 'dart:collection';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:manga_reader/custom/widgets/scale_route_transition.dart';
-import 'package:manga_reader/database/dao/chapter_bookmark_dao.dart';
-import 'package:manga_reader/database/dao/download_dao.dart';
-import 'package:manga_reader/database/dao/page_dao.dart';
-import 'package:manga_reader/models/chapter.dart';
-import 'package:manga_reader/models/manga.dart';
-import 'package:manga_reader/models/page.dart' as Model;
-import 'package:manga_reader/networking/services/lelscan_service.dart';
-import 'package:manga_reader/screens/reader_loader.dart';
-import 'package:manga_reader/state/base_provider.dart';
-import 'package:manga_reader/utils/n_exception.dart';
-import 'package:manga_reader/utils/extensions.dart';
+import 'package:Fanga/custom/widgets/scale_route_transition.dart';
+import 'package:Fanga/database/dao/chapter_bookmark_dao.dart';
+import 'package:Fanga/database/dao/download_dao.dart';
+import 'package:Fanga/database/dao/page_dao.dart';
+import 'package:Fanga/models/chapter.dart';
+import 'package:Fanga/models/manga.dart';
+import 'package:Fanga/models/page.dart' as Model;
+import 'package:Fanga/networking/services/lelscan_service.dart';
+import 'package:Fanga/screens/reader_loader.dart';
+import 'package:Fanga/state/base_provider.dart';
+import 'package:Fanga/utils/n_exception.dart';
+import 'package:Fanga/utils/extensions.dart';
 
 class ChapterProvider extends BaseProvider {
   Either<NException, List<Chapter>?> mangaChapters = Right([]);
@@ -35,7 +35,7 @@ class ChapterProvider extends BaseProvider {
       downloaded = value;
       downloadDao.getAll().then((value) {
         List<Chapter?> matchingList =
-            value.map((downloaded) => downloaded.chapter).toList();
+        value.map((downloaded) => downloaded.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
@@ -51,7 +51,7 @@ class ChapterProvider extends BaseProvider {
       }
       downloadDao.getAll().then((value) {
         List<Chapter?> matchingList =
-            value.map((download) => download.chapter).toList();
+        value.map((download) => download.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
@@ -197,7 +197,7 @@ class ChapterProvider extends BaseProvider {
   resumeChapter(Manga? manga, BuildContext context) {
     pageDao.getAll().then((value) {
       List<Model.Page> mangaPages =
-          value.where((page) => page.manga == manga).toList();
+      value.where((page) => page.manga == manga).toList();
       mangaPages.sort((a, b) =>
           int.parse(a.chapter.number!).compareTo(int.parse(b.chapter.number!)));
       if(mangaPages.isNotEmpty){
