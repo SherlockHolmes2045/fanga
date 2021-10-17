@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fanga/constants/assets.dart';
@@ -10,6 +9,9 @@ import 'package:fanga/networking/services/lelscan_service.dart';
 import 'package:fanga/screens/reader.dart';
 import 'package:fanga/state/base_provider.dart';
 import 'package:fanga/utils/n_exception.dart';
+import 'package:package_info/package_info.dart';
+import '../../di.dart';
+import '../../service_locator.dart';
 
 class LelscanReaderProvider extends BaseProvider {
   List<String?> pages = [];
@@ -19,15 +21,16 @@ class LelscanReaderProvider extends BaseProvider {
   getPages(String? catalogName,Chapter? chapter,BuildContext context,Manga? manga,bool forceRefresh) async{
     toggleLoadingState();
     this.exception = null;
+    PackageInfo info = await PackageInfo.fromPlatform();
     if(catalogName != Assets.mangakawaiiCatalogName){
       lelscanService.chapterPages(catalogName, chapter!,forceRefresh).then((value) {
         toggleLoadingState();
         List<String> downloadedPages = <String>[];
         Directory chapterDir;
         if(chapter.title == "" || chapter.title == null){
-          chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga!.title}/Chapitre ${chapter.number}");
+          chapterDir = Directory("${locator<Di>().rootDir}${info.packageName}/${Assets.appName}/$catalogName/${manga!.title}/Chapitre ${chapter.number}");
         }else{
-          chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga!.title}/${chapter.title}");
+          chapterDir = Directory("${locator<Di>().rootDir}${info.packageName}/${Assets.appName}/$catalogName/${manga!.title}/${chapter.title}");
         }
         // should only check for image file
         if(chapterDir.existsSync()){
@@ -43,7 +46,6 @@ class LelscanReaderProvider extends BaseProvider {
             precacheImage(NetworkImage(pages[0]!), context);
             Navigator.pushReplacement(context, MaterialPageRoute(builder:(BuildContext context) => Reader(this.pages,manga,chapter)));
           }else{
-
             //To Do
             // replace already existing file url with it's path from phone
           }
@@ -62,7 +64,7 @@ class LelscanReaderProvider extends BaseProvider {
         toggleLoadingState();
         print(value);
         List<String> downloadedPages = <String>[];
-        final chapterDir = Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga!.title}/${chapter.title}");
+        final chapterDir = Directory("storage/emulated/0/Android/media/${info.packageName}${Assets.appName}/$catalogName/${manga!.title}/${chapter.title}");
         if(chapterDir.existsSync()){
           if(chapterDir.listSync().length == value.length){
             chapterDir.listSync().forEach((element) {

@@ -15,6 +15,7 @@ import 'package:fanga/models/manga.dart';
 import 'package:fanga/networking/services/lelscan_service.dart';
 import 'package:fanga/service_locator.dart';
 import 'package:fanga/state/base_provider.dart';
+import 'package:package_info/package_info.dart';
 
 
 class ActionProvider extends BaseProvider {
@@ -45,8 +46,9 @@ class ActionProvider extends BaseProvider {
     lelscanService
         .downloadChapter(chapter, catalogName, manga.title)
         .then((value) async {
+      PackageInfo info = await PackageInfo.fromPlatform();
       final lelscanPath =
-      Directory("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}");
+      Directory("storage/emulated/0/Android/media/${info.packageName}/${Assets.appName}/$catalogName/${manga.title}");
       if (!lelscanPath.existsSync()) {
         await lelscanPath.create(recursive: true);
       }
@@ -124,10 +126,11 @@ class ActionProvider extends BaseProvider {
     });
   }
 
-  downloadMultipleChapters(String catalogName, Manga? manga, Size size) {
+  downloadMultipleChapters(String catalogName, Manga? manga, Size size) async{
+    PackageInfo info = await PackageInfo.fromPlatform();
     this.selectedItems.forEach((element) {
       final lelscanPath = Directory(
-          "storage/emulated/0/${Assets.appName}/$catalogName/${manga!.title}");
+          "storage/emulated/0/Android/media/${info.packageName}/${Assets.appName}/$catalogName/${manga!.title}");
       if (!lelscanPath.existsSync()) {
         lelscanPath.create(recursive: true);
       }

@@ -36,6 +36,7 @@ import 'package:fanga/state/lelscan/lelscan_search_provider.dart';
 import 'package:fanga/state/readmangatoday/readmangatoday_chapter_provider.dart';
 import 'package:fanga/state/readmangatoday/readmangatoday_details_provider.dart';
 import 'package:fanga/state/readmangatoday/readmangatoday_provider.dart';
+import 'package:package_info/package_info.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -163,28 +164,26 @@ class _MyAppState extends State<MyApp> {
 
 Future<void> createFolders(String folderName) async {
   if(Platform.isAndroid) {
-    final path = Directory("storage/emulated/0/$folderName");
-    final lelscanPath = Directory(
-        "storage/emulated/0/$folderName/${Assets.lelscanCatalogName}");
-    final mangaHerePath = Directory(
-        "storage/emulated/0/$folderName/${Assets.lelscanCatalogName}");
+    PackageInfo info = await PackageInfo.fromPlatform();
+    final path = Directory("${locator<Di>().rootDir}${info.packageName}/$folderName");
+    final lelscanPath = Directory("${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.lelscanCatalogName}");
+    final mangaHerePath = Directory("${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.mangahereCatalogName}");
+    final readmangaPath = Directory("${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.readmangatodayCatalogName}");
     var status = await Permission.storage.status;
-    var external = await Permission.manageExternalStorage.status;
-    await getExternalStorageDirectory();
     if (!status.isGranted) {
       await Permission.storage.request();
     }
-    if(!external.isGranted){
-      await Permission.manageExternalStorage.request();
-    }
     if ((await path.exists())) {} else {
-      path.create();
+      path.createSync(recursive: true);
     }
     if ((await lelscanPath.exists())) {} else {
-      lelscanPath.create();
+      lelscanPath.createSync(recursive: true);
+    }
+    if ((await readmangaPath.exists())) {} else {
+      readmangaPath.createSync(recursive: true);
     }
     if ((await mangaHerePath.exists())) {} else {
-      mangaHerePath.create();
+      mangaHerePath.createSync(recursive: true);
     }
   }
 }

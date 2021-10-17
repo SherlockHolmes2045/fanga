@@ -53,7 +53,7 @@ class _ReaderLoaderState extends State<ReaderLoader> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical,
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   context.read<LelscanReaderProvider>().getPages(
                       widget.catalog,
