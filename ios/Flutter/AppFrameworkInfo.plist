@@ -21,10 +21,6 @@
   <key>CFBundleVersion</key>
   <string>1.0</string>
   <key>MinimumOSVersion</key>
-<<<<<<< HEAD
-  <string>8.0</string>
-=======
   <string>9.0</string>
->>>>>>> 6fa6b0b (changed app package name and fix issue with downloading and removed some useless lines of code)
 </dict>
 </plist>
