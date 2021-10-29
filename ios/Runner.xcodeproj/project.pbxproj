@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04D3F479272BA45C005BECA6 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D3F478272BA29E005BECA6 /* libsqlite3.tbd */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		1A7E9B807B2CD263982887F2 /* libPods-Runner.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A5A526B59CDDFCD09E4B5C86 /* libPods-Runner.a */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -30,6 +31,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04D3F478272BA29E005BECA6 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -54,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04D3F479272BA45C005BECA6 /* libsqlite3.tbd in Frameworks */,
 				1A7E9B807B2CD263982887F2 /* libPods-Runner.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -64,6 +67,7 @@
 		8B80B0CB9CE715FCD951A5E3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04D3F478272BA29E005BECA6 /* libsqlite3.tbd */,
 				A5A526B59CDDFCD09E4B5C86 /* libPods-Runner.a */,
 			);
 			name = Frameworks;
@@ -76,7 +80,6 @@
 				8143980950F133762E534B94 /* Pods-Runner.release.xcconfig */,
 				DB0362801992A2B535C81184 /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
