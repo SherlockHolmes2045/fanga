@@ -6,8 +6,10 @@ import 'package:Fanga/screens/mangafox/mangafox_home.dart';
 import 'package:Fanga/screens/mangahere/mangahere_home.dart';
 import 'package:Fanga/screens/mangakawaii/mangakawaii_home.dart';
 import 'package:Fanga/screens/readmangatoday/readmangatoday_home.dart';
-import 'file:///H:/dev/Programmes/AndroidStudioProjects/Fanga/lib/screens/Lelscan/lelscan_home.dart';
+// import 'file:///H:/dev/Programmes/AndroidStudioProjects/Fanga/lib/screens/Lelscan/lelscan_home.dart';
 import 'package:Fanga/screens/splashscreen.dart';
+
+import 'screens/Lelscan/lelscan_home.dart';
 
 class Routes {
   Routes._();
