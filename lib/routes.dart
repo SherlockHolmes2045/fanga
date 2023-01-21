@@ -9,6 +9,8 @@ import 'package:fanga/screens/mangakawaii/mangakawaii_home.dart';
 import 'package:fanga/screens/readmangatoday/readmangatoday_home.dart';
 import 'package:fanga/screens/splashscreen.dart';
 
+import 'screens/Lelscan/lelscan_home.dart';
+
 class Routes {
   Routes._();
 
