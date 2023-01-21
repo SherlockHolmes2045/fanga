@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:Fanga/state/LoadingState.dart';
+import 'package:fanga/state/LoadingState.dart';
 
 abstract class BaseProvider extends ChangeNotifier {
   LoadingState loadingState = LoadingState.waiting;

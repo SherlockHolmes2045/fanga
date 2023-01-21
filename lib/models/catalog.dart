@@ -1,10 +1,10 @@
 class Catalog {
-  int index;
-  bool hasVolumeInfos;
-  String name;
-  String catalogName;
-  String baseUrl;
-  String lang;
+  int? index;
+  bool? hasVolumeInfos;
+  String? name;
+  String? catalogName;
+  String? baseUrl;
+  String? lang;
 
   Catalog({
   this.name,

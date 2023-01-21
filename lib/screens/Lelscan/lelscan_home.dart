@@ -1,14 +1,14 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/app_drawer.dart';
-import 'package:Fanga/custom/widgets/search_delegate.dart';
-import 'package:Fanga/screens/Lelscan/all_manga.dart';
-import 'package:Fanga/screens/Lelscan/latest_update.dart';
-import 'package:Fanga/screens/Lelscan/manga_list.dart';
-import 'package:Fanga/screens/Lelscan/top_manga.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/app_drawer.dart';
+import 'package:fanga/custom/widgets/search_delegate.dart';
+import 'package:fanga/screens/Lelscan/all_manga.dart';
+import 'package:fanga/screens/Lelscan/latest_update.dart';
+import 'package:fanga/screens/Lelscan/manga_list.dart';
+import 'package:fanga/screens/Lelscan/top_manga.dart';
+import 'package:fanga/utils/size_config.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LelScan extends StatefulWidget {
@@ -63,11 +63,11 @@ class _LelScanState extends State<LelScan> {
               },
             ),
             IconButton(
-              iconSize: SizeConfig.blockSizeHorizontal * 4.75,
+              iconSize: SizeConfig.blockSizeHorizontal! * 4.75,
               icon: FaIcon(
                 FontAwesomeIcons.globe,
                 color: Colors.white,
-                size: SizeConfig.blockSizeHorizontal * 4.75,
+                size: SizeConfig.blockSizeHorizontal! * 4.75,
               ),
               onPressed: () async {
                 await canLaunch("https://lelscan-vf.co/")

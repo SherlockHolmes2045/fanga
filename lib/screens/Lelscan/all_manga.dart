@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/empty.dart';
-import 'package:Fanga/custom/widgets/error.dart';
-import 'package:Fanga/custom/widgets/manga_item.dart';
-import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/screens/Lelscan/manga_details.dart';
-import 'package:Fanga/state/LoadingState.dart';
-import 'package:Fanga/state/lelscan/lelscan_manga_list_provider.dart';
-import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/empty.dart';
+import 'package:fanga/custom/widgets/error.dart';
+import 'package:fanga/custom/widgets/manga_item.dart';
+import 'package:fanga/custom/widgets/scale_route_transition.dart';
+import 'package:fanga/screens/Lelscan/manga_details.dart';
+import 'package:fanga/state/LoadingState.dart';
+import 'package:fanga/state/lelscan/lelscan_manga_list_provider.dart';
+import 'package:fanga/state/library_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
+import 'package:fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 class AllManga extends StatefulWidget {
@@ -32,7 +32,7 @@ class _AllMangaState extends State<AllManga> {
               0.75 * _scrollController.position.maxScrollExtent;
 
           if (_scrollController.position.pixels > triggerFetchMoreSize) {
-            if (context.read<LelscanMangaListProvider>().hasNext)
+            if (context.read<LelscanMangaListProvider>().hasNext!)
               context.read<LelscanMangaListProvider>().getMangaList(
                   Assets.lelscanCatalogName,
                   context.read<LelscanMangaListProvider>().nextPage,
@@ -40,7 +40,7 @@ class _AllMangaState extends State<AllManga> {
           }
         }
       });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       context.read<LelscanMangaListProvider>().mangaList.fold((l) => null, (r) {
         if (r.isEmpty) {
           context.read<LelscanMangaListProvider>().getMangaList(
@@ -91,13 +91,13 @@ class _AllMangaState extends State<AllManga> {
                         crossAxisCount: 2,
                         controller: _scrollController,
                         padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 2.5,
-                          right: SizeConfig.blockSizeHorizontal * 2.5,
-                          top: SizeConfig.blockSizeVertical * 4,
-                          bottom: SizeConfig.blockSizeVertical * 4,
+                          left: SizeConfig.blockSizeHorizontal! * 2.5,
+                          right: SizeConfig.blockSizeHorizontal! * 2.5,
+                          top: SizeConfig.blockSizeVertical! * 4,
+                          bottom: SizeConfig.blockSizeVertical! * 4,
                         ),
-                        crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-                        mainAxisSpacing: SizeConfig.blockSizeVertical,
+                        crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+                        mainAxisSpacing: SizeConfig.blockSizeVertical!,
                         children: List.generate(mangaList.length, (index) {
                           return MangaItem(
                               detailsNavigation: () {

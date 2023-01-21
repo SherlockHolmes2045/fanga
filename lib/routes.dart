@@ -1,13 +1,13 @@
+import 'package:fanga/screens/Lelscan/lelscan_home.dart';
 import 'package:flutter/material.dart';
-import 'package:Fanga/screens/Lelscan/manga_details.dart';
-import 'package:Fanga/screens/download.dart';
-import 'package:Fanga/screens/library.dart';
-import 'package:Fanga/screens/mangafox/mangafox_home.dart';
-import 'package:Fanga/screens/mangahere/mangahere_home.dart';
-import 'package:Fanga/screens/mangakawaii/mangakawaii_home.dart';
-import 'package:Fanga/screens/readmangatoday/readmangatoday_home.dart';
-// import 'file:///H:/dev/Programmes/AndroidStudioProjects/Fanga/lib/screens/Lelscan/lelscan_home.dart';
-import 'package:Fanga/screens/splashscreen.dart';
+import 'package:fanga/screens/Lelscan/manga_details.dart';
+import 'package:fanga/screens/download.dart';
+import 'package:fanga/screens/library.dart';
+import 'package:fanga/screens/mangafox/mangafox_home.dart';
+import 'package:fanga/screens/mangahere/mangahere_home.dart';
+import 'package:fanga/screens/mangakawaii/mangakawaii_home.dart';
+import 'package:fanga/screens/readmangatoday/readmangatoday_home.dart';
+import 'package:fanga/screens/splashscreen.dart';
 
 import 'screens/Lelscan/lelscan_home.dart';
 

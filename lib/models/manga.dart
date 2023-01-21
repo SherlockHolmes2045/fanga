@@ -1,18 +1,18 @@
 class Manga {
-  String id;
-  String title;
-  String catalog;
-  int catalogId;
-  bool inLibrary;
-  bool detailsFetched;
-  String url;
-  String thumbnailUrl;
-  String author;
-  String artist;
-  String genre;
-  String description;
-  String status;
-  String rating;
+  String? id;
+  String? title;
+  String? catalog;
+  int? catalogId;
+  bool? inLibrary;
+  bool? detailsFetched;
+  String? url;
+  String? thumbnailUrl;
+  String? author;
+  String? artist;
+  String? genre;
+  String? description;
+  String? status;
+  String? rating;
 
   Manga({
     this.id,

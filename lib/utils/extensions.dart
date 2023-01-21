@@ -1,4 +1,4 @@
-import 'package:Fanga/models/chapter.dart';
+import 'package:fanga/models/chapter.dart';
 
 extension UnifyList on List<Chapter>{
   List unique(){

@@ -15,7 +15,7 @@ class LanguageFr extends Languages {
 
   String get appAccount => "Mon compte";
   // ignore: non_constant_identifier_names
-  String get update_number => "Modifier le numéro";
+  String get updateNumber => "Modifier le numéro";
   String get select => "Sélectionner ";
   String get numphone => "un numéro \nde téléphone";
   String get entersim => "Veuillez entrer une SIM";

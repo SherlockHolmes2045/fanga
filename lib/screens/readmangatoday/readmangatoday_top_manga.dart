@@ -1,15 +1,15 @@
 import 'dart:ui';
 
-import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
-import 'package:Fanga/state/readmangatoday/readmangatody_top_manga_provider.dart';
+import 'package:fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
+import 'package:fanga/state/readmangatoday/readmangatody_top_manga_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/state/LoadingState.dart';
-import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/scale_route_transition.dart';
+import 'package:fanga/state/LoadingState.dart';
+import 'package:fanga/state/library_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
+import 'package:fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 
 class TopManga extends StatefulWidget {
@@ -22,7 +22,7 @@ class _TopMangaState extends State<TopManga> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
               context
                   .read<ReadmangatodayTopMangaProvider>()
                   .getTopMangaList(Assets.readmangatodayCatalogName, 1,false);
@@ -55,7 +55,7 @@ class _TopMangaState extends State<TopManga> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical,
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: () {
                     context
                         .read<ReadmangatodayTopMangaProvider>()
@@ -77,7 +77,7 @@ class _TopMangaState extends State<TopManga> {
                   "Une erreur est survenue.",
                   style: TextStyle(color: Colors.white),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   onPressed: () {
                     context
                         .read<ReadmangatodayTopMangaProvider>()
@@ -92,13 +92,13 @@ class _TopMangaState extends State<TopManga> {
               : GridView.count(
             crossAxisCount: 2,
             padding: EdgeInsets.only(
-              left: SizeConfig.blockSizeHorizontal * 2.5,
-              right: SizeConfig.blockSizeHorizontal * 2.5,
-              top: SizeConfig.blockSizeVertical * 4,
-              bottom: SizeConfig.blockSizeVertical * 4,
+              left: SizeConfig.blockSizeHorizontal! * 2.5,
+              right: SizeConfig.blockSizeHorizontal! * 2.5,
+              top: SizeConfig.blockSizeVertical! * 4,
+              bottom: SizeConfig.blockSizeVertical! * 4,
             ),
-            crossAxisSpacing: SizeConfig.blockSizeHorizontal * 2,
-            mainAxisSpacing: SizeConfig.blockSizeVertical,
+            crossAxisSpacing: SizeConfig.blockSizeHorizontal! * 2,
+            mainAxisSpacing: SizeConfig.blockSizeVertical!,
             children: List.generate(mangaList.length, (index) {
               return Container(
                 child: Column(
@@ -126,7 +126,7 @@ class _TopMangaState extends State<TopManga> {
                               .contains(mangaList[index])
                               ? CachedNetworkImage(
                             imageUrl:
-                            mangaList[index].thumbnailUrl,
+                            mangaList[index].thumbnailUrl!,
                             width: double.infinity,
                             height: 350,
                             errorWidget:
@@ -158,8 +158,7 @@ class _TopMangaState extends State<TopManga> {
                                     sigmaY: 10.0),
                                 child: Container(
                                     child: CachedNetworkImage(
-                                      imageUrl: mangaList[index]
-                                          .thumbnailUrl,
+                                      imageUrl: mangaList[index].thumbnailUrl!,
                                       width: double.infinity,
                                       height: 350,
                                       errorWidget:
@@ -190,9 +189,9 @@ class _TopMangaState extends State<TopManga> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical),
+                          top: SizeConfig.blockSizeVertical!),
                       child: Text(
-                        mangaList[index].title,
+                        mangaList[index].title!,
                         overflow: TextOverflow.clip,
                         style: TextStyle(
                           color: Colors.white,

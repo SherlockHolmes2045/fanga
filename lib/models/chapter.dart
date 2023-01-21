@@ -1,9 +1,9 @@
 class Chapter {
-  String id;
-  String title;
-  String url;
-  String publishedAt;
-  String number;
+  String? id;
+  String? title;
+  String? url;
+  String? publishedAt;
+  String? number;
 
   Chapter({
     this.id,

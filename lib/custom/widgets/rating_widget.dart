@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/utils/size_config.dart';
 
 class Rating extends StatelessWidget {
-  final String rate;
-  const Rating({Key key,this.rate}) : super(key: key);
+  final String? rate;
+  const Rating({Key? key,this.rate}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     if (rate != null) {
-      var data = rate.split(" ");
+      var data = rate!.split(" ");
       var mark = data[0].split("/");
       return Container(
-        width: SizeConfig.screenWidth / 1.2,
+        width: SizeConfig.screenWidth! / 1.2,
         child: RatingBar.builder(
           initialRating: double.parse(mark[0]),
-          itemSize: SizeConfig.blockSizeHorizontal * 8,
+          itemSize: SizeConfig.blockSizeHorizontal! * 8,
           tapOnlyMode: false,
           onRatingUpdate: (double value){
 
@@ -30,10 +30,10 @@ class Rating extends StatelessWidget {
           allowHalfRating: true,
           itemCount: int.parse(mark[1]),
           itemBuilder: (context, _) => Container(
-            width: SizeConfig.blockSizeHorizontal * 5,
+            width: SizeConfig.blockSizeHorizontal! * 5,
             child: Icon(
               Icons.star,
-              size: SizeConfig.blockSizeHorizontal * 4,
+              size: SizeConfig.blockSizeHorizontal! * 4,
               color: Colors.amber,
             ),
           ),
@@ -41,7 +41,7 @@ class Rating extends StatelessWidget {
       );
     } else {
       return Container(
-        width: SizeConfig.screenWidth / 1.5,
+        width: SizeConfig.screenWidth! / 1.5,
         child: RatingBar.builder(
           initialRating: 0,
           tapOnlyMode: true,
@@ -55,7 +55,7 @@ class Rating extends StatelessWidget {
           allowHalfRating: true,
           itemCount: 5,
           itemBuilder: (context, _) => Container(
-            width: SizeConfig.blockSizeHorizontal * 4,
+            width: SizeConfig.blockSizeHorizontal! * 4,
             child: Icon(
               Icons.star,
               size: 8,

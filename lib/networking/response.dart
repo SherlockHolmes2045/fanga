@@ -3,9 +3,9 @@ class Response<T> {
 
   Status status;
 
-  T data;
+  T? data;
 
-  String message;
+  String? message;
 
 
 

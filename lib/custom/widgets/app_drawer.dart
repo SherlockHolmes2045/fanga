@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/routes.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/routes.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -99,7 +99,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget _createDrawerItem(
-      {IconData icon, String text, GestureTapCallback onTap,String imagePath}) {
+      {IconData? icon, required String text, GestureTapCallback? onTap,String? imagePath}) {
     return ListTile(
       title: Row(
         children: <Widget>[

@@ -1,71 +1,72 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_archive/flutter_archive.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/custom_notification_animation.dart';
-import 'package:Fanga/database/dao/download_dao.dart';
-import 'package:Fanga/di.dart';
-import 'package:Fanga/models/chapter.dart';
-import 'package:Fanga/models/download.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/networking/services/lelscan_service.dart';
-import 'package:Fanga/service_locator.dart';
-import 'package:Fanga/state/base_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/custom_notification_animation.dart';
+import 'package:fanga/database/dao/download_dao.dart';
+import 'package:fanga/di.dart';
+import 'package:fanga/models/chapter.dart';
+import 'package:fanga/models/download.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/networking/services/lelscan_service.dart';
+import 'package:fanga/service_locator.dart';
+import 'package:fanga/state/base_provider.dart';
+import 'package:package_info/package_info.dart';
+
 
 class ActionProvider extends BaseProvider {
-  List<Chapter> selectedItems = List<Chapter>();
-  List<DownloadTask> downloadTasks = new List<DownloadTask>();
+
+  static void downloadCallback(String id, DownloadTaskStatus status, int progress) {
+    print(progress);
+  }
+  List<Chapter> selectedItems = <Chapter>[];
+  List<DownloadTask?> downloadTasks = <DownloadTask?>[];
   DownloadDao downloadDao = DownloadDao();
 
   getAllDownloads() async {
     final tasks = await FlutterDownloader.loadTasks();
-    downloadTasks = tasks.reversed.toList();
+    downloadTasks = tasks!.reversed.toList();
     notifyListeners();
   }
 
-  Future<Download> findDownload(String taskId) async {
+  Future<Download?> findDownload(String taskId) async{
     return await downloadDao.findDownload(taskId);
   }
 
-  Future<void> updateDownload(Download download, String taskId) async {
+  Future<void> updateDownload(Download download,String taskId) async{
     await downloadDao.update(download, taskId);
   }
 
   downloadChapter(
-    Chapter chapter,
-    String catalogName,
-    Manga manga,
-    Size size,
-  ) {
+      Chapter chapter, String catalogName, Manga manga, Size size,) {
     lelscanService
         .downloadChapter(chapter, catalogName, manga.title)
         .then((value) async {
-      final lelscanPath = Directory(
-          "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}");
+      PackageInfo info = await PackageInfo.fromPlatform();
+      final lelscanPath =
+      Directory("storage/emulated/0/Android/media/${info.packageName}/${Assets.appName}/$catalogName/${manga.title}");
       if (!lelscanPath.existsSync()) {
         await lelscanPath.create(recursive: true);
       }
       final taskId = await FlutterDownloader.enqueue(
-          url: locator<Di>().apiUrl + value,
+          url: locator<Di>().apiUrl + value!,
           savedDir: lelscanPath.path,
           showNotification:
-              true, // show download progress in status bar (for Android)
+          true, // show download progress in status bar (for Android)
           openFileFromNotification:
-              true, // click on notification to open downloaded file (for Android)
+          true, // click on notification to open downloaded file (for Android)
           requiresStorageNotLow: false);
+      // prevent loading the pages again before reading the chapter
       try {
         lelscanService.chapterPages(catalogName, chapter, false);
       } catch (e) {}
-      try {
-        downloadDao
-            .insert(Download(chapter: chapter, taskId: taskId, manga: manga));
-      } catch (e) {}
+      try{
+        downloadDao.insert(Download(chapter: chapter,taskId: taskId,manga: manga));
+      }catch(e){}
       BotToast.showSimpleNotification(
         align: Alignment.bottomRight,
         duration: Duration(seconds: 4),
@@ -78,42 +79,34 @@ class ActionProvider extends BaseProvider {
                   height: size.height / 10,
                   child: child,
                 )),
-        title:
-            "Le téléchargement de ${chapter.title.isNotEmpty ? chapter.title : "Chapitre ${chapter.number}"}",
+        title: "Le téléchargement de ${chapter.title!.isNotEmpty ? chapter.title : "Chapitre ${chapter.number}"}",
         crossPage: true,
         subTitle: "vient de commencer",
       );
       Timer.periodic(Duration(seconds: 1), (timer) async {
         final tasks = await FlutterDownloader.loadTasks();
-        final task = tasks.where((element) => element.taskId == taskId).first;
+        final task = tasks!.where((element) => element.taskId == taskId).first;
         if (task.status == DownloadTaskStatus.complete) {
-          final File zipFile = File(
-              "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename}");
+          final File zipFile = File( task.savedDir + "/" + task.filename!);
           final destinationDir = Directory(
-              "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename.substring(0, task.filename.length - 4)}");
-          File("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename.substring(0, task.filename.length - 4)}/.nomedia")
+              task.savedDir + "/" + task.filename!.substring(0, task.filename!.length - 4));
+          File(task.savedDir + "/" +task.filename!.substring(0, task.filename!.length - 4) + "/.nomedia")
               .create(recursive: true);
           try {
             ZipFile.extractToDirectory(
-                    zipFile: zipFile, destinationDir: destinationDir)
+                zipFile: zipFile, destinationDir: destinationDir)
                 .then((value) async {
-              final zip = File(
-                  "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename}");
-              await zip.delete();
+              await zipFile.delete();
             });
           } catch (e) {
             print(e);
           }
           timer.cancel();
-        } else if (task.status == DownloadTaskStatus.canceled ||
-            task.status == DownloadTaskStatus.paused ||
-            task.status == DownloadTaskStatus.failed ||
-            task.status == DownloadTaskStatus.undefined) {
+        }else if(task.status == DownloadTaskStatus.canceled || task.status == DownloadTaskStatus.paused || task.status == DownloadTaskStatus.failed || task.status == DownloadTaskStatus.undefined){
           timer.cancel();
         }
       });
     }).catchError((error) {
-      print("erreur du provider");
       BotToast.showSimpleNotification(
         align: Alignment.bottomRight,
         duration: Duration(seconds: 4),
@@ -130,15 +123,14 @@ class ActionProvider extends BaseProvider {
         crossPage: true,
         subTitle: error.message,
       );
-      print(error);
-      NException exception = error;
     });
   }
 
-  downloadMultipleChapters(String catalogName, Manga manga, Size size) {
+  downloadMultipleChapters(String catalogName, Manga? manga, Size size) async{
+    PackageInfo info = await PackageInfo.fromPlatform();
     this.selectedItems.forEach((element) {
       final lelscanPath = Directory(
-          "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}");
+          "storage/emulated/0/Android/media/${info.packageName}/${Assets.appName}/$catalogName/${manga!.title}");
       if (!lelscanPath.existsSync()) {
         lelscanPath.create(recursive: true);
       }
@@ -146,18 +138,19 @@ class ActionProvider extends BaseProvider {
           .downloadChapter(element, catalogName, manga.title)
           .then((value) async {
         final taskId = await FlutterDownloader.enqueue(
-            url: locator<Di>().apiUrl + value,
+            url: locator<Di>().apiUrl + value!,
             savedDir: lelscanPath.path,
             showNotification:
-                true, // show download progress in status bar (for Android)
+            true, // show download progress in status bar (for Android)
             openFileFromNotification:
-                true, // click on notification to open downloaded file (for Android)
+            true, // click on notification to open downloaded file (for Android)
             requiresStorageNotLow: false);
-
         try {
-          downloadDao
-              .insert(Download(chapter: element, taskId: taskId, manga: manga));
+          lelscanService.chapterPages(catalogName, element, false);
         } catch (e) {}
+        try{
+          downloadDao.insert(Download(chapter:element,taskId: taskId,manga: manga));
+        }catch(e){}
 
         try {
           lelscanService.chapterPages(catalogName, element, false);
@@ -180,36 +173,29 @@ class ActionProvider extends BaseProvider {
         );
         Timer.periodic(Duration(seconds: 1), (timer) async {
           final tasks = await FlutterDownloader.loadTasks();
-          final task = tasks.where((element) => element.taskId == taskId).first;
+          final task = tasks!.where((element) => element.taskId == taskId).first;
           if (task.status == DownloadTaskStatus.complete) {
             final File zipFile = File(
-                "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename}");
+                task.savedDir + "/" + task.filename!);
             final destinationDir = Directory(
-                "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename.substring(0, task.filename.length - 4)}");
-            File("storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename.substring(0, task.filename.length - 4)}/.nomedia")
+                task.savedDir + "/" + task.filename!.substring(0, task.filename!.length - 4));
+            File(task.savedDir + "/" +task.filename!.substring(0, task.filename!.length - 4) + "/.nomedia")
                 .create(recursive: true);
             try {
               ZipFile.extractToDirectory(
-                      zipFile: zipFile, destinationDir: destinationDir)
+                  zipFile: zipFile, destinationDir: destinationDir)
                   .then((value) async {
-                final zip = File(
-                    "storage/emulated/0/${Assets.appName}/$catalogName/${manga.title}/${task.filename}");
-                await zip.delete();
+                await zipFile.delete();
               });
             } catch (e) {
               print(e);
             }
             timer.cancel();
-          } else if (task.status == DownloadTaskStatus.canceled ||
-              task.status == DownloadTaskStatus.paused ||
-              task.status == DownloadTaskStatus.failed ||
-              task.status == DownloadTaskStatus.undefined) {
+          }else if(task.status == DownloadTaskStatus.canceled || task.status == DownloadTaskStatus.paused || task.status == DownloadTaskStatus.failed || task.status == DownloadTaskStatus.undefined){
             timer.cancel();
           }
         });
       }).catchError((error) {
-        print(error);
-        NException exception = NException(error);
       });
     });
   }

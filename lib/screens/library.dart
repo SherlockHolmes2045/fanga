@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/app_drawer.dart';
-import 'package:Fanga/custom/widgets/error.dart';
-import 'package:Fanga/custom/widgets/library_search_delegate.dart';
-import 'package:Fanga/custom/widgets/manga_item.dart';
-import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
-import 'package:Fanga/state/LoadingState.dart';
-import 'package:Fanga/state/lelscan/lelscan_provider.dart';
-import 'package:Fanga/state/library_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
-import 'package:Fanga/utils/size_config.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/app_drawer.dart';
+import 'package:fanga/custom/widgets/error.dart';
+import 'package:fanga/custom/widgets/library_search_delegate.dart';
+import 'package:fanga/custom/widgets/manga_item.dart';
+import 'package:fanga/custom/widgets/scale_route_transition.dart';
+import 'package:fanga/screens/readmangatoday/readmangatoday_manga_details.dart';
+import 'package:fanga/state/LoadingState.dart';
+import 'package:fanga/state/lelscan/lelscan_provider.dart';
+import 'package:fanga/state/library_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
+import 'package:fanga/utils/size_config.dart';
 import 'package:provider/provider.dart';
 import 'Lelscan/manga_details.dart';
 
@@ -24,7 +24,7 @@ class _LibraryState extends State<Library> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (!context.read<LibraryProvider>().fetched) {
         context.read<LibraryProvider>().loadLibrary();
       }
@@ -97,7 +97,7 @@ class _LibraryState extends State<Library> {
                                   SizedBox(
                                     height: SizeConfig.blockSizeVertical,
                                   ),
-                                  RaisedButton(
+                                  ElevatedButton(
                                     onPressed: () {
                                       context
                                           .read<LibraryProvider>()
@@ -110,14 +110,14 @@ class _LibraryState extends State<Library> {
                         : GridView.count(
                             crossAxisCount: 2,
                             padding: EdgeInsets.only(
-                              left: SizeConfig.blockSizeHorizontal * 2.5,
-                              right: SizeConfig.blockSizeHorizontal * 2.5,
-                              top: SizeConfig.blockSizeVertical * 4,
-                              bottom: SizeConfig.blockSizeVertical * 4,
+                              left: SizeConfig.blockSizeHorizontal! * 2.5,
+                              right: SizeConfig.blockSizeHorizontal! * 2.5,
+                              top: SizeConfig.blockSizeVertical! * 4,
+                              bottom: SizeConfig.blockSizeVertical! * 4,
                             ),
                             crossAxisSpacing:
-                                SizeConfig.blockSizeHorizontal * 2,
-                            mainAxisSpacing: SizeConfig.blockSizeVertical,
+                                SizeConfig.blockSizeHorizontal! * 2,
+                            mainAxisSpacing: SizeConfig.blockSizeVertical!,
                             children: List.generate(mangaList.length, (index) {
                               return MangaItem(
                                   detailsNavigation: () {

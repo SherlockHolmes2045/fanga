@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class Languages {
 
-  static Languages of(BuildContext context) {
+  static Languages? of(BuildContext context) {
     return Localizations.of<Languages>(context, Languages);
   }
 
@@ -15,7 +15,7 @@ abstract class Languages {
   String get labelSelectLanguage;
 
   String get appAccount;
-  String get update_number;
+  String get updateNumber;
   String get select;
   String get numphone;
   String get entersim;

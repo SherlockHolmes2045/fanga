@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:Fanga/constants/assets.dart';
-import 'package:Fanga/custom/widgets/app_drawer.dart';
-import 'package:Fanga/custom/widgets/search_delegate.dart';
-import 'package:Fanga/screens/mangakawaii/all_manga.dart';
-import 'package:Fanga/screens/mangakawaii/latest_update.dart';
-import 'package:Fanga/screens/mangakawaii/popular_manga_list.dart';
-import 'package:Fanga/screens/mangakawaii/top_manga.dart';
+import 'package:fanga/constants/assets.dart';
+import 'package:fanga/custom/widgets/app_drawer.dart';
+import 'package:fanga/custom/widgets/search_delegate.dart';
+import 'package:fanga/screens/mangakawaii/all_manga.dart';
+import 'package:fanga/screens/mangakawaii/latest_update.dart';
+import 'package:fanga/screens/mangakawaii/popular_manga_list.dart';
+import 'package:fanga/screens/mangakawaii/top_manga.dart';
 
 class Mangakawaii extends StatefulWidget {
   @override

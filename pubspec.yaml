@@ -1,4 +1,4 @@
-name: Fanga
+name: fanga
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -15,10 +15,10 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.0.0+1
+version: 1.0.0+2
 
 environment:
-  sdk: ">=2.8.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -53,7 +53,6 @@ dependencies:
   wakelock: ^0.6.2
   esys_flutter_share_plus: ^2.1.1
   dio_http_cache: ^0.2.11
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

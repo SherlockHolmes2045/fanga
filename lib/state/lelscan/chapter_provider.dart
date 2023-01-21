@@ -3,23 +3,23 @@ import 'dart:collection';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:Fanga/custom/widgets/scale_route_transition.dart';
-import 'package:Fanga/database/dao/chapter_bookmark_dao.dart';
-import 'package:Fanga/database/dao/download_dao.dart';
-import 'package:Fanga/database/dao/page_dao.dart';
-import 'package:Fanga/models/chapter.dart';
-import 'package:Fanga/models/manga.dart';
-import 'package:Fanga/models/page.dart' as Model;
-import 'package:Fanga/networking/services/lelscan_service.dart';
-import 'package:Fanga/screens/reader_loader.dart';
-import 'package:Fanga/state/base_provider.dart';
-import 'package:Fanga/utils/n_exception.dart';
-import 'package:Fanga/utils/extensions.dart';
+import 'package:fanga/custom/widgets/scale_route_transition.dart';
+import 'package:fanga/database/dao/chapter_bookmark_dao.dart';
+import 'package:fanga/database/dao/download_dao.dart';
+import 'package:fanga/database/dao/page_dao.dart';
+import 'package:fanga/models/chapter.dart';
+import 'package:fanga/models/manga.dart';
+import 'package:fanga/models/page.dart' as Model;
+import 'package:fanga/networking/services/lelscan_service.dart';
+import 'package:fanga/screens/reader_loader.dart';
+import 'package:fanga/state/base_provider.dart';
+import 'package:fanga/utils/n_exception.dart';
+import 'package:fanga/utils/extensions.dart';
 
 class ChapterProvider extends BaseProvider {
-  Either<NException, List<Chapter>> mangaChapters = Right([]);
+  Either<NException, List<Chapter>?> mangaChapters = Right([]);
   bool isFiltered = false;
-  List<Chapter> filteredChapters = List<Chapter>();
+  List<Chapter> filteredChapters = <Chapter>[];
   PageDao pageDao = PageDao();
   ChapterBookmarkDao chapterBookmarkDao = ChapterBookmarkDao();
   DownloadDao downloadDao = DownloadDao();
@@ -34,14 +34,14 @@ class ChapterProvider extends BaseProvider {
       isFiltered = true;
       downloaded = value;
       downloadDao.getAll().then((value) {
-        List<Chapter> matchingList =
-            value.map((downloaded) => downloaded.chapter).toList();
+        List<Chapter?> matchingList =
+        value.map((downloaded) => downloaded.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           filteredChapters.addAll(result);
-          filteredChapters = filteredChapters.unique();
+          filteredChapters = filteredChapters.unique() as List<Chapter>;
         });
         notifyListeners();
       });
@@ -50,12 +50,12 @@ class ChapterProvider extends BaseProvider {
         isFiltered = false;
       }
       downloadDao.getAll().then((value) {
-        List<Chapter> matchingList =
-            value.map((download) => download.chapter).toList();
+        List<Chapter?> matchingList =
+        value.map((download) => download.chapter).toList();
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(filteredChapters);
           var set2 = Set.from(result);
           filteredChapters = List.from(set1.difference(set2));
@@ -75,7 +75,7 @@ class ChapterProvider extends BaseProvider {
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(r);
           var set2 = Set.from(result);
           filteredChapters.addAll(List.from(set1.difference(set2)));
@@ -92,7 +92,7 @@ class ChapterProvider extends BaseProvider {
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(r);
           var set2 = Set.from(result);
           var set3 = Set.from(filteredChapters);
@@ -114,9 +114,9 @@ class ChapterProvider extends BaseProvider {
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           filteredChapters.addAll(result);
-          filteredChapters = filteredChapters.unique();
+          filteredChapters = filteredChapters.unique() as List<Chapter>;
         });
         notifyListeners();
       });
@@ -129,7 +129,7 @@ class ChapterProvider extends BaseProvider {
 
         final matchingSet = HashSet.from(matchingList);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(filteredChapters);
           var set2 = Set.from(result);
           filteredChapters = List.from(set1.difference(set2));
@@ -147,9 +147,9 @@ class ChapterProvider extends BaseProvider {
       chapterBookmarkDao.loadAllBookMarked().then((bookmarked) {
         final matchingSet = HashSet.from(bookmarked);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           filteredChapters.addAll(result);
-          filteredChapters = filteredChapters.unique();
+          filteredChapters = filteredChapters.unique() as List<Chapter>;
         });
         notifyListeners();
       });
@@ -160,7 +160,7 @@ class ChapterProvider extends BaseProvider {
       chapterBookmarkDao.loadAllBookMarked().then((bookmarked) {
         final matchingSet = HashSet.from(bookmarked);
         mangaChapters.fold((l) => null, (r) {
-          final result = r.where((item) => matchingSet.contains(item));
+          final result = r!.where((item) => matchingSet.contains(item));
           var set1 = Set.from(filteredChapters);
           var set2 = Set.from(result);
           filteredChapters = List.from(set1.difference(set2));
@@ -194,40 +194,43 @@ class ChapterProvider extends BaseProvider {
     });
   }
 
-  resumeChapter(Manga manga, BuildContext context) {
+  resumeChapter(Manga? manga, BuildContext context) {
     pageDao.getAll().then((value) {
       List<Model.Page> mangaPages =
-          value.where((page) => page.manga == manga).toList();
+      value.where((page) => page.manga == manga).toList();
       mangaPages.sort((a, b) =>
-          int.parse(a.chapter.number).compareTo(int.parse(b.chapter.number)));
-      if (mangaPages.isNotEmpty) {
+          int.parse(a.chapter.number!).compareTo(int.parse(b.chapter.number!)));
+      if(mangaPages.isNotEmpty){
         Navigator.push(
             context,
             ScaleRoute(
                 page: ReaderLoader(
-              manga: mangaPages.last.manga,
-              catalog: mangaPages.last.manga.catalog,
-              chapter: mangaPages.last.chapter,
-            )));
-      } else {
-        mangaChapters.fold((l) {
+                  manga: mangaPages.last.manga,
+                  catalog: mangaPages.last.manga!.catalog,
+                  chapter: mangaPages.last.chapter,
+                )));
+
+      }else{
+        mangaChapters.fold((l){
           BotToast.showText(
-            text: "Les chapitres ne sont pas encore chargés",
+            text:
+            "Les chapitres ne sont pas encore chargés",
           );
-        }, (r) {
-          if (r.isEmpty) {
+        }, (r){
+          if(r!.isEmpty){
             BotToast.showText(
-              text: "Les chapitres ne sont pas encore chargés",
+              text:
+              "Les chapitres ne sont pas encore chargés",
             );
-          } else {
+          }else{
             Navigator.push(
                 context,
                 ScaleRoute(
                     page: ReaderLoader(
-                  manga: manga,
-                  catalog: manga.catalog,
-                  chapter: r.last,
-                )));
+                      manga: manga,
+                      catalog: manga!.catalog,
+                      chapter: r.last,
+                    )));
           }
         });
       }
