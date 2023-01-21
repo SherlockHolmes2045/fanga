@@ -1,23 +1,24 @@
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fanga/custom/widgets/sliding_appbar.dart';
 import 'package:fanga/models/chapter.dart';
 import 'package:fanga/models/manga.dart';
 import 'package:fanga/state/page_provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:fanga/state/bookmark_provider.dart';
 import 'package:fanga/utils/reading_direction.dart';
 import 'package:fanga/utils/size_config.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wakelock/wakelock.dart';
 

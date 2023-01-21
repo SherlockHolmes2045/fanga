@@ -15,9 +15,11 @@ class LibrarySearch extends SearchDelegate {
     return ThemeData(
         primaryColor: Color.fromRGBO(28, 28, 28, 1),
         textTheme: TextTheme(
-          subtitle1: TextStyle( color: Colors.white, fontSize: 18,),
-        )
-    );
+          subtitle1: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          ),
+        ));
   }
 
   @override

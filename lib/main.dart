@@ -53,57 +53,56 @@ void main() async {
 
   await FlutterDownloader.initialize(
       debug: true // optional: set false to disable printing logs to console
-  );
+      );
   FlutterDownloader.registerCallback(Download.callback);
   Moment.setLocaleGlobally(new LocaleFr());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.black,
     statusBarColor: Colors.grey,
   ));
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
-    runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create:(_) => LelscanProvider()),
-            ChangeNotifierProvider(create:(_) => DetailsProvider()),
-            ChangeNotifierProvider(create:(_) => ChapterProvider()),
-            ChangeNotifierProvider(create: (_)=> LelscanSearchProvider()),
-            ChangeNotifierProvider(create: (_)=> ActionProvider()),
-            ChangeNotifierProvider(create: (_)=> LelscanReaderProvider()),
-            ChangeNotifierProvider(create: (_)=> LelscanMangaListProvider()),
-            ChangeNotifierProvider(create: (_)=> LibraryProvider()),
-            ChangeNotifierProvider(create: (_)=> LelscanUpdatesProvider()),
-            ChangeNotifierProvider(create: (_)=> LelscanTopMangaProvider()),
-            ChangeNotifierProvider(create: (_)=> BookmarkProvider()),
-            ChangeNotifierProvider(create: (_)=> PageProvider()),
-            /*ChangeNotifierProvider(create: (_)=> MangakawaiiProvider()),
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => LelscanProvider()),
+        ChangeNotifierProvider(create: (_) => DetailsProvider()),
+        ChangeNotifierProvider(create: (_) => ChapterProvider()),
+        ChangeNotifierProvider(create: (_) => LelscanSearchProvider()),
+        ChangeNotifierProvider(create: (_) => ActionProvider()),
+        ChangeNotifierProvider(create: (_) => LelscanReaderProvider()),
+        ChangeNotifierProvider(create: (_) => LelscanMangaListProvider()),
+        ChangeNotifierProvider(create: (_) => LibraryProvider()),
+        ChangeNotifierProvider(create: (_) => LelscanUpdatesProvider()),
+        ChangeNotifierProvider(create: (_) => LelscanTopMangaProvider()),
+        ChangeNotifierProvider(create: (_) => BookmarkProvider()),
+        ChangeNotifierProvider(create: (_) => PageProvider()),
+        /*ChangeNotifierProvider(create: (_)=> MangakawaiiProvider()),
           ChangeNotifierProvider(create: (_)=> MangakawaiiUpdatesProvider()),
           ChangeNotifierProvider(create: (_)=> MangakawaiiMangaListProvider()),
           ChangeNotifierProvider(create: (_)=> MangakawaiiTopMangaProvider()),
           ChangeNotifierProvider(create: (_)=> MangakawaiiDetailsProvider()),
           ChangeNotifierProvider(create: (_)=> MangakawaiiChapterProvider()),*/
-            ChangeNotifierProvider(create: (_)=> ReadmangatodayProvider()),
-            ChangeNotifierProvider(create: (_)=> ReadmangatodayChapterProvider()),
-            ChangeNotifierProvider(create: (_)=> ReadmangatodayDetailsProvider()),
-            /*ChangeNotifierProvider(create: (_)=> MangahereDetailsProvider()),
+        ChangeNotifierProvider(create: (_) => ReadmangatodayProvider()),
+        ChangeNotifierProvider(create: (_) => ReadmangatodayChapterProvider()),
+        ChangeNotifierProvider(create: (_) => ReadmangatodayDetailsProvider()),
+        /*ChangeNotifierProvider(create: (_)=> MangahereDetailsProvider()),
           ChangeNotifierProvider(create: (_)=> MangahereChapterProvider()),
           ChangeNotifierProvider(create: (_)=> MangahereProvider()),
           ChangeNotifierProvider(create: (_)=> MangafoxProvider()),
           ChangeNotifierProvider(create: (_)=> MangafoxDetailsProvider()),
           ChangeNotifierProvider(create: (_)=> MangafoxChapterProvider()),*/
-          ],
-          child: MyApp(),
-        )
-    );
+      ],
+      child: MyApp(),
+    ));
   });
 }
-
 
 class MyApp extends StatefulWidget {
   static void setLocale(BuildContext context, Locale newLocale) {
     var state = context.findAncestorStateOfType<_MyAppState>()!;
     state.setLocale(newLocale);
   }
+
   @override
   State<StatefulWidget> createState() => _MyAppState();
 }
@@ -134,8 +133,10 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Fanga',
       routes: Routes.routes,
-      builder: BotToastInit(), //1. call BotToastInit
-      navigatorObservers: [BotToastNavigatorObserver()], //2. registered route observer
+      builder: BotToastInit(),
+      //1. call BotToastInit
+      navigatorObservers: [BotToastNavigatorObserver()],
+      //2. registered route observer
       initialRoute: Routes.splash,
       debugShowCheckedModeBanner: false,
       locale: _locale,
@@ -163,26 +164,34 @@ class _MyAppState extends State<MyApp> {
 }
 
 Future<void> createFolders(String folderName) async {
-  if(Platform.isAndroid) {
+  if (Platform.isAndroid) {
     PackageInfo info = await PackageInfo.fromPlatform();
-    final path = Directory("${locator<Di>().rootDir}${info.packageName}/$folderName");
-    final lelscanPath = Directory("${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.lelscanCatalogName}");
-    final mangaHerePath = Directory("${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.mangahereCatalogName}");
-    final readmangaPath = Directory("${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.readmangatodayCatalogName}");
+    final path =
+        Directory("${locator<Di>().rootDir}${info.packageName}/$folderName");
+    final lelscanPath = Directory(
+        "${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.lelscanCatalogName}");
+    final mangaHerePath = Directory(
+        "${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.mangahereCatalogName}");
+    final readmangaPath = Directory(
+        "${locator<Di>().rootDir}${info.packageName}/$folderName/${Assets.readmangatodayCatalogName}");
     var status = await Permission.storage.status;
     if (!status.isGranted) {
       await Permission.storage.request();
     }
-    if ((await path.exists())) {} else {
+    if ((await path.exists())) {
+    } else {
       path.createSync(recursive: true);
     }
-    if ((await lelscanPath.exists())) {} else {
+    if ((await lelscanPath.exists())) {
+    } else {
       lelscanPath.createSync(recursive: true);
     }
-    if ((await readmangaPath.exists())) {} else {
+    if ((await readmangaPath.exists())) {
+    } else {
       readmangaPath.createSync(recursive: true);
     }
-    if ((await mangaHerePath.exists())) {} else {
+    if ((await mangaHerePath.exists())) {
+    } else {
       mangaHerePath.createSync(recursive: true);
     }
   }
@@ -195,9 +204,7 @@ createDb() async {
 
   file.exists().then((isThere) {
     if (!isThere) {
-      file.create().then((value){
-
-      }).catchError((onError){
+      file.create().then((value) {}).catchError((onError) {
         BotToast.showText(text: "Impossible de créer la base de données");
       });
     }
