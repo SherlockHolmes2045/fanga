@@ -1,4 +1,8 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:fanga/screens/readmangatoday/readmangatoday_manga_list.dart';
+import 'package:fanga/state/readmangatoday/readmangatoday_manga_list_provider.dart';
+import 'package:fanga/state/readmangatoday/readmangatoday_updates_provider.dart';
+import 'package:fanga/state/readmangatoday/readmangatody_top_manga_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
@@ -85,6 +89,9 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ReadmangatodayProvider()),
         ChangeNotifierProvider(create: (_) => ReadmangatodayChapterProvider()),
         ChangeNotifierProvider(create: (_) => ReadmangatodayDetailsProvider()),
+        ChangeNotifierProvider(create: (_) => ReadmangatodayMangaListProvider()),
+        ChangeNotifierProvider(create: (_) => ReadmangatodayTopMangaProvider()),
+        ChangeNotifierProvider(create: (_) => ReadmangatodayUpdatesProvider()),
         /*ChangeNotifierProvider(create: (_)=> MangahereDetailsProvider()),
           ChangeNotifierProvider(create: (_)=> MangahereChapterProvider()),
           ChangeNotifierProvider(create: (_)=> MangahereProvider()),

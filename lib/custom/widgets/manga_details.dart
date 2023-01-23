@@ -22,7 +22,7 @@ class MangaDetails extends StatelessWidget {
           Container(
             width: SizeConfig.screenWidth! / 2.2,
             child: CachedNetworkImage(
-              imageUrl: manga!.thumbnailUrl!,
+              imageUrl: manga!.thumbnailUrl ?? "",
               width: double.infinity,
               height: 250,
               errorWidget: (context, text, data) {

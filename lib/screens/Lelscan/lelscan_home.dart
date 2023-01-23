@@ -70,8 +70,8 @@ class _LelScanState extends State<LelScan> {
                 size: SizeConfig.blockSizeHorizontal! * 4.75,
               ),
               onPressed: () async {
-                await canLaunch("https://lelscan-vf.co/")
-                    ? await launch("https://lelscan-vf.co/")
+                await canLaunchUrl(Uri.parse("https://www.scan-vf.net/"))
+                    ? await launchUrl(Uri.parse("https://www.scan-vf.net/"))
                     : BotToast.showText(text: "Impossible d'ouvrir ce lien");
               },
             ),
