@@ -1,9 +1,7 @@
 import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:esys_flutter_share_plus/esys_flutter_share_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -363,15 +361,18 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                 final Directory temp = await getTemporaryDirectory();
                                 final path = '${temp.path}/image.jpg';
                                 File(path).writeAsBytesSync(bytes);
-                                await Share.shareFiles(
+                                /*await Share.files(
                                     [path],
                                     text:
-                                    "${widget.manga.title}  Chapitre ${widget.chapter.number} page ${currentPage.floor() - 1}");
+                                    "${widget.manga.title}  Chapitre ${widget.chapter.number} page ${currentPage.floor() - 1}");*/
                               } else {
-                                await Share.shareFiles(
-                                    [widget.pages[currentPage.floor() - 1]!],
+                                /*await Share.files(
+                                  'Page ${currentPage.floor() - 1}',
+                                    {
+                                      'image.jpg':widget.pages[currentPage.floor() - 1]!
+                                    },
                                     text:
-                                        "${widget.manga.title}  Chapitre ${widget.chapter.number} page ${currentPage.floor() - 1}");
+                                        "${widget.manga.title}  Chapitre ${widget.chapter.number} page ${currentPage.floor() - 1}");*/
                               }
                             },
                           ),
@@ -389,7 +390,7 @@ class _ReaderState extends State<Reader> with TickerProviderStateMixin {
                                       widget.pages[currentPage.floor() - 1]!)
                                   .isAbsolute) {
                                 if (Platform.isAndroid) {
-                                  final taskId =
+                                  final  taskId =
                                       await FlutterDownloader.enqueue(
                                           url: widget
                                               .pages[currentPage.floor() - 1]!,

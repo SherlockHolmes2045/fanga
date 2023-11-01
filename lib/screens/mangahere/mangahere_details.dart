@@ -282,7 +282,7 @@ class _MangahereDetailState extends State<MangahereDetail> {
                                         Clipboard.setData(
                                             new ClipboardData(
                                                 text: mangaDetails
-                                                    .description))
+                                                    .description ?? ""))
                                             .then((value) {
                                           BotToast.showText(
                                             text:

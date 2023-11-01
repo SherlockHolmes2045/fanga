@@ -23,7 +23,7 @@ class Download {
       taskId: json['taskId'],
     );
   }
-  static void callback(String id, DownloadTaskStatus status, int progress) {}
+  static void callback(String id, int status, int progress) {}
   Map<String, dynamic> toMap() {
     return {
       'chapter': chapter!.toMap(),

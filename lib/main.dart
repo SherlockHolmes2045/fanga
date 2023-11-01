@@ -41,13 +41,12 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:simple_moment/simple_moment.dart';
 import 'di.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupLocator();
-  locator<Di>().dio.interceptors.add(locator<Di>().dioCacheManager.interceptor);
+
   createDb();
   await createFolders(Assets.appName);
 
@@ -55,7 +54,7 @@ void main() async {
       debug: true // optional: set false to disable printing logs to console
   );
   FlutterDownloader.registerCallback(Download.callback);
-  Moment.setLocaleGlobally(new LocaleFr());
+  //Moment.setLocaleGlobally(new LocaleFr());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.black,
     statusBarColor: Colors.grey,

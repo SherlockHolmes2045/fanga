@@ -283,7 +283,7 @@ class _MangafoxDetailState extends State<MangafoxDetail> {
                                         Clipboard.setData(
                                             new ClipboardData(
                                                 text: mangaDetails
-                                                    .description))
+                                                    .description ?? ""))
                                             .then((value) {
                                           BotToast.showText(
                                             text:

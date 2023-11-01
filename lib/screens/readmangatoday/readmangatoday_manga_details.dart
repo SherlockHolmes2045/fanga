@@ -310,7 +310,7 @@ class _ReadmangatodayDetailState extends State<ReadmangatodayDetail> {
                                         Clipboard.setData(
                                             new ClipboardData(
                                                 text: mangaDetails
-                                                    .description))
+                                                    .description ?? ""))
                                             .then((value) {
                                           BotToast.showText(
                                             text:
